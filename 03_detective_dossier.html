@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detective Dossier — Agent Nyxie</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1a1008;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 80px;
+    gap: 60px;
+    font-family: 'IM Fell English', serif;
+  }
+
+  .page-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    color: rgba(201,168,76,0.45);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: -50px;
+  }
+
+  /* Shared page */
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: #fdf3e3;
+    position: relative;
+    padding: 48px 58px;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+    overflow: hidden;
+  }
+
+  .page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(180,140,90,0.14) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(160,120,70,0.11) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .border-outer { position: absolute; inset: 16px; border: 2.5px solid #8b6914; pointer-events: none; z-index: 1; }
+  .border-inner { position: absolute; inset: 22px; border: 1px solid rgba(139,105,20,0.35); pointer-events: none; z-index: 1; }
+
+  .corner { position: absolute; width: 38px; height: 38px; z-index: 2; }
+  .corner svg { width: 38px; height: 38px; }
+  .corner.tl { top: 9px; left: 9px; }
+  .corner.tr { top: 9px; right: 9px; transform: scaleX(-1); }
+  .corner.bl { bottom: 9px; left: 9px; transform: scaleY(-1); }
+  .corner.br { bottom: 9px; right: 9px; transform: scale(-1,-1); }
+
+  .content { position: relative; z-index: 3; }
+
+  /* ── PAGE 1: COVER ── */
+  .cover-top {
+    text-align: center;
+    padding-top: 8px;
+    padding-bottom: 18px;
+    border-bottom: 1.5px solid #8b6914;
+    margin-bottom: 24px;
+  }
+  .cover-crown { font-size: 38px; margin-bottom: 4px; }
+  .cover-agency {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #8b6914;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  .cover-divider {
+    display: flex; align-items: center; gap: 10px;
+    margin: 10px 0; color: #8b6914; font-size: 13px;
+  }
+  .cover-divider::before, .cover-divider::after {
+    content: ''; flex: 1; height: 1px; background: #8b6914; opacity: 0.4;
+  }
+
+  .dossier-title-block { text-align: center; margin: 16px 0 22px; }
+  .dossier-word {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #8b6914;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+  }
+  .dossier-main {
+    font-family: 'Cinzel', serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: #3a1f04;
+    letter-spacing: 2px;
+    line-height: 1;
+    margin: 6px 0;
+    text-transform: uppercase;
+  }
+  .dossier-case {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    color: #8b6914;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* Portrait box */
+  .portrait-box {
+    width: 140px;
+    height: 160px;
+    border: 2px solid #8b6914;
+    background: rgba(139,105,20,0.04);
+    margin: 18px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .portrait-label {
+    font-family: 'Cinzel', serif;
+    font-size: 7.5px;
+    color: #8b6914;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: absolute;
+    bottom: -10px;
+    background: #fdf3e3;
+    padding: 0 8px;
+  }
+  .portrait-inner {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 11px;
+    color: rgba(92,61,10,0.4);
+    text-align: center;
+    line-height: 1.7;
+  }
+
+  /* Agent details table */
+  .agent-table {
+    width: 100%;
+    margin: 28px 0 18px;
+    border-collapse: collapse;
+  }
+  .agent-table td {
+    padding: 7px 10px;
+    border: 1px solid rgba(139,105,20,0.25);
+    font-size: 13px;
+  }
+  .agent-table .field-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: #8b6914;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    width: 36%;
+    background: rgba(139,105,20,0.05);
+  }
+  .agent-table .field-value {
+    font-family: 'IM Fell English', serif;
+    color: #3a1f04;
+    font-size: 13px;
+  }
+  .agent-table .field-blank {
+    font-family: 'IM Fell English', serif;
+    color: transparent;
+    border-bottom: 1px solid #8b6914;
+    font-size: 13px;
+  }
+
+  .cover-footer {
+    text-align: center;
+    margin-top: 24px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(139,105,20,0.3);
+    font-family: 'Special Elite', monospace;
+    font-size: 8.5px;
+    color: rgba(92,61,10,0.45);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    line-height: 1.8;
+  }
+
+  /* ── PAGE 2: RANK TRACKER ── */
+  .section-header {
+    text-align: center;
+    padding-bottom: 16px;
+    border-bottom: 1.5px solid #8b6914;
+    margin-bottom: 28px;
+  }
+  .section-header .crown { font-size: 28px; margin-bottom: 4px; }
+  .section-header h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #3a1f04;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .section-header p {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: #8b6914;
+    margin-top: 4px;
+  }
+
+  /* Rank cards */
+  .rank-card {
+    border: 1.5px solid #8b6914;
+    background: rgba(139,105,20,0.04);
+    padding: 16px 20px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    position: relative;
+  }
+  .rank-card.locked {
+    opacity: 0.45;
+    background: rgba(0,0,0,0.02);
+    border-style: dashed;
+  }
+  .rank-badge {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: 2.5px solid #8b6914;
+    background: rgba(139,105,20,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .rank-badge.earned {
+    background: radial-gradient(circle at 40% 35%, #f0c040, #8b6914);
+    border-color: #5c3d0a;
+    box-shadow: 0 2px 8px rgba(139,105,20,0.4);
+  }
+  .rank-badge-icon { font-size: 22px; line-height: 1; }
+  .rank-badge-num {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    color: #5c3d0a;
+    margin-top: 1px;
+    letter-spacing: 1px;
+  }
+  .rank-badge.earned .rank-badge-num { color: #3a1f04; }
+
+  .rank-info { flex: 1; }
+  .rank-title {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #3a1f04;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .rank-subtitle {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: #8b6914;
+    margin-bottom: 6px;
+  }
+  .rank-desc {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    color: #5c3d0a;
+    letter-spacing: 0.5px;
+    line-height: 1.5;
+  }
+
+  .rank-unlock-tag {
+    position: absolute;
+    top: -9px;
+    right: 14px;
+    background: #fdf3e3;
+    padding: 0 8px;
+    font-family: 'Special Elite', monospace;
+    font-size: 8.5px;
+    color: #8b6914;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: 1px solid rgba(139,105,20,0.3);
+  }
+
+  /* Progress arrow */
+  .rank-arrow {
+    text-align: center;
+    font-size: 18px;
+    color: #8b6914;
+    margin: -10px 0;
+    opacity: 0.5;
+  }
+
+  /* ── PAGE 3: BADGE LOG ── */
+  .badge-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 6px;
+  }
+
+  .badge-slot {
+    border: 1.5px solid #8b6914;
+    background: rgba(139,105,20,0.04);
+    padding: 14px 12px 12px;
+    text-align: center;
+    position: relative;
+    min-height: 110px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .badge-slot-num {
+    position: absolute;
+    top: -9px;
+    left: 10px;
+    background: #fdf3e3;
+    padding: 0 6px;
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .badge-circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 2px dashed rgba(139,105,20,0.35);
+    background: rgba(139,105,20,0.03);
+    margin: 4px auto 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: rgba(139,105,20,0.3);
+    font-family: 'Special Elite', monospace;
+    letter-spacing: 0.5px;
+  }
+
+  .badge-act-name {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    font-weight: 600;
+    color: #5c3d0a;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .badge-location {
+    font-family: 'Special Elite', monospace;
+    font-size: 8px;
+    color: rgba(92,61,10,0.5);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  @media print {
+    body { background: white; padding: 0; gap: 0; }
+    .page { box-shadow: none; page-break-after: always; width: 100%; min-height: auto; }
+    .page-label { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE 1 — DOSSIER COVER
+═══════════════════════════════════════════════ -->
+<div class="page-label">— Page 1: Dossier Cover —</div>
+<div class="page" id="page1">
+  <div class="border-outer"></div>
+  <div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/><path d="M8 2 L8 8 L2 8" stroke="#8b6914" stroke-width="1" opacity="0.4" fill="none"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/><path d="M8 2 L8 8 L2 8" stroke="#8b6914" stroke-width="1" opacity="0.4" fill="none"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/><path d="M8 2 L8 8 L2 8" stroke="#8b6914" stroke-width="1" opacity="0.4" fill="none"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/><path d="M8 2 L8 8 L2 8" stroke="#8b6914" stroke-width="1" opacity="0.4" fill="none"/></svg></div>
+
+  <div class="content">
+    <div class="cover-top">
+      <div class="cover-crown">👑</div>
+      <div class="cover-agency">The Royal Detective Agency</div>
+      <div class="cover-divider">✦</div>
+      <div class="cover-agency" style="font-size:8px; opacity:0.6;">Official Case Documentation · For Authorised Personnel Only</div>
+    </div>
+
+    <div class="dossier-title-block">
+      <div class="dossier-word">Official</div>
+      <div class="dossier-main">Dossier</div>
+      <div class="dossier-case">Case No. RDA/CROWN/001 · The Missing Crown Jewels</div>
+    </div>
+
+    <div class="portrait-box">
+      <div class="portrait-inner">Draw your<br>detective portrait<br>here</div>
+      <span class="portrait-label">Agent Portrait</span>
+    </div>
+
+    <table class="agent-table">
+      <tr>
+        <td class="field-label">Agent Name</td>
+        <td class="field-value">Nyxie</td>
+      </tr>
+      <tr>
+        <td class="field-label">Agent Code</td>
+        <td class="field-value">RDA-NYX-001</td>
+      </tr>
+      <tr>
+        <td class="field-label">Starting Rank</td>
+        <td class="field-value">Junior Detective</td>
+      </tr>
+      <tr>
+        <td class="field-label">Case Assigned</td>
+        <td class="field-value">The Missing Crown Jewels</td>
+      </tr>
+      <tr>
+        <td class="field-label">Date of Mission</td>
+        <td class="field-blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="field-label">Field Assistants</td>
+        <td class="field-value">Agents Daddy &amp; Gemmy Pants</td>
+      </tr>
+    </table>
+
+    <div class="cover-footer">
+      Keep this dossier with you at all times · Do not let it fall into enemy hands<br>
+      Royal Detective Agency · Est. by Royal Decree · Protectors of the Kingdom
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     PAGE 2 — RANK TRACKER
+═══════════════════════════════════════════════ -->
+<div class="page-label">— Page 2: Rank Tracker —</div>
+<div class="page" id="page2">
+  <div class="border-outer"></div>
+  <div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+
+  <div class="content">
+    <div class="section-header">
+      <div class="crown">🏅</div>
+      <h2>Rank Tracker</h2>
+      <p>Every badge earned brings you one step closer to the highest honour in the Kingdom</p>
+    </div>
+
+    <!-- Rank 1 -->
+    <div class="rank-card">
+      <span class="rank-unlock-tag">⚑ Starting Rank</span>
+      <div class="rank-badge earned">
+        <div class="rank-badge-icon">🔍</div>
+        <div class="rank-badge-num">RANK 1</div>
+      </div>
+      <div class="rank-info">
+        <div class="rank-title">Junior Detective</div>
+        <div class="rank-subtitle">The adventure begins</div>
+        <div class="rank-desc">Awarded at the start of the mission. Every great detective starts somewhere — and today, that somewhere is here.</div>
+      </div>
+    </div>
+
+    <div class="rank-arrow">▼</div>
+
+    <!-- Rank 2 -->
+    <div class="rank-card locked">
+      <span class="rank-unlock-tag">🔒 Unlocked after 2 badges</span>
+      <div class="rank-badge">
+        <div class="rank-badge-icon">🕵️</div>
+        <div class="rank-badge-num">RANK 2</div>
+      </div>
+      <div class="rank-info">
+        <div class="rank-title">Field Agent</div>
+        <div class="rank-subtitle">The case is heating up</div>
+        <div class="rank-desc">You've proven yourself in the field. The clues are adding up and the thief is getting nervous.</div>
+      </div>
+    </div>
+
+    <div class="rank-arrow">▼</div>
+
+    <!-- Rank 3 -->
+    <div class="rank-card locked">
+      <span class="rank-unlock-tag">🔒 Unlocked after 5 badges</span>
+      <div class="rank-badge">
+        <div class="rank-badge-icon">⭐</div>
+        <div class="rank-badge-num">RANK 3</div>
+      </div>
+      <div class="rank-info">
+        <div class="rank-title">Senior Detective</div>
+        <div class="rank-subtitle">Awarded at the Superintendent's Tea</div>
+        <div class="rank-desc">The Superintendent herself has recognised your exceptional bravery and brilliance. A formal ceremony awaits.</div>
+      </div>
+    </div>
+
+    <div class="rank-arrow">▼</div>
+
+    <!-- Rank 4 -->
+    <div class="rank-card locked">
+      <span class="rank-unlock-tag">🔒 Unlocked after 8 badges</span>
+      <div class="rank-badge">
+        <div class="rank-badge-icon">👑</div>
+        <div class="rank-badge-num">RANK 4</div>
+      </div>
+      <div class="rank-info">
+        <div class="rank-title">Royal Detective First Class</div>
+        <div class="rank-subtitle">The highest honour in the Kingdom</div>
+        <div class="rank-desc">Reserved only for the most extraordinary detective who has ever served the Crown. The Kingdom is forever in your debt, Agent Nyxie.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     PAGE 3 — BADGE LOG
+═══════════════════════════════════════════════ -->
+<div class="page-label">— Page 3: Badge Log —</div>
+<div class="page" id="page3">
+  <div class="border-outer"></div>
+  <div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+
+  <div class="content">
+    <div class="section-header">
+      <div class="crown">🏆</div>
+      <h2>Badge Log</h2>
+      <p>Earn a badge for every act completed — stick it in the circle and record your victory</p>
+    </div>
+
+    <div class="badge-grid">
+
+      <div class="badge-slot">
+        <span class="badge-slot-num">Act I</span>
+        <div class="badge-circle">Stick<br>here</div>
+        <div class="badge-act-name">The Scrambled Files</div>
+        <div class="badge-location">📍 Playroom</div>
+      </div>
+
+      <div class="badge-slot">
+        <span class="badge-slot-num">Act II</span>
+        <div class="badge-circle">Stick<br>here</div>
+        <div class="badge-act-name">The Suspect's Hideout</div>
+        <div class="badge-location">📍 Garage</div>
+      </div>
+
+      <div class="badge-slot">
+        <span class="badge-slot-num">Act III</span>
+        <div class="badge-circle">Stick<br>here</div>
+        <div class="badge-act-name">The Secret Garden</div>
+        <div class="badge-location">📍 Secret Garden</div>
+      </div>
+
+      <div class="badge-slot">
+        <span class="badge-slot-num">Act IV</span>
+        <div class="badge-circle">Stick<br>here</div>
+        <div class="badge-act-name">The Chicken Witness</div>
+        <div class="badge-location">📍 Chicken Coop</div>
+      </div>
+
+      <div class="badge-slot">
+        <span class="badge-slot-num">Act V</span>
+        <div class="badge-circle">Stick<br>here</div>
+        <div class="badge-act-name">The Gymnastics Vault</div>
+        <div class="badge-location">📍 Outhouse</div>
+      </div>
+
+      <div class="badge-slot">
+        <span class="badge-slot-num">Act VI</span>
+        <div class="badge-circle">Stick<br>here</div>
+        <div class="badge-act-name">The Lookout</div>
+        <div class="badge-location">📍 Balcony</div>
+      </div>
+
+      <div class="badge-slot">
+        <span class="badge-slot-num">Act VII</span>
+        <div class="badge-circle">Stick<br>here</div>
+        <div class="badge-act-name">The Hidden Office</div>
+        <div class="badge-location">📍 Office</div>
+      </div>
+
+      <div class="badge-slot">
+        <span class="badge-slot-num">Act VIII</span>
+        <div class="badge-circle">Stick<br>here</div>
+        <div class="badge-act-name">The Final Trail</div>
+        <div class="badge-location">📍 The House</div>
+      </div>
+
+      <div class="badge-slot" style="border-color:#c9a84c; background: rgba(201,168,76,0.06);">
+        <span class="badge-slot-num" style="color:#c9a84c; border-color:rgba(201,168,76,0.4);">👑 Final</span>
+        <div class="badge-circle" style="border-color:#c9a84c; border-style:solid;">Stick<br>here</div>
+        <div class="badge-act-name" style="color:#8b6914; font-size:9px;">Royal Detective<br>First Class</div>
+        <div class="badge-location">🏆 Crown Jewels Recovered</div>
+      </div>
+
+    </div>
+
+    <div style="text-align:center; margin-top:24px; font-family:'Special Elite',monospace; font-size:8.5px; color:rgba(92,61,10,0.4); letter-spacing:2px; text-transform:uppercase; border-top: 1px solid rgba(139,105,20,0.2); padding-top: 14px;">
+      Royal Detective Agency · Case RDA/CROWN/001 · Badge log is official evidence
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificate & Afternoon Tea Menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1008; display: flex; flex-direction: column; align-items: center; padding: 40px 20px 80px; gap: 60px; font-family: 'IM Fell English', serif; }
+  .page-label { font-family: 'Special Elite', monospace; font-size: 10px; color: rgba(201,168,76,0.45); letter-spacing: 3px; text-transform: uppercase; text-align: center; margin-bottom: -50px; }
+
+  /* ── CERTIFICATE ── */
+  .cert {
+    width: 210mm;
+    min-height: 297mm;
+    background: #fdf3e3;
+    position: relative;
+    padding: 52px 64px;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* Gold border with double lines */
+  .cert-border-1 { position: absolute; inset: 12px; border: 3px solid #8b6914; pointer-events: none; }
+  .cert-border-2 { position: absolute; inset: 19px; border: 1px solid rgba(139,105,20,0.4); pointer-events: none; }
+  .cert-border-3 { position: absolute; inset: 23px; border: 1px solid rgba(139,105,20,0.2); pointer-events: none; }
+
+  /* Corner ornaments */
+  .cert-corner { position: absolute; width: 50px; height: 50px; z-index: 2; }
+  .cert-corner svg { width: 50px; height: 50px; }
+  .cert-corner.tl { top: 8px; left: 8px; }
+  .cert-corner.tr { top: 8px; right: 8px; transform: scaleX(-1); }
+  .cert-corner.bl { bottom: 8px; left: 8px; transform: scaleY(-1); }
+  .cert-corner.br { bottom: 8px; right: 8px; transform: scale(-1,-1); }
+
+  /* Aged texture */
+  .cert::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at 20% 100%, rgba(180,140,90,0.1) 0%, transparent 40%),
+      radial-gradient(ellipse at 80% 50%, rgba(160,120,70,0.06) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  .cert-content { position: relative; z-index: 3; width: 100%; }
+
+  .cert-crown { font-size: 52px; margin-bottom: 8px; line-height: 1; filter: drop-shadow(0 2px 6px rgba(139,105,20,0.4)); }
+
+  .cert-agency { font-family: 'Cinzel', serif; font-size: 10px; font-weight: 600; color: #8b6914; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 6px; }
+
+  .cert-divider { display: flex; align-items: center; gap: 12px; margin: 10px auto; max-width: 340px; color: #8b6914; font-size: 12px; }
+  .cert-divider::before, .cert-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, #8b6914); }
+  .cert-divider::after { background: linear-gradient(90deg, #8b6914, transparent); }
+
+  .cert-presents { font-family: 'IM Fell English', serif; font-style: italic; font-size: 16px; color: #5c3d0a; margin-bottom: 4px; }
+
+  .cert-this-is-to { font-family: 'IM Fell English', serif; font-size: 14px; color: #8b6914; letter-spacing: 1px; margin-bottom: 4px; }
+
+  .cert-name { font-family: 'Cinzel', serif; font-size: 52px; font-weight: 900; color: #3a1f04; letter-spacing: 2px; line-height: 1; margin: 8px 0 4px; text-transform: uppercase; }
+
+  .cert-has-been { font-family: 'IM Fell English', serif; font-style: italic; font-size: 15px; color: #5c3d0a; margin-bottom: 6px; }
+
+  .cert-rank { font-family: 'Cinzel', serif; font-size: 22px; font-weight: 700; color: #8b6914; letter-spacing: 3px; text-transform: uppercase; line-height: 1.2; margin-bottom: 4px; }
+
+  .cert-of-the { font-family: 'IM Fell English', serif; font-style: italic; font-size: 16px; color: #5c3d0a; margin-bottom: 4px; }
+
+  .cert-agency-large { font-family: 'Cinzel', serif; font-size: 18px; font-weight: 700; color: #3a1f04; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 6px; }
+
+  .cert-divider-2 { width: 200px; height: 2px; background: linear-gradient(90deg, transparent, #8b6914, transparent); margin: 14px auto; }
+
+  .cert-body { font-family: 'IM Fell English', serif; font-size: 13.5px; line-height: 1.8; color: #3a1f04; max-width: 420px; margin: 0 auto 24px; font-style: italic; }
+
+  .cert-sigs { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 28px; width: 100%; }
+  .cert-sig { text-align: center; flex: 1; }
+  .cert-sig-scrawl { font-family: 'IM Fell English', serif; font-style: italic; font-size: 22px; color: #1a3a6b; line-height: 1; margin-bottom: 4px; }
+  .cert-sig-line { border-top: 1px solid #8b6914; padding-top: 5px; font-family: 'Cinzel', serif; font-size: 8px; color: #5c3d0a; letter-spacing: 1px; text-transform: uppercase; }
+
+  .cert-seal { width: 72px; height: 72px; background: radial-gradient(circle at 38% 33%, #e74c3c, #7b241c); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 2px 4px 14px rgba(0,0,0,0.3); margin: 0 auto; }
+  .cert-seal-text { font-family: 'Cinzel', serif; font-size: 7px; color: rgba(255,255,255,0.9); text-align: center; line-height: 1.4; letter-spacing: 0.5px; }
+  .cert-seal-icon { font-size: 20px; line-height: 1; margin-bottom: 2px; }
+
+  .cert-date { font-family: 'Special Elite', monospace; font-size: 9px; color: rgba(92,61,10,0.45); letter-spacing: 2px; text-transform: uppercase; margin-top: 16px; }
+
+  /* ── AFTERNOON TEA MENU ── */
+  .menu {
+    width: 148mm; /* A5 */
+    min-height: 210mm;
+    background: #fdf3e3;
+    position: relative;
+    padding: 36px 42px;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+    overflow: hidden;
+    text-align: center;
+  }
+  .menu::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.12) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .menu-border { position: absolute; inset: 12px; border: 2px solid #8b6914; pointer-events: none; }
+  .menu-border-inner { position: absolute; inset: 17px; border: 0.75px solid rgba(139,105,20,0.3); pointer-events: none; }
+
+  .menu-content { position: relative; z-index: 2; }
+  .menu-crown { font-size: 30px; margin-bottom: 4px; }
+  .menu-from { font-family: 'Special Elite', monospace; font-size: 8px; color: #8b6914; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2px; }
+  .menu-title { font-family: 'Cinzel', serif; font-size: 16px; font-weight: 700; color: #3a1f04; letter-spacing: 2px; text-transform: uppercase; line-height: 1.2; margin-bottom: 4px; }
+  .menu-divider { display: flex; align-items: center; gap: 8px; margin: 8px 0; color: #8b6914; font-size: 11px; }
+  .menu-divider::before, .menu-divider::after { content: ''; flex: 1; height: 1px; background: #8b6914; opacity: 0.4; }
+  .menu-honour { font-family: 'IM Fell English', serif; font-style: italic; font-size: 11px; color: #5c3d0a; margin-bottom: 16px; line-height: 1.5; }
+
+  .menu-section { margin-bottom: 14px; }
+  .menu-section-title { font-family: 'Cinzel', serif; font-size: 9px; font-weight: 600; color: #8b6914; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 7px; padding-bottom: 4px; border-bottom: 1px solid rgba(139,105,20,0.3); }
+  .menu-item { font-family: 'IM Fell English', serif; font-size: 12px; color: #3a1f04; margin-bottom: 4px; line-height: 1.4; }
+  .menu-item em { font-style: italic; color: #8b6914; font-size: 10px; }
+
+  .menu-footer-note { font-family: 'IM Fell English', serif; font-style: italic; font-size: 10px; color: #8b6914; margin-top: 14px; line-height: 1.6; padding-top: 10px; border-top: 1px solid rgba(139,105,20,0.25); }
+  .menu-sig { font-family: 'Cinzel', serif; font-size: 8px; color: rgba(92,61,10,0.5); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 8px; }
+
+  @media print { body { background: white; padding: 0; gap: 0; } .cert, .menu { box-shadow: none; page-break-after: always; } .page-label { display: none; } }
+</style>
+</head>
+<body>
+
+<!-- ═══ CERTIFICATE ═══ -->
+<div class="page-label">— Final Certificate · Print on your best paper! —</div>
+<div class="cert">
+  <div class="cert-border-1"></div>
+  <div class="cert-border-2"></div>
+  <div class="cert-border-3"></div>
+  <div class="cert-corner tl"><svg viewBox="0 0 50 50" fill="none"><path d="M3 47 L3 3 L47 3" stroke="#8b6914" stroke-width="2" fill="none"/><circle cx="3" cy="3" r="3" fill="#8b6914"/><path d="M12 3 L12 12 L3 12" stroke="#8b6914" stroke-width="1" opacity="0.4" fill="none"/><path d="M3 3 L16 16" stroke="#8b6914" stroke-width="0.75" opacity="0.3"/></svg></div>
+  <div class="cert-corner tr"><svg viewBox="0 0 50 50" fill="none"><path d="M3 47 L3 3 L47 3" stroke="#8b6914" stroke-width="2" fill="none"/><circle cx="3" cy="3" r="3" fill="#8b6914"/><path d="M12 3 L12 12 L3 12" stroke="#8b6914" stroke-width="1" opacity="0.4" fill="none"/><path d="M3 3 L16 16" stroke="#8b6914" stroke-width="0.75" opacity="0.3"/></svg></div>
+  <div class="cert-corner bl"><svg viewBox="0 0 50 50" fill="none"><path d="M3 47 L3 3 L47 3" stroke="#8b6914" stroke-width="2" fill="none"/><circle cx="3" cy="3" r="3" fill="#8b6914"/><path d="M12 3 L12 12 L3 12" stroke="#8b6914" stroke-width="1" opacity="0.4" fill="none"/><path d="M3 3 L16 16" stroke="#8b6914" stroke-width="0.75" opacity="0.3"/></svg></div>
+  <div class="cert-corner br"><svg viewBox="0 0 50 50" fill="none"><path d="M3 47 L3 3 L47 3" stroke="#8b6914" stroke-width="2" fill="none"/><circle cx="3" cy="3" r="3" fill="#8b6914"/><path d="M12 3 L12 12 L3 12" stroke="#8b6914" stroke-width="1" opacity="0.4" fill="none"/><path d="M3 3 L16 16" stroke="#8b6914" stroke-width="0.75" opacity="0.3"/></svg></div>
+
+  <div class="cert-content">
+    <div class="cert-crown">👑</div>
+    <div class="cert-agency">The Royal Detective Agency</div>
+    <div class="cert-divider">✦</div>
+    <div class="cert-presents">proudly presents this certificate to</div>
+    <div class="cert-this-is-to">Agent</div>
+    <div class="cert-name">Nyxie</div>
+    <div class="cert-has-been">who has this day been awarded the rank of</div>
+    <div class="cert-rank">Royal Detective<br>First Class</div>
+    <div class="cert-divider-2"></div>
+    <div class="cert-body">
+      Having solved the case of the Missing Crown Jewels with extraordinary bravery, brilliance, and determination — navigating every puzzle, braving every challenge, and recovering the jewels for the Secret Garden Kingdom — this agent has proven herself to be the finest detective the Royal Detective Agency has ever known.
+    </div>
+
+    <div class="cert-sigs">
+      <div class="cert-sig">
+        <div class="cert-sig-scrawl">R. Crownsworth</div>
+        <div class="cert-sig-line">Commander Crownsworth<br>Director General, RDA</div>
+      </div>
+      <div class="cert-sig">
+        <div class="cert-seal">
+          <div class="cert-seal-icon">👑</div>
+          <div class="cert-seal-text">R.D.A.<br>OFFICIAL<br>SEAL</div>
+        </div>
+      </div>
+      <div class="cert-sig">
+        <div class="cert-sig-scrawl">The Superintendent</div>
+        <div class="cert-sig-line">The Superintendent<br>Royal Detective Agency</div>
+      </div>
+    </div>
+
+    <div class="cert-date">Awarded this Saturday · Case No. RDA/CROWN/001 · The Missing Crown Jewels</div>
+  </div>
+</div>
+
+
+<!-- ═══ AFTERNOON TEA MENU ═══ -->
+<div class="page-label">— Afternoon Tea Menu · Print & fold in half · One per place setting —</div>
+<div class="menu">
+  <div class="menu-border"></div>
+  <div class="menu-border-inner"></div>
+  <div class="menu-content">
+    <div class="menu-crown">👑</div>
+    <div class="menu-from">Compliments of the Superintendent</div>
+    <div class="menu-title">Superintendent's<br>Afternoon Tea</div>
+    <div class="menu-divider">✦</div>
+    <div class="menu-honour">
+      In honour of Agent Nyxie's<br>
+      extraordinary work on Case RDA/CROWN/001
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-section-title">🥪 Savouries</div>
+      <div class="menu-item">Finger Sandwiches <em>— assorted fillings</em></div>
+      <div class="menu-item">Mini Sausage Rolls <em>— freshly baked</em></div>
+      <div class="menu-item">Cheese Straws <em>— golden and crispy</em></div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-section-title">🫖 The Scones</div>
+      <div class="menu-item">Freshly Baked Scones</div>
+      <div class="menu-item">Clotted Cream &amp; Strawberry Jam</div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-section-title">🍰 Sweet Treats</div>
+      <div class="menu-item">Petit Fours &amp; Mini Cakes <em>— selection</em></div>
+      <div class="menu-item">Iced Biscuits <em>— decorated</em></div>
+      <div class="menu-item">Chocolate Truffles <em>— Kingdom special</em></div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-section-title">🍹 Beverages</div>
+      <div class="menu-item">Sparkling Lemonade <em>— in a fancy glass</em></div>
+      <div class="menu-item">Fruit Tea <em>— served in a proper teapot</em></div>
+    </div>
+
+    <div class="menu-footer-note">
+      "You have earned every single crumb of this, Agent Nyxie. The Kingdom is very proud of you."
+    </div>
+    <div class="menu-sig">— The Superintendent · Royal Detective Agency</div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Act II — The Suspect's Hideout</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1a1008;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 80px;
+    gap: 30px;
+    font-family: 'IM Fell English', serif;
+  }
+
+  .page-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    color: rgba(201,168,76,0.45);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: #fdf3e3;
+    position: relative;
+    padding: 48px 58px;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+    overflow: hidden;
+  }
+  .page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(180,140,90,0.14) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(160,120,70,0.11) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .border-outer { position: absolute; inset: 16px; border: 2.5px solid #8b6914; pointer-events: none; z-index: 1; }
+  .border-inner { position: absolute; inset: 22px; border: 1px solid rgba(139,105,20,0.35); pointer-events: none; z-index: 1; }
+
+  .corner { position: absolute; width: 38px; height: 38px; z-index: 2; }
+  .corner svg { width: 38px; height: 38px; }
+  .corner.tl { top: 9px; left: 9px; }
+  .corner.tr { top: 9px; right: 9px; transform: scaleX(-1); }
+  .corner.bl { bottom: 9px; left: 9px; transform: scaleY(-1); }
+  .corner.br { bottom: 9px; right: 9px; transform: scale(-1,-1); }
+
+  .content { position: relative; z-index: 3; }
+
+  /* Header */
+  .puz-header {
+    text-align: center;
+    padding-bottom: 16px;
+    border-bottom: 1.5px solid #8b6914;
+    margin-bottom: 22px;
+  }
+  .act-tag {
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .puz-title {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #3a1f04;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .puz-sub {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: #8b6914;
+  }
+
+  /* Well done box */
+  .well-done-box {
+    background: rgba(139,105,20,0.06);
+    border: 1.5px solid #8b6914;
+    padding: 12px 18px;
+    margin-bottom: 20px;
+    font-family: 'IM Fell English', serif;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #2e1c08;
+    text-align: center;
+  }
+  .well-done-box em { font-style: italic; color: #5c3d0a; }
+
+  /* Official document styling */
+  .official-stamp-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+  .doc-ref {
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: #8b6914;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    line-height: 1.7;
+  }
+  .official-stamp {
+    border: 3px solid #1a5276;
+    color: #1a5276;
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 4px 9px;
+    transform: rotate(-6deg);
+    opacity: 0.7;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  /* Statement box */
+  .statement-box {
+    border: 1.5px solid #8b6914;
+    padding: 20px 24px;
+    margin-bottom: 22px;
+    position: relative;
+    background: rgba(255,255,255,0.3);
+  }
+  .statement-box-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: absolute;
+    top: -9px; left: 16px;
+    background: #fdf3e3;
+    padding: 0 8px;
+    white-space: nowrap;
+  }
+
+  .witness-name {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #3a1f04;
+    margin-bottom: 2px;
+  }
+  .witness-title {
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: #8b6914;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(139,105,20,0.2);
+  }
+
+  /* Statement text with blanks */
+  .statement-text {
+    font-family: 'IM Fell English', serif;
+    font-size: 14.5px;
+    line-height: 2.1;
+    color: #2e1c08;
+    text-align: justify;
+  }
+
+  .blank {
+    display: inline-block;
+    border-bottom: 2px solid #3a1f04;
+    min-width: 90px;
+    margin: 0 3px;
+    vertical-align: bottom;
+    height: 22px;
+    position: relative;
+  }
+  .blank-num {
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Special Elite', monospace;
+    font-size: 8px;
+    color: #8b6914;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  /* Gnome signature */
+  .gnome-sig {
+    margin-top: 24px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(139,105,20,0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .sig-left { }
+  .sig-scrawl {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: #1a3a6b;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .sig-name {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    color: #5c3d0a;
+    letter-spacing: 1px;
+    border-top: 1px solid #8b6914;
+    padding-top: 4px;
+  }
+  .gnome-icon { font-size: 36px; }
+
+  /* Word bank */
+  .word-bank {
+    border: 1.5px solid #8b6914;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    position: relative;
+    background: rgba(139,105,20,0.04);
+  }
+  .word-bank-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: absolute;
+    top: -9px; left: 16px;
+    background: #fdf3e3;
+    padding: 0 8px;
+  }
+  .word-bank-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .word-chip {
+    border: 1.5px solid #8b6914;
+    background: rgba(139,105,20,0.07);
+    padding: 5px 14px;
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #3a1f04;
+    letter-spacing: 1px;
+  }
+
+  /* Next clue banner */
+  .next-clue-banner {
+    background: rgba(139,105,20,0.08);
+    border: 1.5px solid #8b6914;
+    padding: 14px 20px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .next-clue-banner p {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #5c3d0a;
+    line-height: 1.7;
+  }
+  .next-clue-banner strong {
+    font-family: 'Cinzel', serif;
+    font-style: normal;
+    font-size: 11px;
+    color: #3a1f04;
+    letter-spacing: 1px;
+  }
+
+  .puz-footer {
+    text-align: center;
+    margin-top: 16px;
+    font-family: 'Special Elite', monospace;
+    font-size: 8.5px;
+    color: rgba(92,61,10,0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(139,105,20,0.2);
+    padding-top: 12px;
+  }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .page { box-shadow: none; width: 100%; }
+    .page-label { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-label">— Act II · Witness Statement · Tape inside envelope, stick to climbing wall —</div>
+
+<div class="page">
+  <div class="border-outer"></div>
+  <div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+
+  <div class="content">
+
+    <div class="puz-header">
+      <div class="act-tag">⚑ &nbsp; Act II · The Suspect's Hideout &nbsp; ⚑</div>
+      <div class="puz-title">Witness Statement</div>
+      <div class="puz-sub">Found at the top of the climbing wall — handle with care</div>
+    </div>
+
+    <div class="well-done-box">
+      Brilliant climbing, Agent Nyxie! 🧗 This document was left behind by our <em>key witness</em> — a very important garden resident who saw the whole thing. Fill in the missing words to complete the statement and find your next clue.
+    </div>
+
+    <!-- Official ref area -->
+    <div class="official-stamp-area">
+      <div class="doc-ref">
+        Document Ref: RDA/CROWN/001/W1<br>
+        Witness: Geraferty<br>
+        Recorded: The Night of the Crime
+      </div>
+      <div class="official-stamp">Official<br>Statement</div>
+    </div>
+
+    <!-- Word Bank -->
+    <div class="word-bank">
+      <span class="word-bank-title">📖 &nbsp; Word Bank — Use these words to fill the gaps</span>
+      <div class="word-bank-grid">
+        <div class="word-chip">shiny</div>
+        <div class="word-chip">sneaky</div>
+        <div class="word-chip">fast</div>
+        <div class="word-chip">night</div>
+        <div class="word-chip">garden</div>
+        <div class="word-chip">stone</div>
+        <div class="word-chip">secret</div>
+        <div class="word-chip">scared</div>
+      </div>
+    </div>
+
+    <!-- Statement -->
+    <div class="statement-box">
+      <span class="statement-box-title">📜 &nbsp; Official Witness Statement</span>
+
+      <div class="witness-name">Geraferty</div>
+      <div class="witness-title">Tallest Resident of the House · Official Stuffy Witness · Kingdom of the Crown Jewels</div>
+
+      <div class="statement-text">
+        I, Geraferty, do solemnly declare that on the
+        <span class="blank"><span class="blank-num">1. night / garden / fast</span></span>
+        of the crime, I was standing very still in my usual spot — as I always do, being made of
+        <span class="blank"><span class="blank-num">2. stone / shiny / scared</span></span>
+        — when I spotted something most unusual.
+        <br><br>
+        A very
+        <span class="blank"><span class="blank-num">3. sneaky / fast / secret</span></span>
+        creature came creeping through the darkness, moving ever so
+        <span class="blank"><span class="blank-num">4. fast / stone / night</span></span>
+        and trying not to make a sound. It was carrying something
+        <span class="blank"><span class="blank-num">5. shiny / sneaky / garden</span></span>
+        that glittered in the moonlight — I am quite sure it was the Crown Jewels!
+        <br><br>
+        I was very
+        <span class="blank"><span class="blank-num">6. scared / shiny / fast</span></span>
+        but I could not run away, on account of being a stuffy with no legs that work. The creature ran straight past me, directly towards the
+        <span class="blank"><span class="blank-num">7. secret / scared / stone</span></span>
+        garden, where it disappeared into the shadows.
+        <br><br>
+        I believe that is where you will find your next clue, Agent Nyxie. Please hurry — and watch out for that creature. It is still out there somewhere, in the
+        <span class="blank"><span class="blank-num">8. garden / night / sneaky</span></span>.
+      </div>
+
+      <div class="gnome-sig">
+        <div class="sig-left">
+          <div class="sig-scrawl">Geraferty</div>
+          <div class="sig-name">Geraferty · Tallest Resident &amp; Official Witness</div>
+        </div>
+        <div class="gnome-icon">🦒</div>
+      </div>
+    </div>
+
+    <div class="next-clue-banner">
+      <p>The witness has spoken! The creature ran towards the <strong>SECRET GARDEN</strong>.<br>
+      That is where your next clue is waiting, Agent Nyxie. 🌿</p>
+    </div>
+
+    <div class="puz-footer">
+      Royal Detective Agency · Case RDA/CROWN/001 · Act II Complete · Collect your badge!
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

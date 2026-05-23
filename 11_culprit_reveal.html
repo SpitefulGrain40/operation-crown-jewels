@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grand Finale — Culprit Reveal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1008; display: flex; flex-direction: column; align-items: center; padding: 40px 20px 80px; gap: 60px; font-family: 'IM Fell English', serif; }
+  .page-label { font-family: 'Special Elite', monospace; font-size: 10px; color: rgba(201,168,76,0.45); letter-spacing: 3px; text-transform: uppercase; text-align: center; margin-bottom: -50px; }
+  .page { width: 210mm; min-height: 297mm; background: #fdf3e3; position: relative; padding: 48px 58px; box-shadow: 0 20px 80px rgba(0,0,0,0.6); overflow: hidden; }
+  .page::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(ellipse at 20% 10%, rgba(180,140,90,0.14) 0%, transparent 50%), radial-gradient(ellipse at 80% 90%, rgba(160,120,70,0.11) 0%, transparent 50%); pointer-events: none; z-index: 0; }
+  .border-outer { position: absolute; inset: 16px; border: 2.5px solid #8b6914; pointer-events: none; z-index: 1; }
+  .border-inner { position: absolute; inset: 22px; border: 1px solid rgba(139,105,20,0.35); pointer-events: none; z-index: 1; }
+  .corner { position: absolute; width: 38px; height: 38px; z-index: 2; }
+  .corner svg { width: 38px; height: 38px; }
+  .corner.tl { top: 9px; left: 9px; }
+  .corner.tr { top: 9px; right: 9px; transform: scaleX(-1); }
+  .corner.bl { bottom: 9px; left: 9px; transform: scaleY(-1); }
+  .corner.br { bottom: 9px; right: 9px; transform: scale(-1,-1); }
+  .content { position: relative; z-index: 3; }
+
+  .reveal-header { text-align: center; margin-bottom: 28px; padding-bottom: 18px; border-bottom: 2px solid #8b6914; }
+  .reveal-crown { font-size: 48px; margin-bottom: 6px; }
+  .reveal-title { font-family: 'Cinzel', serif; font-size: 26px; font-weight: 700; color: #3a1f04; letter-spacing: 3px; text-transform: uppercase; line-height: 1.1; margin-bottom: 4px; }
+  .reveal-sub { font-family: 'IM Fell English', serif; font-style: italic; font-size: 13px; color: #8b6914; }
+
+  .stuffy-row { display: flex; justify-content: center; gap: 24px; margin: 22px 0; }
+  .stuffy-box { text-align: center; }
+  .stuffy-icon { font-size: 32px; margin-bottom: 4px; }
+  .stuffy-name { font-family: 'Cinzel', serif; font-size: 8px; font-weight: 600; color: #5c3d0a; letter-spacing: 1px; text-transform: uppercase; }
+
+  .confession-box { border: 2px solid #8b6914; background: rgba(255,255,255,0.3); padding: 22px 26px; margin-bottom: 22px; position: relative; }
+  .confession-title { font-family: 'Cinzel', serif; font-size: 9px; font-weight: 700; color: #8b6914; letter-spacing: 3px; text-transform: uppercase; position: absolute; top: -9px; left: 16px; background: #fdf3e3; padding: 0 8px; white-space: nowrap; }
+  .confession-greeting { font-family: 'Cinzel', serif; font-size: 14px; font-weight: 600; color: #3a1f04; margin-bottom: 14px; }
+  .confession-text { font-family: 'IM Fell English', serif; font-size: 14.5px; line-height: 1.9; color: #2e1c08; text-align: justify; }
+  .confession-text em { font-style: italic; color: #5c3d0a; }
+  .confession-text strong { font-family: 'Cinzel', serif; font-size: 13px; color: #3a1f04; }
+
+  .sig-area { margin-top: 20px; padding-top: 12px; border-top: 1px solid rgba(139,105,20,0.2); text-align: center; }
+  .sig-icons { font-size: 28px; letter-spacing: 8px; margin-bottom: 6px; }
+  .sig-names { font-family: 'Cinzel', serif; font-size: 9px; color: #5c3d0a; letter-spacing: 1.5px; text-transform: uppercase; }
+
+  .jewels-recovered { background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(139,105,20,0.08)); border: 2px solid #c9a84c; padding: 18px 22px; text-align: center; margin-bottom: 18px; }
+  .jewels-recovered-title { font-family: 'Cinzel', serif; font-size: 16px; font-weight: 700; color: #3a1f04; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+  .jewels-recovered-text { font-family: 'IM Fell English', serif; font-style: italic; font-size: 13px; color: #5c3d0a; line-height: 1.7; }
+
+  .puz-footer { text-align: center; font-family: 'Special Elite', monospace; font-size: 8.5px; color: rgba(92,61,10,0.4); letter-spacing: 2px; text-transform: uppercase; border-top: 1px solid rgba(139,105,20,0.2); padding-top: 12px; }
+
+  @media print { body { background: white; padding: 0; gap: 0; } .page { box-shadow: none; width: 100%; min-height: auto; } .page-label { display: none; } }
+</style>
+</head>
+<body>
+
+<div class="page-label">— Culprit Reveal · Fold and place inside the treasure chest —</div>
+<div class="page">
+  <div class="border-outer"></div><div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="content">
+
+    <div class="reveal-header">
+      <div class="reveal-crown">👑</div>
+      <div class="reveal-title">The Culprits<br>Are Revealed!</div>
+      <div class="reveal-sub">Case RDA/CROWN/001 — Solved by Agent Nyxie</div>
+    </div>
+
+    <div class="stuffy-row">
+      <div class="stuffy-box"><div class="stuffy-icon">🦒</div><div class="stuffy-name">Geraferty</div></div>
+      <div class="stuffy-box"><div class="stuffy-icon">🐑</div><div class="stuffy-name">Lamby</div></div>
+      <div class="stuffy-box"><div class="stuffy-icon">🐒</div><div class="stuffy-name">Daddy Ooo Ooo</div></div>
+      <div class="stuffy-box"><div class="stuffy-icon">⭐</div><div class="stuffy-name">Four Star<br>of the Week</div></div>
+    </div>
+
+    <div class="confession-box">
+      <span class="confession-title">📜 &nbsp; Official Confession — Signed by all four culprits</span>
+      <div class="confession-greeting">Dear Agent Nyxie,</div>
+      <div class="confession-text">
+        <p style="margin-bottom:12px">It was us. It was <em>all</em> of us. We are very, very sorry.</p>
+        <p style="margin-bottom:12px">We did not mean to cause such a fuss! We only borrowed the Crown Jewels because we wanted to play with them — they are ever so sparkly and pretty, and we thought nobody would notice. We hid them in the treasure chest and then went back to our usual spots pretending to be innocent stuffies.</p>
+        <p style="margin-bottom:12px">We did not expect anyone as <em>brilliant</em> as you to be on the case. You followed every single clue, solved every single puzzle, and you even braved the laser vault — which, we must admit, was <strong>extremely impressive</strong>.</p>
+        <p style="margin-bottom:12px">We have learned our lesson. The Crown Jewels belong to the Secret Garden Kingdom, and we promise — <em>on all of our fluff</em> — never to borrow them again without asking.</p>
+        <p>Please don't be too cross with us. We are only stuffies.</p>
+      </div>
+      <div class="sig-area">
+        <div class="sig-icons">🦒 🐑 🐒 ⭐</div>
+        <div class="sig-names">Geraferty · Lamby · Daddy Ooo Ooo · Four Star of the Week</div>
+      </div>
+    </div>
+
+    <div class="jewels-recovered">
+      <div class="jewels-recovered-title">👑 The Crown Jewels Are Recovered! 👑</div>
+      <div class="jewels-recovered-text">
+        The Secret Garden Kingdom is saved. All is well. And it is entirely thanks to the extraordinary detective work of one Agent Nyxie — the finest investigator the Royal Detective Agency has ever known.
+      </div>
+    </div>
+
+    <div class="puz-footer">Royal Detective Agency · Case RDA/CROWN/001 · CASE CLOSED · The Kingdom thanks you, Agent Nyxie</div>
+  </div>
+</div>
+
+</body>
+</html>

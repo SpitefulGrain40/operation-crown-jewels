@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Act V — The Gymnastics Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a1008;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 80px;
+    gap: 60px;
+    font-family: 'IM Fell English', serif;
+  }
+  .page-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    color: rgba(201,168,76,0.45);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: -50px;
+  }
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: #fdf3e3;
+    position: relative;
+    padding: 46px 56px;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+    overflow: hidden;
+  }
+  .page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(180,140,90,0.14) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(160,120,70,0.11) 0%, transparent 50%);
+    pointer-events: none; z-index: 0;
+  }
+  .border-outer { position: absolute; inset: 16px; border: 2.5px solid #8b6914; pointer-events: none; z-index: 1; }
+  .border-inner { position: absolute; inset: 22px; border: 1px solid rgba(139,105,20,0.35); pointer-events: none; z-index: 1; }
+  .corner { position: absolute; width: 38px; height: 38px; z-index: 2; }
+  .corner svg { width: 38px; height: 38px; }
+  .corner.tl { top: 9px; left: 9px; }
+  .corner.tr { top: 9px; right: 9px; transform: scaleX(-1); }
+  .corner.bl { bottom: 9px; left: 9px; transform: scaleY(-1); }
+  .corner.br { bottom: 9px; right: 9px; transform: scale(-1,-1); }
+  .content { position: relative; z-index: 3; }
+
+  .puz-header {
+    text-align: center;
+    padding-bottom: 14px;
+    border-bottom: 1.5px solid #8b6914;
+    margin-bottom: 20px;
+  }
+  .act-tag { font-family: 'Special Elite', monospace; font-size: 9px; color: #8b6914; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; }
+  .puz-title { font-family: 'Cinzel', serif; font-size: 20px; font-weight: 700; color: #3a1f04; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+  .puz-sub { font-family: 'IM Fell English', serif; font-style: italic; font-size: 12px; color: #8b6914; }
+
+  .intro-text {
+    font-family: 'IM Fell English', serif;
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: #2e1c08;
+    margin-bottom: 18px;
+    text-align: justify;
+  }
+  .intro-text em { font-style: italic; color: #5c3d0a; }
+
+  /* Physical challenge box */
+  .challenge-box {
+    border: 2px solid #8b6914;
+    background: rgba(139,105,20,0.05);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .box-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: absolute;
+    top: -9px; left: 16px;
+    background: #fdf3e3;
+    padding: 0 8px;
+    white-space: nowrap;
+  }
+
+  .challenge-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 10px;
+    font-family: 'IM Fell English', serif;
+    font-size: 14px;
+    color: #2e1c08;
+    line-height: 1.4;
+  }
+  .challenge-item:last-child { margin-bottom: 0; }
+  .challenge-num {
+    width: 28px;
+    height: 28px;
+    border: 2px solid #8b6914;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8b6914;
+    flex-shrink: 0;
+  }
+  .challenge-tick {
+    width: 28px;
+    height: 28px;
+    border: 2px solid #8b6914;
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  /* Judge's scorecard */
+  .scorecard {
+    border: 1.5px solid #8b6914;
+    background: rgba(255,255,255,0.3);
+    padding: 14px 20px;
+    margin-bottom: 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .scorecard-icon { font-size: 36px; flex-shrink: 0; }
+  .scorecard-text {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #5c3d0a;
+    line-height: 1.6;
+  }
+  .scorecard-sig {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    color: #8b6914;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  /* Cipher section */
+  .divider {
+    display: flex; align-items: center; gap: 10px;
+    margin: 16px 0; color: #8b6914;
+  }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #8b6914; opacity: 0.35; }
+
+  .cipher-key {
+    border: 1.5px solid #8b6914;
+    background: rgba(139,105,20,0.04);
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .cipher-grid {
+    display: grid;
+    grid-template-columns: repeat(13, 1fr);
+    gap: 3px;
+    margin-bottom: 6px;
+  }
+  .cipher-cell {
+    text-align: center;
+    padding: 3px 2px;
+  }
+  .cipher-letter {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #3a1f04;
+    display: block;
+    border-bottom: 1px solid rgba(139,105,20,0.3);
+    margin-bottom: 2px;
+    padding-bottom: 2px;
+  }
+  .cipher-number {
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: #8b6914;
+    display: block;
+  }
+
+  /* Encoded message */
+  .encoded-box {
+    border: 1.5px solid #8b6914;
+    background: rgba(139,105,20,0.05);
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    position: relative;
+    text-align: center;
+  }
+
+  .code-numbers {
+    font-family: 'Special Elite', monospace;
+    font-size: 18px;
+    color: #3a1f04;
+    letter-spacing: 4px;
+    margin-bottom: 18px;
+    line-height: 1.8;
+  }
+  .code-gap {
+    display: inline-block;
+    width: 20px;
+  }
+
+  /* Answer boxes */
+  .answer-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .answer-char {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .answer-char-box {
+    width: 34px;
+    height: 36px;
+    border-bottom: 2.5px solid #3a1f04;
+    border-left: none; border-right: none; border-top: none;
+  }
+  .answer-char-num {
+    font-family: 'Special Elite', monospace;
+    font-size: 8px;
+    color: rgba(139,105,20,0.5);
+  }
+  .answer-space { width: 16px; }
+
+  .next-clue-banner {
+    background: rgba(139,105,20,0.07);
+    border: 1.5px solid #8b6914;
+    padding: 12px 18px;
+    text-align: center;
+    margin-bottom: 14px;
+    margin-top: 16px;
+  }
+  .next-clue-banner p {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #5c3d0a;
+    line-height: 1.7;
+  }
+  .next-clue-banner strong {
+    font-family: 'Cinzel', serif;
+    font-style: normal;
+    font-size: 11px;
+    color: #3a1f04;
+    letter-spacing: 1px;
+  }
+
+  .puz-footer {
+    text-align: center;
+    font-family: 'Special Elite', monospace;
+    font-size: 8.5px;
+    color: rgba(92,61,10,0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(139,105,20,0.2);
+    padding-top: 12px;
+  }
+
+  @media print {
+    body { background: white; padding: 0; gap: 0; }
+    .page { box-shadow: none; width: 100%; min-height: auto; }
+    .page-label { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-label">— Act V · The Gymnastics Vault · Hide in a box in the outhouse —</div>
+<div class="page">
+  <div class="border-outer"></div>
+  <div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+
+  <div class="content">
+    <div class="puz-header">
+      <div class="act-tag">⚑ &nbsp; Act V · The Gymnastics Vault &nbsp; ⚑</div>
+      <div class="puz-title">The Secret Code</div>
+      <div class="puz-sub">Complete the gymnastics challenge to unlock the vault — then crack the code</div>
+    </div>
+
+    <p class="intro-text">
+      The thief hid a coded message in the Gymnastics Vault! But the vault is <em>locked</em> — and the only way to open it is to complete three gymnastics challenges first. Four Star of the Week is watching very carefully and will award the vault to any agent brave enough to complete the challenge.
+    </p>
+
+    <!-- Physical challenge -->
+    <div class="challenge-box">
+      <span class="box-title">🤸 &nbsp; Gymnastics Challenge — Complete all three to unlock the vault</span>
+      <div class="challenge-item">
+        <div class="challenge-num">1</div>
+        <span>Do your very best <strong>cartwheel</strong> (or attempt!) across the floor</span>
+        <div class="challenge-tick"></div>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-num">2</div>
+        <span>Hold a <strong>balance</strong> on one leg for five whole seconds — Agents Daddy and Gemmy Pants must count out loud</span>
+        <div class="challenge-tick"></div>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-num">3</div>
+        <span>Do <strong>five star jumps</strong> as big as you possibly can</span>
+        <div class="challenge-tick"></div>
+      </div>
+    </div>
+
+    <!-- Judge's verdict -->
+    <div class="scorecard">
+      <div class="scorecard-icon">⭐</div>
+      <div>
+        <div class="scorecard-text">"I, Four Star of the Week, have watched very closely and I declare this performance absolutely <strong>magnificent</strong>. The vault is hereby unlocked. Well done, Agent Nyxie — you are a true star!"</div>
+        <div class="scorecard-sig">— Four Star of the Week · Official Gymnastics Judge</div>
+      </div>
+    </div>
+
+    <div class="divider">✦</div>
+
+    <!-- Cipher -->
+    <div class="cipher-key">
+      <span class="box-title">🔑 &nbsp; The Secret Code Key — A = 1, B = 2, C = 3 ...</span>
+      <div class="cipher-grid">
+        <div class="cipher-cell"><span class="cipher-letter">A</span><span class="cipher-number">1</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">B</span><span class="cipher-number">2</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">C</span><span class="cipher-number">3</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">D</span><span class="cipher-number">4</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">E</span><span class="cipher-number">5</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">F</span><span class="cipher-number">6</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">G</span><span class="cipher-number">7</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">H</span><span class="cipher-number">8</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">I</span><span class="cipher-number">9</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">J</span><span class="cipher-number">10</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">K</span><span class="cipher-number">11</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">L</span><span class="cipher-number">12</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">M</span><span class="cipher-number">13</span></div>
+      </div>
+      <div class="cipher-grid">
+        <div class="cipher-cell"><span class="cipher-letter">N</span><span class="cipher-number">14</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">O</span><span class="cipher-number">15</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">P</span><span class="cipher-number">16</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">Q</span><span class="cipher-number">17</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">R</span><span class="cipher-number">18</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">S</span><span class="cipher-number">19</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">T</span><span class="cipher-number">20</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">U</span><span class="cipher-number">21</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">V</span><span class="cipher-number">22</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">W</span><span class="cipher-number">23</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">X</span><span class="cipher-number">24</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">Y</span><span class="cipher-number">25</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">Z</span><span class="cipher-number">26</span></div>
+      </div>
+    </div>
+
+    <!-- Encoded message: "BALCONY" = 2,1,12,3,15,14,25 -->
+    <div class="encoded-box">
+      <span class="box-title">📨 &nbsp; Decode this message to find your next location</span>
+      <div class="code-numbers">2 · 1 · 12 · 3 · 15 · 14 · 25</div>
+      <div class="answer-row">
+        <div class="answer-char"><div class="answer-char-box"></div><div class="answer-char-num">2</div></div>
+        <div class="answer-char"><div class="answer-char-box"></div><div class="answer-char-num">1</div></div>
+        <div class="answer-char"><div class="answer-char-box"></div><div class="answer-char-num">12</div></div>
+        <div class="answer-char"><div class="answer-char-box"></div><div class="answer-char-num">3</div></div>
+        <div class="answer-char"><div class="answer-char-box"></div><div class="answer-char-num">15</div></div>
+        <div class="answer-char"><div class="answer-char-box"></div><div class="answer-char-num">14</div></div>
+        <div class="answer-char"><div class="answer-char-box"></div><div class="answer-char-num">25</div></div>
+      </div>
+    </div>
+
+    <div class="next-clue-banner">
+      <p>Decoded it? The answer is <strong>BALCONY</strong>! 🔭<br>Head upstairs and outside — your next clue is waiting up high!</p>
+    </div>
+
+    <div class="puz-footer">
+      Royal Detective Agency · Case RDA/CROWN/001 · Act V Complete · Collect your badge!
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

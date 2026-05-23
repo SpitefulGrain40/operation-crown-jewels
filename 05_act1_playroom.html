@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Act I — The Scrambled Files</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1a1008;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 80px;
+    gap: 60px;
+    font-family: 'IM Fell English', serif;
+  }
+
+  .page-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    color: rgba(201,168,76,0.45);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: -50px;
+  }
+
+  /* Shared page */
+  .page {
+    width: 210mm;
+    background: #fdf3e3;
+    position: relative;
+    padding: 48px 58px;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+    overflow: hidden;
+  }
+  .page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(180,140,90,0.14) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(160,120,70,0.11) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .border-outer { position: absolute; inset: 16px; border: 2.5px solid #8b6914; pointer-events: none; z-index: 1; }
+  .border-inner { position: absolute; inset: 22px; border: 1px solid rgba(139,105,20,0.35); pointer-events: none; z-index: 1; }
+
+  .corner { position: absolute; width: 38px; height: 38px; z-index: 2; }
+  .corner svg { width: 38px; height: 38px; }
+  .corner.tl { top: 9px; left: 9px; }
+  .corner.tr { top: 9px; right: 9px; transform: scaleX(-1); }
+  .corner.bl { bottom: 9px; left: 9px; transform: scaleY(-1); }
+  .corner.br { bottom: 9px; right: 9px; transform: scale(-1,-1); }
+
+  .content { position: relative; z-index: 3; }
+
+  /* ═══════════════════════════════
+     PAGE 1 — CRIME SCENE NOTICE
+  ═══════════════════════════════ */
+
+  .cs-tape {
+    background: #f1c40f;
+    color: #1a1008;
+    font-family: 'Special Elite', monospace;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 7px 0;
+    margin: -48px -58px 32px;
+    position: relative;
+    z-index: 10;
+    transform: rotate(-1deg);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  }
+
+  .cs-header { text-align: center; margin-bottom: 26px; }
+  .cs-icon { font-size: 44px; margin-bottom: 6px; line-height: 1; }
+  .cs-title {
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #3a1f04;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+  .cs-title span { color: #c0392b; }
+  .cs-subtitle {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .cs-divider {
+    display: flex; align-items: center; gap: 10px;
+    margin: 14px 0; color: #8b6914;
+  }
+  .cs-divider::before, .cs-divider::after {
+    content: ''; flex: 1; height: 1px; background: #8b6914; opacity: 0.4;
+  }
+
+  .cs-body {
+    font-family: 'IM Fell English', serif;
+    font-size: 15px;
+    line-height: 1.85;
+    color: #2e1c08;
+    text-align: justify;
+    margin-bottom: 18px;
+  }
+  .cs-body em { font-style: italic; color: #5c3d0a; }
+  .cs-body strong { font-style: normal; color: #3a1f04; }
+
+  .cs-instruction-box {
+    border: 1.5px solid #8b6914;
+    background: rgba(139,105,20,0.05);
+    padding: 20px 22px;
+    margin: 22px 0;
+    position: relative;
+  }
+  .cs-instruction-box-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: absolute;
+    top: -9px; left: 16px;
+    background: #fdf3e3;
+    padding: 0 8px;
+  }
+  .cs-step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    font-family: 'IM Fell English', serif;
+    font-size: 14px;
+    color: #2e1c08;
+    line-height: 1.5;
+  }
+  .cs-step:last-child { margin-bottom: 0; }
+  .cs-step-num {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8b6914;
+    flex-shrink: 0;
+    width: 20px;
+  }
+
+  .cs-warning {
+    background: rgba(192,57,43,0.06);
+    border: 1px solid rgba(192,57,43,0.3);
+    padding: 10px 16px;
+    margin-top: 20px;
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    color: #922b21;
+    letter-spacing: 1px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .cs-ref {
+    text-align: center;
+    margin-top: 22px;
+    font-family: 'Special Elite', monospace;
+    font-size: 8.5px;
+    color: rgba(92,61,10,0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(139,105,20,0.2);
+    padding-top: 12px;
+  }
+
+  /* Red EVIDENCE stamp */
+  .evidence-stamp {
+    position: absolute;
+    top: 110px;
+    right: 50px;
+    border: 4px solid #c0392b;
+    color: #c0392b;
+    font-family: 'Special Elite', monospace;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    padding: 4px 10px;
+    transform: rotate(10deg);
+    opacity: 0.75;
+    z-index: 10;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+
+  /* ═══════════════════════════════
+     PAGE 2 — DRAWER LABELS
+  ═══════════════════════════════ */
+
+  .labels-sheet {
+    width: 210mm;
+    min-height: 297mm;
+    background: #fdf3e3;
+    padding: 14mm 12mm;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+    position: relative;
+    overflow: hidden;
+  }
+  .labels-sheet::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(ellipse at 20% 10%, rgba(180,140,90,0.1) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .labels-header {
+    text-align: center;
+    margin-bottom: 10mm;
+    position: relative;
+    z-index: 2;
+  }
+  .labels-header h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  .labels-header p {
+    font-family: 'Special Elite', monospace;
+    font-size: 8px;
+    color: rgba(92,61,10,0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+
+  .drawer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 7mm;
+    position: relative;
+    z-index: 2;
+  }
+
+  .drawer-label {
+    border: 2px solid #8b6914;
+    background: #fdf3e3;
+    padding: 10px 10px 8px;
+    text-align: center;
+    position: relative;
+    min-height: 68px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+  .drawer-label::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 0.75px solid rgba(139,105,20,0.25);
+    pointer-events: none;
+  }
+
+  .drawer-icon { font-size: 22px; line-height: 1; margin-bottom: 2px; }
+
+  .drawer-name {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: #3a1f04;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  .drawer-sub {
+    font-family: 'Special Elite', monospace;
+    font-size: 7px;
+    color: rgba(92,61,10,0.45);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .labels-footer {
+    text-align: center;
+    margin-top: 8mm;
+    font-family: 'Special Elite', monospace;
+    font-size: 8px;
+    color: rgba(92,61,10,0.35);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: relative; z-index: 2;
+  }
+
+
+  /* ═══════════════════════════════
+     PAGE 3 — SCRAMBLED PUZZLE
+  ═══════════════════════════════ */
+
+  .puz-header {
+    text-align: center;
+    padding-bottom: 16px;
+    border-bottom: 1.5px solid #8b6914;
+    margin-bottom: 24px;
+  }
+  .puz-header .act-tag {
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .puz-header h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #3a1f04;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .puz-header p {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: #8b6914;
+  }
+
+  .puz-intro {
+    font-family: 'IM Fell English', serif;
+    font-size: 14px;
+    line-height: 1.75;
+    color: #2e1c08;
+    margin-bottom: 22px;
+    text-align: justify;
+  }
+  .puz-intro em { font-style: italic; color: #5c3d0a; }
+
+  /* Evidence tag */
+  .evidence-tag {
+    display: inline-block;
+    background: rgba(241,196,15,0.15);
+    border: 1.5px solid #f1c40f;
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: #7d6608;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    margin-bottom: 18px;
+  }
+
+  /* Word tiles */
+  .word-tiles-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 600;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .word-tiles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 30px;
+  }
+
+  .tile {
+    border: 2px solid #8b6914;
+    background: rgba(139,105,20,0.06);
+    padding: 7px 14px;
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #3a1f04;
+    letter-spacing: 1px;
+    cursor: default;
+    user-select: none;
+  }
+
+  /* Answer line */
+  .answer-section {
+    margin-top: 10px;
+  }
+  .answer-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 600;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .answer-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .answer-line {
+    border-bottom: 1.5px solid #8b6914;
+    height: 32px;
+    width: 100%;
+    position: relative;
+  }
+  .answer-line::before {
+    content: attr(data-num);
+    position: absolute;
+    left: 0;
+    bottom: 4px;
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: rgba(139,105,20,0.4);
+  }
+
+  /* Two lines for the answer */
+  .answer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .answer-box {
+    border-bottom: 2px solid #8b6914;
+    border-left: none; border-right: none; border-top: none;
+    height: 38px;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 4px;
+    justify-content: center;
+    position: relative;
+  }
+  .answer-box-num {
+    position: absolute;
+    bottom: -14px;
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: rgba(139,105,20,0.45);
+    letter-spacing: 0.5px;
+  }
+
+  /* Big write-in line */
+  .write-line-wrap {
+    margin: 20px 0 10px;
+  }
+  .write-line-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 600;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .write-line {
+    border-bottom: 1.5px solid #8b6914;
+    height: 36px;
+    margin-bottom: 12px;
+    width: 100%;
+  }
+
+  .puz-well-done {
+    background: rgba(139,105,20,0.06);
+    border: 1px solid rgba(139,105,20,0.3);
+    padding: 12px 18px;
+    margin-top: 24px;
+    text-align: center;
+  }
+  .puz-well-done p {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #5c3d0a;
+    line-height: 1.6;
+  }
+  .puz-well-done strong {
+    font-style: normal;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    color: #3a1f04;
+    letter-spacing: 1px;
+  }
+
+  .puz-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-family: 'Special Elite', monospace;
+    font-size: 8.5px;
+    color: rgba(92,61,10,0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(139,105,20,0.2);
+    padding-top: 12px;
+  }
+
+  @media print {
+    body { background: white; padding: 0; gap: 0; }
+    .page, .labels-sheet { box-shadow: none; page-break-after: always; width: 100%; }
+    .page-label { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     PAGE 1 — CRIME SCENE NOTICE
+═══════════════════════════════════════ -->
+<div class="page-label">— Page 1: Crime Scene Notice · Place on top of the desk mess —</div>
+<div class="page">
+  <div class="border-outer"></div>
+  <div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+
+  <div class="cs-tape">⚠ &nbsp; Crime Scene — Do Not Touch &nbsp; ⚠</div>
+  <div class="evidence-stamp">Evidence</div>
+
+  <div class="content">
+    <div class="cs-header">
+      <div class="cs-icon">🔎</div>
+      <div class="cs-title">This Desk Has Been<br><span>Ransacked!</span></div>
+      <div class="cs-subtitle">Royal Detective Agency · Scene of the Crime · Act I</div>
+    </div>
+
+    <div class="cs-divider">✦</div>
+
+    <p class="cs-body">
+      Agent Nyxie — the thief has been <em>here</em>. They broke into your playroom in the middle of the night and turned your desk completely upside down, searching for clues about the Crown Jewels. The <em>scoundrel</em> has mixed everything up and left it in a terrible mess.
+    </p>
+
+    <p class="cs-body">
+      But here is the good news — our agents believe the thief accidentally dropped a <strong>secret document</strong> somewhere in the chaos before they fled. It is hidden underneath all of this mess.
+    </p>
+
+    <div class="cs-instruction-box">
+      <span class="cs-instruction-box-title">⚑ Agent Nyxie — Your Orders</span>
+      <div class="cs-step">
+        <span class="cs-step-num">I.</span>
+        <span>Look carefully at each drawer label on this desk. Every item belongs somewhere — use the labels to work out where each thing goes.</span>
+      </div>
+      <div class="cs-step">
+        <span class="cs-step-num">II.</span>
+        <span>Sort <em>everything</em> on this desk back into its correct drawer. Not one item must be left on the surface.</span>
+      </div>
+      <div class="cs-step">
+        <span class="cs-step-num">III.</span>
+        <span>Once the desk is completely clear, search for the hidden document underneath. The next clue to the Crown Jewels is waiting for you inside.</span>
+      </div>
+    </div>
+
+    <div class="cs-warning">
+      ⚠ &nbsp; The secret document cannot be found until every single item has been put away correctly &nbsp; ⚠
+    </div>
+
+    <div class="cs-ref">
+      Royal Detective Agency · Case RDA/CROWN/001 · Act I: The Scrambled Files · Playroom
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     PAGE 2 — DRAWER LABELS
+═══════════════════════════════════════ -->
+<div class="page-label">— Page 2: Drawer Labels · Cut out and stick on each drawer —</div>
+<div class="labels-sheet">
+  <div class="labels-header">
+    <h2>👑 &nbsp; Drawer Labels — Agent Nyxie's Desk &nbsp; 👑</h2>
+    <p>Cut out and stick one label on each drawer · Case RDA/CROWN/001</p>
+  </div>
+
+  <div class="drawer-grid">
+
+    <div class="drawer-label">
+      <div class="drawer-icon">✏️</div>
+      <div class="drawer-name">Pens &<br>Stationery</div>
+      <div class="drawer-sub">Pens · Pencils · Rulers</div>
+    </div>
+
+    <div class="drawer-label">
+      <div class="drawer-icon">🎨</div>
+      <div class="drawer-name">Craft Box</div>
+      <div class="drawer-sub">Craft Supplies & Materials</div>
+    </div>
+
+    <div class="drawer-label">
+      <div class="drawer-icon">🖍️</div>
+      <div class="drawer-name">Colouring</div>
+      <div class="drawer-sub">Colouring Books & Sheets</div>
+    </div>
+
+    <div class="drawer-label">
+      <div class="drawer-icon">📄</div>
+      <div class="drawer-name">Blank Paper</div>
+      <div class="drawer-sub">Plain Sheets & Notepads</div>
+    </div>
+
+    <div class="drawer-label">
+      <div class="drawer-icon">🛠️</div>
+      <div class="drawer-name">Making Kits</div>
+      <div class="drawer-sub">Kits & Project Sets</div>
+    </div>
+
+    <div class="drawer-label">
+      <div class="drawer-icon">⭐</div>
+      <div class="drawer-name">Keep Drawings<br>& Crafts</div>
+      <div class="drawer-sub">Special Work to Save</div>
+    </div>
+
+    <div class="drawer-label">
+      <div class="drawer-icon">🗑️</div>
+      <div class="drawer-name">Trash</div>
+      <div class="drawer-sub">Things to Throw Away</div>
+    </div>
+
+    <div class="drawer-label">
+      <div class="drawer-icon">🧸</div>
+      <div class="drawer-name">Little Toys</div>
+      <div class="drawer-sub">Small Figures & Toys</div>
+    </div>
+
+    <div class="drawer-label">
+      <div class="drawer-icon">👱‍♀️</div>
+      <div class="drawer-name">Barbies</div>
+      <div class="drawer-sub">Barbie Dolls & Accessories</div>
+    </div>
+
+  </div>
+
+  <div class="labels-footer">
+    Cut along the edges · Stick one label per drawer · Royal Detective Agency · Case RDA/CROWN/001
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     PAGE 3 — SCRAMBLED SENTENCE PUZZLE
+═══════════════════════════════════════ -->
+<div class="page-label">— Page 3: Puzzle Card · Hide face-down under the desk mess —</div>
+<div class="page">
+  <div class="border-outer"></div>
+  <div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+
+  <div class="content">
+
+    <div class="puz-header">
+      <div class="act-tag">⚑ &nbsp; Act I · The Scrambled Files &nbsp; ⚑</div>
+      <h2>The Secret Document</h2>
+      <p>Found at the scene — the thief dropped this while escaping</p>
+    </div>
+
+    <div class="evidence-tag">🏷 Evidence Item · RDA/CROWN/001/A · Handle With Care</div>
+
+    <p class="puz-intro">
+      Well done, Agent Nyxie — you found it! The thief was in such a hurry to escape that they dropped this document on your desk. But the <em>crafty villain</em> has scrambled the words so that nobody else could read it. Only the cleverest detective can put them back in the right order.
+    </p>
+    <p class="puz-intro">
+      Can you unscramble the sentence below to find out where the next clue is hidden?
+    </p>
+
+    <div class="word-tiles-label">🔀 &nbsp; Unscramble these words to make a sentence:</div>
+
+    <div class="word-tiles">
+      <div class="tile">high</div>
+      <div class="tile">the</div>
+      <div class="tile">climbing</div>
+      <div class="tile">is</div>
+      <div class="tile">The</div>
+      <div class="tile">wall</div>
+      <div class="tile">stuck</div>
+      <div class="tile">on</div>
+      <div class="tile">up</div>
+      <div class="tile">clue</div>
+    </div>
+
+    <div class="write-line-wrap">
+      <div class="write-line-label">✏️ &nbsp; Write the sentence in the correct order here:</div>
+      <div class="write-line"></div>
+      <div class="write-line"></div>
+    </div>
+
+    <div class="puz-well-done">
+      <p>
+        When you have worked it out, tell Agents Daddy and Gemmy Pants your answer.<br><br>
+        <strong>The answer will tell you exactly where to go next. 🔍</strong>
+      </p>
+    </div>
+
+    <div class="puz-footer">
+      Royal Detective Agency · Case RDA/CROWN/001 · Act I Complete · Collect your badge!
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acts VI, VII & VIII</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a1008;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 80px;
+    gap: 60px;
+    font-family: 'IM Fell English', serif;
+  }
+  .page-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    color: rgba(201,168,76,0.45);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: -50px;
+  }
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: #fdf3e3;
+    position: relative;
+    padding: 48px 58px;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+    overflow: hidden;
+  }
+  .page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(180,140,90,0.14) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(160,120,70,0.11) 0%, transparent 50%);
+    pointer-events: none; z-index: 0;
+  }
+  .border-outer { position: absolute; inset: 16px; border: 2.5px solid #8b6914; pointer-events: none; z-index: 1; }
+  .border-inner { position: absolute; inset: 22px; border: 1px solid rgba(139,105,20,0.35); pointer-events: none; z-index: 1; }
+  .corner { position: absolute; width: 38px; height: 38px; z-index: 2; }
+  .corner svg { width: 38px; height: 38px; }
+  .corner.tl { top: 9px; left: 9px; }
+  .corner.tr { top: 9px; right: 9px; transform: scaleX(-1); }
+  .corner.bl { bottom: 9px; left: 9px; transform: scaleY(-1); }
+  .corner.br { bottom: 9px; right: 9px; transform: scale(-1,-1); }
+  .content { position: relative; z-index: 3; }
+
+  .puz-header { text-align: center; padding-bottom: 16px; border-bottom: 1.5px solid #8b6914; margin-bottom: 24px; }
+  .act-tag { font-family: 'Special Elite', monospace; font-size: 9px; color: #8b6914; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; }
+  .puz-title { font-family: 'Cinzel', serif; font-size: 22px; font-weight: 700; color: #3a1f04; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+  .puz-sub { font-family: 'IM Fell English', serif; font-style: italic; font-size: 12px; color: #8b6914; }
+
+  .body-text { font-family: 'IM Fell English', serif; font-size: 14px; line-height: 1.8; color: #2e1c08; margin-bottom: 16px; text-align: justify; }
+  .body-text em { font-style: italic; color: #5c3d0a; }
+
+  .box {
+    border: 1.5px solid #8b6914;
+    background: rgba(139,105,20,0.05);
+    padding: 16px 20px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .box-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: absolute;
+    top: -9px; left: 16px;
+    background: #fdf3e3;
+    padding: 0 8px;
+    white-space: nowrap;
+  }
+
+  /* ── ACT VI: BALCONY ── */
+  .lookout-icon { text-align: center; font-size: 48px; margin-bottom: 12px; line-height: 1; }
+
+  .photo-placeholder {
+    border: 2px dashed #8b6914;
+    background: rgba(139,105,20,0.04);
+    padding: 30px 20px;
+    text-align: center;
+    margin: 18px 0;
+  }
+  .photo-placeholder-text {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    color: rgba(139,105,20,0.5);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    line-height: 1.8;
+  }
+
+  .answer-line-wrap { margin: 14px 0; }
+  .answer-line-label { font-family: 'Special Elite', monospace; font-size: 9px; color: #8b6914; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; display: block; }
+  .answer-line { border-bottom: 1.5px solid #8b6914; height: 32px; width: 100%; }
+
+  /* ── ACT VII: OFFICE ── */
+  .suspect-profile {
+    border: 2px solid #8b6914;
+    background: rgba(255,255,255,0.3);
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .evidence-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .evidence-chip {
+    border: 1px solid rgba(139,105,20,0.4);
+    background: rgba(139,105,20,0.05);
+    padding: 8px 12px;
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: #5c3d0a;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    line-height: 1.5;
+  }
+  .evidence-chip .chip-label { color: #8b6914; display: block; font-size: 8px; margin-bottom: 2px; }
+
+  .write-section { margin-bottom: 14px; }
+  .write-question { font-family: 'IM Fell English', serif; font-size: 14px; color: #2e1c08; margin-bottom: 8px; line-height: 1.5; }
+  .write-lines { display: flex; flex-direction: column; gap: 8px; }
+  .write-line { border-bottom: 1px solid rgba(139,105,20,0.45); height: 28px; }
+
+  /* ── ACT VIII: MINI CLUE CARDS ── */
+  .clue-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .clue-card {
+    border: 2px solid #8b6914;
+    background: #fdf3e3;
+    padding: 14px 12px;
+    text-align: center;
+    position: relative;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .clue-card::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 0.75px solid rgba(139,105,20,0.25);
+    pointer-events: none;
+  }
+  .clue-card-num {
+    font-family: 'Special Elite', monospace;
+    font-size: 8px;
+    color: #8b6914;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .clue-card-icon { font-size: 26px; margin-bottom: 8px; }
+  .clue-card-text {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: #2e1c08;
+    line-height: 1.6;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+  }
+  .clue-card-location {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(139,105,20,0.25);
+  }
+
+  .cut-guide {
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: rgba(139,105,20,0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+
+  .final-banner {
+    background: rgba(139,105,20,0.07);
+    border: 2px solid #8b6914;
+    padding: 16px 20px;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+  .final-banner p {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: #3a1f04;
+    line-height: 1.7;
+  }
+  .final-banner strong {
+    font-family: 'Cinzel', serif;
+    font-style: normal;
+    font-size: 12px;
+    color: #3a1f04;
+    letter-spacing: 1px;
+  }
+
+  .next-clue-banner {
+    background: rgba(139,105,20,0.07);
+    border: 1.5px solid #8b6914;
+    padding: 12px 18px;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+  .next-clue-banner p { font-family: 'IM Fell English', serif; font-style: italic; font-size: 13px; color: #5c3d0a; line-height: 1.7; }
+  .next-clue-banner strong { font-family: 'Cinzel', serif; font-style: normal; font-size: 11px; color: #3a1f04; letter-spacing: 1px; }
+
+  .puz-footer {
+    text-align: center;
+    font-family: 'Special Elite', monospace;
+    font-size: 8.5px;
+    color: rgba(92,61,10,0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(139,105,20,0.2);
+    padding-top: 12px;
+  }
+
+  @media print {
+    body { background: white; padding: 0; gap: 0; }
+    .page { box-shadow: none; page-break-after: always; width: 100%; min-height: auto; }
+    .page-label { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ ACT VI: BALCONY ═══ -->
+<div class="page-label">— Act VI · The Lookout · Leave on the balcony (weigh down!) —</div>
+<div class="page">
+  <div class="border-outer"></div><div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="content">
+    <div class="puz-header">
+      <div class="act-tag">⚑ &nbsp; Act VI · The Lookout &nbsp; ⚑</div>
+      <div class="puz-title">🔭 The Lookout Point</div>
+      <div class="puz-sub">Found on the balcony — the highest outdoor point in the Kingdom</div>
+    </div>
+
+    <div class="lookout-icon">🔭</div>
+
+    <p class="body-text">
+      Outstanding work reaching the Lookout, Agent Nyxie! From up here you can see across the whole Kingdom. Our intelligence suggests the thief was spotted heading towards a room deep inside the house — and we have managed to photograph the exact location. Study the photograph carefully.
+    </p>
+
+    <div class="box">
+      <span class="box-title">📸 &nbsp; Intelligence Photograph — Taken the night of the crime</span>
+      <div class="photo-placeholder">
+        <div class="photo-placeholder-text">
+          🖨 &nbsp; DADDY: Print a photo of one of the offices here<br>
+          and attach it to this sheet before hiding it on the balcony<br><br>
+          (Any photo of the office will do — even a screenshot on your phone<br>
+          printed and stuck in this box with a glue stick)
+        </div>
+      </div>
+    </div>
+
+    <p class="body-text">
+      Look very carefully at the photograph, Agent Nyxie. <em>Which room is this?</em> Can you recognise it? That is where your next clue is hidden — go there now and search carefully!
+    </p>
+
+    <div class="answer-line-wrap">
+      <span class="answer-line-label">✏️ &nbsp; I think this room is:</span>
+      <div class="answer-line"></div>
+    </div>
+
+    <div class="next-clue-banner">
+      <p>Head to the room in the photograph — your next clue is hidden there, waiting for you. <strong>The Office!</strong> 🏠</p>
+    </div>
+
+    <div class="puz-footer">Royal Detective Agency · Case RDA/CROWN/001 · Act VI Complete · Collect your badge!</div>
+  </div>
+</div>
+
+
+<!-- ═══ ACT VII: OFFICE ═══ -->
+<div class="page-label">— Act VII · The Hidden Office · Leave on the desk in the office —</div>
+<div class="page">
+  <div class="border-outer"></div><div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="content">
+    <div class="puz-header">
+      <div class="act-tag">⚑ &nbsp; Act VII · The Hidden Office &nbsp; ⚑</div>
+      <div class="puz-title">🖊 The Suspect Report</div>
+      <div class="puz-sub">Use every clue you have collected today to build your suspect profile</div>
+    </div>
+
+    <p class="body-text">
+      You are getting very close now, Agent Nyxie. The Royal Detective Agency needs one final piece of evidence before we can name the culprit — a <em>Suspect Report</em>, written by you. Use everything you have discovered today to describe the thief as best you can.
+    </p>
+
+    <div class="box">
+      <span class="box-title">🗂 &nbsp; Evidence Collected So Far</span>
+      <div class="evidence-summary">
+        <div class="evidence-chip"><span class="chip-label">From Geraferty (Garage)</span>Sneaky creature · Moving very fast · Carrying something shiny</div>
+        <div class="evidence-chip"><span class="chip-label">From Lamby (Garden)</span>Ran through the secret garden · Disappeared into the shadows</div>
+        <div class="evidence-chip"><span class="chip-label">From Daddy Ooo Ooo (Coop)</span>Ran past the chicken coop · Carrying a bag · Very sneaky</div>
+        <div class="evidence-chip"><span class="chip-label">Your garden observations</span>What did YOU notice outside? Check your evidence sheet!</div>
+      </div>
+    </div>
+
+    <div class="suspect-profile">
+      <span class="box-title">📋 &nbsp; Suspect Report — Written by Agent Nyxie</span>
+
+      <div class="write-section">
+        <div class="write-question">1. What do you think the suspect looks like? Describe them:</div>
+        <div class="write-lines">
+          <div class="write-line"></div>
+          <div class="write-line"></div>
+          <div class="write-line"></div>
+        </div>
+      </div>
+
+      <div class="write-section">
+        <div class="write-question">2. How did the suspect behave? What were they doing?</div>
+        <div class="write-lines">
+          <div class="write-line"></div>
+          <div class="write-line"></div>
+        </div>
+      </div>
+
+      <div class="write-section">
+        <div class="write-question">3. Do you have any idea who or what the suspect might be?</div>
+        <div class="write-lines">
+          <div class="write-line"></div>
+          <div class="write-line"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-clue-banner">
+      <p>Brilliant detective work! Your suspect report is now part of the official case file. 🕵️<br>
+      Now the chase is on — follow <strong>THE FINAL TRAIL</strong> to catch them!</p>
+    </div>
+
+    <div class="puz-footer">Royal Detective Agency · Case RDA/CROWN/001 · Act VII Complete · Collect your badge!</div>
+  </div>
+</div>
+
+
+<!-- ═══ ACT VIII: FINAL TRAIL CARDS ═══ -->
+<div class="page-label">— Act VIII · Final Trail Cards · Cut out and hide one per room in sequence —</div>
+<div class="page">
+  <div class="border-outer"></div><div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="content">
+    <div class="puz-header">
+      <div class="act-tag">⚑ &nbsp; Act VIII · The Final Trail &nbsp; ⚑</div>
+      <div class="puz-title">🏃 The Chase is On!</div>
+      <div class="puz-sub">Three clues — three rooms — the Crown Jewels are close!</div>
+    </div>
+
+    <p class="body-text">
+      The thief is almost caught! Our agents have tracked them through the house — follow these three clues as fast as you can. Each one leads to the next. <em>Go, go, go!</em>
+    </p>
+
+    <div class="cut-guide">✂ — Cut out each card and hide them in the rooms listed below — ✂</div>
+
+    <div class="clue-cards">
+      <div class="clue-card">
+        <div class="clue-card-num">🔍 Clue 1 of 3</div>
+        <div class="clue-card-icon">🛁</div>
+        <div class="clue-card-text">"The thief washed their hands of the crime — look where the bubbles go!"</div>
+        <div class="clue-card-location">→ Family Bathroom</div>
+      </div>
+      <div class="clue-card">
+        <div class="clue-card-num">🔍 Clue 2 of 3</div>
+        <div class="clue-card-icon">🛋️</div>
+        <div class="clue-card-text">"They rested here a moment — somewhere soft and cosy, perfect for hiding."</div>
+        <div class="clue-card-location">→ The Snug</div>
+      </div>
+      <div class="clue-card">
+        <div class="clue-card-num">🔍 Clue 3 of 3</div>
+        <div class="clue-card-icon">🚨</div>
+        <div class="clue-card-text">"ALERT! The jewels are protected by a high-security laser vault. Only the bravest agent can pass!"</div>
+        <div class="clue-card-location">→ The Laser Vault!</div>
+      </div>
+    </div>
+
+    <div class="final-banner">
+      <p>
+        🚨 &nbsp; <strong>DADDY — SETUP NOTE</strong> &nbsp; 🚨<br><br>
+        Hide Clue 1 in the family bathroom · Hide Clue 2 in the snug<br>
+        Clue 3 is found in the snug and sends Nyxie to the Laser Vault<br>
+        <strong>Set up the tape laser beams BEFORE she reaches the hallway!</strong>
+      </p>
+    </div>
+
+    <div class="puz-footer">Royal Detective Agency · Case RDA/CROWN/001 · Act VIII — The Final Chase Begins!</div>
+  </div>
+</div>
+
+</body>
+</html>

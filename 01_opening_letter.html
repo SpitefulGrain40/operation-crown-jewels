@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Royal Detective Agency — Opening Letter</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #2c1a0e;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 40px 20px;
+    font-family: 'IM Fell English', serif;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: #fdf3e3;
+    position: relative;
+    padding: 50px 60px;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+    overflow: hidden;
+  }
+
+  /* Aged paper texture */
+  .page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(180,140,90,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(160,120,70,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at 60% 40%, rgba(200,160,100,0.08) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Decorative border */
+  .border-outer {
+    position: absolute;
+    inset: 18px;
+    border: 2.5px solid #8b6914;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .border-inner {
+    position: absolute;
+    inset: 24px;
+    border: 1px solid rgba(139,105,20,0.4);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Corner ornaments */
+  .corner {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    z-index: 2;
+  }
+  .corner svg { width: 40px; height: 40px; }
+  .corner.tl { top: 10px; left: 10px; }
+  .corner.tr { top: 10px; right: 10px; transform: scaleX(-1); }
+  .corner.bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
+  .corner.br { bottom: 10px; right: 10px; transform: scale(-1,-1); }
+
+  .content {
+    position: relative;
+    z-index: 3;
+    padding-top: 10px;
+  }
+
+  /* Header */
+  .agency-header {
+    text-align: center;
+    margin-bottom: 28px;
+    padding-bottom: 18px;
+    border-bottom: 1.5px solid #8b6914;
+  }
+
+  .crown {
+    font-size: 42px;
+    line-height: 1;
+    margin-bottom: 4px;
+    filter: drop-shadow(0 2px 4px rgba(139,105,20,0.4));
+  }
+
+  .agency-name {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #5c3d0a;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+
+  .agency-sub {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 400;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .divider-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 12px 0;
+    color: #8b6914;
+    font-size: 14px;
+  }
+  .divider-line::before, .divider-line::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #8b6914;
+    opacity: 0.5;
+  }
+
+  /* Ref line */
+  .ref-line {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    color: #8b6914;
+    text-align: right;
+    margin-bottom: 6px;
+    opacity: 0.8;
+  }
+
+  .date-line {
+    font-family: 'Special Elite', monospace;
+    font-size: 11px;
+    color: #5c3d0a;
+    text-align: right;
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+
+  /* URGENT stamp — lower half so it never covers the header */
+  .urgent-stamp {
+    position: absolute;
+    bottom: 210px;
+    left: 36px;
+    border: 4px solid #c0392b;
+    color: #c0392b;
+    font-family: 'Special Elite', monospace;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    padding: 4px 10px;
+    transform: rotate(-10deg);
+    opacity: 0.8;
+    z-index: 10;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+  /* Classified stamp — bottom right area */
+  .classified-stamp {
+    position: absolute;
+    bottom: 165px;
+    right: 44px;
+    border: 3px solid #8b6914;
+    color: #8b6914;
+    font-family: 'Special Elite', monospace;
+    font-size: 13px;
+    letter-spacing: 3px;
+    padding: 3px 8px;
+    transform: rotate(7deg);
+    opacity: 0.65;
+    z-index: 10;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+  /* Salutation */
+  .salutation {
+    font-family: 'IM Fell English', serif;
+    font-size: 15px;
+    color: #3a2408;
+    margin-bottom: 16px;
+  }
+
+  .agent-name {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #5c3d0a;
+    display: block;
+    margin-top: 4px;
+    letter-spacing: 2px;
+  }
+
+  /* Body text */
+  .body-text {
+    font-family: 'IM Fell English', serif;
+    font-size: 14.5px;
+    line-height: 1.85;
+    color: #2e1c08;
+    margin-bottom: 14px;
+    text-align: justify;
+  }
+
+  .body-text em {
+    font-style: italic;
+    color: #5c3d0a;
+    font-size: 15px;
+  }
+
+  /* Mission briefing box */
+  .mission-box {
+    border: 1.5px solid #8b6914;
+    background: rgba(139,105,20,0.06);
+    padding: 22px 20px 16px 20px;
+    margin: 28px 0 20px 0;
+    position: relative;
+  }
+
+  .mission-box-title {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: absolute;
+    top: -9px;
+    left: 16px;
+    background: #fdf3e3;
+    padding: 0 8px; white-space: nowrap;
+  }
+
+  .mission-item {
+    font-family: 'Special Elite', monospace;
+    font-size: 12px;
+    color: #3a2408;
+    margin-bottom: 7px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+
+  .mission-item span.bullet {
+    color: #8b6914;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* Signature area */
+  .signature-area {
+    margin-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .sign-left {
+    flex: 1;
+  }
+
+  .sign-right {
+    text-align: right;
+    flex: 1;
+  }
+
+  .closing {
+    font-family: 'IM Fell English', serif;
+    font-size: 14px;
+    color: #3a2408;
+    margin-bottom: 40px;
+    font-style: italic;
+  }
+
+  .signature-text {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    color: #5c3d0a;
+    letter-spacing: 1px;
+    border-top: 1px solid #8b6914;
+    padding-top: 6px;
+    margin-top: 4px;
+  }
+
+  .signature-scrawl {
+    font-family: 'IM Fell English', serif;
+    font-size: 28px;
+    font-style: italic;
+    color: #1a3a6b;
+    line-height: 1;
+    margin-bottom: 2px;
+    letter-spacing: -1px;
+  }
+
+  .seal {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #8b6914;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(139,105,20,0.08);
+    margin-left: auto;
+    position: relative;
+  }
+
+  .seal-text {
+    font-family: 'Cinzel', serif;
+    font-size: 7px;
+    color: #8b6914;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .seal-icon {
+    font-size: 22px;
+    margin-bottom: 2px;
+  }
+
+  /* Red wax seal look */
+  .wax-seal {
+    position: absolute;
+    bottom: 52px;
+    right: 80px;
+    width: 70px;
+    height: 70px;
+    background: radial-gradient(circle at 40% 35%, #e74c3c, #922b21);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 3px 10px rgba(0,0,0,0.3), inset 0 1px 2px rgba(255,255,255,0.2);
+    z-index: 10;
+    transform: rotate(-15deg);
+  }
+
+  .wax-text {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    color: rgba(255,255,255,0.9);
+    text-align: center;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 24px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(139,105,20,0.3);
+    text-align: center;
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: rgba(92,61,10,0.5);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .page {
+      box-shadow: none;
+      width: 100%;
+      min-height: auto;
+      padding: 40px 55px;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="border-outer"></div>
+  <div class="border-inner"></div>
+
+  <!-- Corner ornaments -->
+  <div class="corner tl">
+    <svg viewBox="0 0 40 40" fill="none">
+      <path d="M2 38 L2 2 L38 2" stroke="#8b6914" stroke-width="1.5" fill="none"/>
+      <path d="M2 2 L12 12" stroke="#8b6914" stroke-width="1" opacity="0.5"/>
+      <circle cx="2" cy="2" r="2.5" fill="#8b6914"/>
+      <path d="M8 2 L8 8 L2 8" stroke="#8b6914" stroke-width="1" opacity="0.4" fill="none"/>
+    </svg>
+  </div>
+  <div class="corner tr">
+    <svg viewBox="0 0 40 40" fill="none">
+      <path d="M2 38 L2 2 L38 2" stroke="#8b6914" stroke-width="1.5" fill="none"/>
+      <path d="M2 2 L12 12" stroke="#8b6914" stroke-width="1" opacity="0.5"/>
+      <circle cx="2" cy="2" r="2.5" fill="#8b6914"/>
+      <path d="M8 2 L8 8 L2 8" stroke="#8b6914" stroke-width="1" opacity="0.4" fill="none"/>
+    </svg>
+  </div>
+  <div class="corner bl">
+    <svg viewBox="0 0 40 40" fill="none">
+      <path d="M2 38 L2 2 L38 2" stroke="#8b6914" stroke-width="1.5" fill="none"/>
+      <path d="M2 2 L12 12" stroke="#8b6914" stroke-width="1" opacity="0.5"/>
+      <circle cx="2" cy="2" r="2.5" fill="#8b6914"/>
+      <path d="M8 2 L8 8 L2 8" stroke="#8b6914" stroke-width="1" opacity="0.4" fill="none"/>
+    </svg>
+  </div>
+  <div class="corner br">
+    <svg viewBox="0 0 40 40" fill="none">
+      <path d="M2 38 L2 2 L38 2" stroke="#8b6914" stroke-width="1.5" fill="none"/>
+      <path d="M2 2 L12 12" stroke="#8b6914" stroke-width="1" opacity="0.5"/>
+      <circle cx="2" cy="2" r="2.5" fill="#8b6914"/>
+      <path d="M8 2 L8 8 L2 8" stroke="#8b6914" stroke-width="1" opacity="0.4" fill="none"/>
+    </svg>
+  </div>
+
+  <!-- Stamps -->
+  <div class="urgent-stamp">⚠ Urgent</div>
+  <div class="classified-stamp">★ Top Secret ★</div>
+
+  <div class="content">
+
+    <!-- Header -->
+    <div class="agency-header">
+      <div class="crown">👑</div>
+      <div class="agency-name">The Royal Detective Agency</div>
+      <div class="agency-sub">Est. by Royal Decree · Protectors of the Kingdom</div>
+      <div class="divider-line">✦</div>
+      <div class="agency-sub" style="letter-spacing:2px; font-size:9px; opacity:0.7;">Keeper of Secrets · Solver of Mysteries · Defender of Justice</div>
+    </div>
+
+    <div class="ref-line">REF: RDA/CROWN/CASE-001 &nbsp;|&nbsp; CLASSIFICATION: EYES ONLY</div>
+    <div class="date-line">Delivered this Saturday, at the stroke of 10 o'clock in the morning</div>
+
+    <!-- Salutation -->
+    <div class="salutation">
+      To our most trusted operative —
+      <span class="agent-name">Agent Nyxie</span>
+    </div>
+
+    <!-- Body -->
+    <p class="body-text">
+      We write to you in the gravest of urgency. A most <em>terrible</em> thing has happened in the Kingdom overnight, and we fear that only you — our finest and cleverest detective — has the brilliance to set things right.
+    </p>
+
+    <p class="body-text">
+      The <em>Crown Jewels of the Secret Garden Kingdom</em> have been stolen.
+    </p>
+
+    <p class="body-text">
+      Sometime between midnight and dawn, a cunning and crafty villain crept through this very house, leaving behind a trail of puzzles, riddles, and hidden clues — as if they <em>wanted</em> to be caught. Our agents on the ground believe the thief was not working alone, and that the jewels are still hidden somewhere nearby, waiting to be recovered.
+    </p>
+
+    <div class="mission-box">
+      <span class="mission-box-title">⚑ Your Mission, Should You Choose to Accept It</span>
+      <div class="mission-item"><span class="bullet">I.</span><span>Follow the trail of clues hidden throughout the Kingdom (the house and its grounds).</span></div>
+      <div class="mission-item"><span class="bullet">II.</span><span>Solve every puzzle left behind by the thief to unlock the next location.</span></div>
+      <div class="mission-item"><span class="bullet">III.</span><span>Brave every challenge — physical, mental, and otherwise — that stands in your way.</span></div>
+      <div class="mission-item"><span class="bullet">IV.</span><span>Recover the Crown Jewels and bring justice to the Secret Garden Kingdom.</span></div>
+    </div>
+
+    <p class="body-text">
+      You will not be alone. Two field assistants — <em>Agents Gemmy Pants and Daddy</em> — will accompany you, though between us, they are known to be rather bumbling and will need your expert guidance throughout.
+    </p>
+
+    <p class="body-text">
+      Your <strong>Detective Dossier</strong> is enclosed. Keep it with you at all times. Every clue you find, every puzzle you solve, and every badge you earn should be kept safe inside it — for they may all be needed before this day is done.
+    </p>
+
+    <p class="body-text">
+      The Kingdom is counting on you, Agent Nyxie. We have every confidence you will not let us down.
+    </p>
+
+    <!-- Signature -->
+    <div class="signature-area">
+      <div class="sign-left">
+        <div class="closing">With the highest of hopes,</div>
+        <div class="signature-scrawl">R. Crownsworth</div>
+        <div class="signature-text">Commander R. Crownsworth<br>Director General, Royal Detective Agency</div>
+      </div>
+    </div>
+
+  </div><!-- end content -->
+
+  <!-- Wax seal -->
+  <div class="wax-seal">
+    <div class="wax-text">R.D.A.<br>👑<br>OFFICIAL</div>
+  </div>
+
+  <div class="footer">
+    Royal Detective Agency · Est. by Royal Decree · This document is classified — for Agent Nyxie's eyes only
+  </div>
+
+</div>
+</body>
+</html>

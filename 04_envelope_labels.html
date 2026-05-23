@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RDA Envelope Labels</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1a1008;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    font-family: 'IM Fell English', serif;
+  }
+
+  .page-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    color: rgba(201,168,76,0.45);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .sheet {
+    width: 210mm;
+    min-height: 297mm;
+    background: #fdf3e3;
+    padding: 12mm 10mm;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: repeat(3, auto);
+    gap: 8mm;
+    align-content: start;
+  }
+
+  /* Individual label */
+  .label {
+    border: 1.5px solid #8b6914;
+    background: #fdf3e3;
+    padding: 10px 12px;
+    position: relative;
+    min-height: 72px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+
+  /* Aged texture per label */
+  .label::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(ellipse at 20% 30%, rgba(180,140,90,0.1) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* Inner border */
+  .label::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 0.5px solid rgba(139,105,20,0.25);
+    pointer-events: none;
+  }
+
+  .label-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 5px;
+  }
+
+  .label-crown { font-size: 12px; flex-shrink: 0; }
+
+  .label-from {
+    font-family: 'Cinzel', serif;
+    font-size: 6px;
+    font-weight: 600;
+    color: #8b6914;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    line-height: 1.5;
+  }
+
+  .label-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, #8b6914, rgba(139,105,20,0.2));
+    margin-bottom: 6px;
+  }
+
+  .label-to-line {
+    font-family: 'Special Elite', monospace;
+    font-size: 7px;
+    color: rgba(92,61,10,0.55);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .label-name {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #3a1f04;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+
+  .label-act {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 9px;
+    color: #5c3d0a;
+    margin-bottom: 4px;
+  }
+
+  .label-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .label-ref {
+    font-family: 'Special Elite', monospace;
+    font-size: 6.5px;
+    color: rgba(92,61,10,0.4);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .label-stamp {
+    border: 1.5px solid rgba(192,57,43,0.5);
+    color: rgba(192,57,43,0.6);
+    font-family: 'Special Elite', monospace;
+    font-size: 6px;
+    letter-spacing: 1.5px;
+    padding: 1px 4px;
+    text-transform: uppercase;
+    transform: rotate(4deg);
+  }
+
+  /* Scissors cut guide */
+  .cut-hint {
+    text-align: center;
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: rgba(201,168,76,0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .page-label, .cut-hint { display: none; }
+    .sheet { box-shadow: none; padding: 10mm 8mm; width: 100%; min-height: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-label">— Envelope Label Stickers · Print on Sticker Paper or Cut &amp; Stick —</div>
+
+<div class="sheet">
+
+  <!-- Label 1: Opening -->
+  <div class="label">
+    <div>
+      <div class="label-top">
+        <span class="label-crown">👑</span>
+        <div class="label-from">The Royal<br>Detective Agency</div>
+      </div>
+      <div class="label-divider"></div>
+      <div class="label-to-line">For the attention of</div>
+      <div class="label-name">Agent Nyxie</div>
+      <div class="label-act">Opening Briefing · Mission Assignment</div>
+    </div>
+    <div class="label-bottom">
+      <div class="label-ref">RDA/CROWN/001 · OPEN FIRST</div>
+      <div class="label-stamp">Urgent</div>
+    </div>
+  </div>
+
+  <!-- Label 2: Act I -->
+  <div class="label">
+    <div>
+      <div class="label-top">
+        <span class="label-crown">👑</span>
+        <div class="label-from">The Royal<br>Detective Agency</div>
+      </div>
+      <div class="label-divider"></div>
+      <div class="label-to-line">For the attention of</div>
+      <div class="label-name">Agent Nyxie</div>
+      <div class="label-act">Act I · The Scrambled Files</div>
+    </div>
+    <div class="label-bottom">
+      <div class="label-ref">RDA/CROWN/001 · PLAYROOM</div>
+      <div class="label-stamp">Classified</div>
+    </div>
+  </div>
+
+  <!-- Label 3: Act II -->
+  <div class="label">
+    <div>
+      <div class="label-top">
+        <span class="label-crown">👑</span>
+        <div class="label-from">The Royal<br>Detective Agency</div>
+      </div>
+      <div class="label-divider"></div>
+      <div class="label-to-line">For the attention of</div>
+      <div class="label-name">Agent Nyxie</div>
+      <div class="label-act">Act II · The Suspect's Hideout</div>
+    </div>
+    <div class="label-bottom">
+      <div class="label-ref">RDA/CROWN/001 · GARAGE</div>
+      <div class="label-stamp">Classified</div>
+    </div>
+  </div>
+
+  <!-- Label 4: Act III -->
+  <div class="label">
+    <div>
+      <div class="label-top">
+        <span class="label-crown">👑</span>
+        <div class="label-from">The Royal<br>Detective Agency</div>
+      </div>
+      <div class="label-divider"></div>
+      <div class="label-to-line">For the attention of</div>
+      <div class="label-name">Agent Nyxie</div>
+      <div class="label-act">Act III · The Secret Garden</div>
+    </div>
+    <div class="label-bottom">
+      <div class="label-ref">RDA/CROWN/001 · SECRET GARDEN</div>
+      <div class="label-stamp">Classified</div>
+    </div>
+  </div>
+
+  <!-- Label 5: Act IV -->
+  <div class="label">
+    <div>
+      <div class="label-top">
+        <span class="label-crown">👑</span>
+        <div class="label-from">The Royal<br>Detective Agency</div>
+      </div>
+      <div class="label-divider"></div>
+      <div class="label-to-line">For the attention of</div>
+      <div class="label-name">Agent Nyxie</div>
+      <div class="label-act">Act IV · The Chicken Witness</div>
+    </div>
+    <div class="label-bottom">
+      <div class="label-ref">RDA/CROWN/001 · CHICKEN COOP</div>
+      <div class="label-stamp">Classified</div>
+    </div>
+  </div>
+
+  <!-- Label 6: Act V -->
+  <div class="label">
+    <div>
+      <div class="label-top">
+        <span class="label-crown">👑</span>
+        <div class="label-from">The Royal<br>Detective Agency</div>
+      </div>
+      <div class="label-divider"></div>
+      <div class="label-to-line">For the attention of</div>
+      <div class="label-name">Agent Nyxie</div>
+      <div class="label-act">Act V · The Gymnastics Vault</div>
+    </div>
+    <div class="label-bottom">
+      <div class="label-ref">RDA/CROWN/001 · OUTHOUSE</div>
+      <div class="label-stamp">Classified</div>
+    </div>
+  </div>
+
+  <!-- Label 7: Act VI -->
+  <div class="label">
+    <div>
+      <div class="label-top">
+        <span class="label-crown">👑</span>
+        <div class="label-from">The Royal<br>Detective Agency</div>
+      </div>
+      <div class="label-divider"></div>
+      <div class="label-to-line">For the attention of</div>
+      <div class="label-name">Agent Nyxie</div>
+      <div class="label-act">Act VI · The Lookout</div>
+    </div>
+    <div class="label-bottom">
+      <div class="label-ref">RDA/CROWN/001 · BALCONY</div>
+      <div class="label-stamp">Classified</div>
+    </div>
+  </div>
+
+  <!-- Label 8: Act VII -->
+  <div class="label">
+    <div>
+      <div class="label-top">
+        <span class="label-crown">👑</span>
+        <div class="label-from">The Royal<br>Detective Agency</div>
+      </div>
+      <div class="label-divider"></div>
+      <div class="label-to-line">For the attention of</div>
+      <div class="label-name">Agent Nyxie</div>
+      <div class="label-act">Act VII · The Hidden Office</div>
+    </div>
+    <div class="label-bottom">
+      <div class="label-ref">RDA/CROWN/001 · OFFICE</div>
+      <div class="label-stamp">Classified</div>
+    </div>
+  </div>
+
+  <!-- Label 9: Final Trail -->
+  <div class="label">
+    <div>
+      <div class="label-top">
+        <span class="label-crown">👑</span>
+        <div class="label-from">The Royal<br>Detective Agency</div>
+      </div>
+      <div class="label-divider"></div>
+      <div class="label-to-line">For the attention of</div>
+      <div class="label-name">Agent Nyxie</div>
+      <div class="label-act">Act VIII · The Final Trail</div>
+    </div>
+    <div class="label-bottom">
+      <div class="label-ref">RDA/CROWN/001 · FINAL CLUE</div>
+      <div class="label-stamp">Top Secret</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="cut-hint">✂ — Print on sticker paper, or cut out and stick onto envelopes — ✂</div>
+
+</body>
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Act IV — The Chicken Witness</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a1008;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 80px;
+    gap: 60px;
+    font-family: 'IM Fell English', serif;
+  }
+  .page-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    color: rgba(201,168,76,0.45);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: -50px;
+  }
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: #fdf3e3;
+    position: relative;
+    padding: 48px 58px;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+    overflow: hidden;
+  }
+  .page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(180,140,90,0.14) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(160,120,70,0.11) 0%, transparent 50%);
+    pointer-events: none; z-index: 0;
+  }
+  .border-outer { position: absolute; inset: 16px; border: 2.5px solid #8b6914; pointer-events: none; z-index: 1; }
+  .border-inner { position: absolute; inset: 22px; border: 1px solid rgba(139,105,20,0.35); pointer-events: none; z-index: 1; }
+  .corner { position: absolute; width: 38px; height: 38px; z-index: 2; }
+  .corner svg { width: 38px; height: 38px; }
+  .corner.tl { top: 9px; left: 9px; }
+  .corner.tr { top: 9px; right: 9px; transform: scaleX(-1); }
+  .corner.bl { bottom: 9px; left: 9px; transform: scaleY(-1); }
+  .corner.br { bottom: 9px; right: 9px; transform: scale(-1,-1); }
+  .content { position: relative; z-index: 3; }
+
+  .puz-header {
+    text-align: center;
+    padding-bottom: 16px;
+    border-bottom: 1.5px solid #8b6914;
+    margin-bottom: 22px;
+  }
+  .act-tag {
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .puz-title {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #3a1f04;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .puz-sub {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: #8b6914;
+  }
+
+  .found-tag {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    background: rgba(139,105,20,0.06);
+    border: 1px solid rgba(139,105,20,0.25);
+    padding: 8px 14px;
+  }
+  .found-tag-text {
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: #8b6914;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .task-intro {
+    font-family: 'IM Fell English', serif;
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: #2e1c08;
+    margin-bottom: 18px;
+    text-align: justify;
+  }
+  .task-intro em { font-style: italic; color: #5c3d0a; }
+
+  .instruction-box {
+    border: 1.5px solid #8b6914;
+    background: rgba(139,105,20,0.05);
+    padding: 12px 18px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .instruction-box-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: absolute;
+    top: -9px; left: 16px;
+    background: #fdf3e3;
+    padding: 0 8px;
+    white-space: nowrap;
+  }
+  .instruction-text {
+    font-family: 'IM Fell English', serif;
+    font-size: 13px;
+    color: #2e1c08;
+    line-height: 1.7;
+  }
+  .instruction-text strong {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    color: #3a1f04;
+  }
+
+  /* The letter itself */
+  .letter-box {
+    border: 2px solid #8b6914;
+    background: rgba(255,255,255,0.3);
+    padding: 22px 26px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .letter-box-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: absolute;
+    top: -9px; left: 16px;
+    background: #fdf3e3;
+    padding: 0 8px;
+    white-space: nowrap;
+  }
+
+  .letter-greeting {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #3a1f04;
+    margin-bottom: 14px;
+  }
+
+  .letter-text {
+    font-family: 'IM Fell English', serif;
+    font-size: 14.5px;
+    line-height: 2.1;
+    color: #2e1c08;
+    text-align: justify;
+  }
+
+  /* Wrong word styling */
+  .wrong {
+    display: inline-block;
+    border-bottom: 2.5px solid #c0392b;
+    color: #c0392b;
+    font-style: italic;
+    cursor: default;
+  }
+
+  .correction-line {
+    display: inline-block;
+    border-bottom: 2px solid #2e7d32;
+    min-width: 70px;
+    height: 20px;
+    margin: 0 2px;
+    vertical-align: bottom;
+  }
+
+  .letter-sig-area {
+    margin-top: 18px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(139,105,20,0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .letter-sig {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: #5c3d0a;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .letter-sig-name {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    color: #5c3d0a;
+    letter-spacing: 1px;
+    border-top: 1px solid #8b6914;
+    padding-top: 4px;
+  }
+  .sig-icon { font-size: 38px; }
+
+  .next-clue-banner {
+    background: rgba(139,105,20,0.07);
+    border: 1.5px solid #8b6914;
+    padding: 13px 18px;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+  .next-clue-banner p {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #5c3d0a;
+    line-height: 1.7;
+  }
+  .next-clue-banner strong {
+    font-family: 'Cinzel', serif;
+    font-style: normal;
+    font-size: 11px;
+    color: #3a1f04;
+    letter-spacing: 1px;
+  }
+
+  .puz-footer {
+    text-align: center;
+    font-family: 'Special Elite', monospace;
+    font-size: 8.5px;
+    color: rgba(92,61,10,0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(139,105,20,0.2);
+    padding-top: 12px;
+  }
+
+  @media print {
+    body { background: white; padding: 0; gap: 0; }
+    .page { box-shadow: none; width: 100%; min-height: auto; }
+    .page-label { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-label">— Act IV · The Chicken Witness · Seal in envelope, pin to coop door —</div>
+<div class="page">
+  <div class="border-outer"></div>
+  <div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+
+  <div class="content">
+    <div class="puz-header">
+      <div class="act-tag">⚑ &nbsp; Act IV · The Chicken Witness &nbsp; ⚑</div>
+      <div class="puz-title">A Letter from Daddy Ooo Ooo 🐒</div>
+      <div class="puz-sub">Found at the Chicken Coop — this letter has some very silly mistakes</div>
+    </div>
+
+    <div class="found-tag">
+      <span style="font-size:18px">🐒</span>
+      <span class="found-tag-text">Evidence Item · RDA/CROWN/001/C · Chicken Coop · Handle With Care</span>
+    </div>
+
+    <p class="task-intro">
+      Daddy Ooo Ooo was guarding the chicken coop when the thief came past — but he was <em>so excited</em> that he made lots of silly spelling and word mistakes in his letter! Your job is to read it carefully, <strong>cross out each wrong word in red</strong> and write the correct word on the line next to it.
+    </p>
+
+    <div class="instruction-box">
+      <span class="instruction-box-title">📋 &nbsp; Your Instructions</span>
+      <p class="instruction-text">
+        There are <strong>5 mistakes</strong> hidden in the letter below. Each wrong word is underlined in red. Cross it out and write the correct word on the blank line beside it. When you have fixed all five, read the letter again — it will tell you something very important!
+      </p>
+    </div>
+
+    <div class="letter-box">
+      <span class="letter-box-title">📜 &nbsp; Letter from Daddy Ooo Ooo — Official Witness Account</span>
+
+      <div class="letter-greeting">Dear Agent Nyxie,</div>
+
+      <div class="letter-text">
+        Hello! It is me, Daddy Ooo Ooo! I have been sitting by the
+        <span class="wrong">bath</span> <span class="correction-line"></span>
+        coop all night because I saw something very
+        <span class="wrong">boring</span> <span class="correction-line"></span>
+        happen!
+        <br><br>
+        Last night, a very sneaky
+        <span class="wrong">elephant</span> <span class="correction-line"></span>
+        crept past me in the dark. It was carrying a bag that was full of something
+        <span class="wrong">smelly</span> <span class="correction-line"></span>
+        and sparkly — I think it was the Crown Jewels! The creature ran very fast and
+        <span class="wrong">sat</span> <span class="correction-line"></span>
+        straight through the garden and disappeared!
+        <br><br>
+        I tried to shout "OOO OOO OOO!" but nobody came. So I wrote you this letter instead because you are the best detective I know.
+        <br><br>
+        The Superintendent has heard about all your brilliant work today, Agent Nyxie, and she is waiting for you in the <strong>dining room</strong> with a very special surprise. You had better go there right away!
+        <br><br>
+        Good luck! Ooo ooo ooo!
+      </div>
+
+      <div class="letter-sig-area">
+        <div>
+          <div class="letter-sig">Daddy Ooo Ooo</div>
+          <div class="letter-sig-name">Daddy Ooo Ooo · Bravest Stuffy at the Coop</div>
+        </div>
+        <div class="sig-icon">🐒</div>
+      </div>
+    </div>
+
+    <div class="next-clue-banner">
+      <p>
+        Five mistakes found and fixed? Well done, Agent Nyxie! 🐔<br>
+        The Superintendent is waiting — head to the <strong>DINING ROOM</strong> right now!
+      </p>
+    </div>
+
+    <div class="puz-footer">
+      Royal Detective Agency · Case RDA/CROWN/001 · Act IV Complete · Collect your badge!
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

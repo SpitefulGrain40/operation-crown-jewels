@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operation Crown Jewels — Mission Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  :root { --gold: #8b6914; --gold-light: #c9a84c; --paper: #fdf3e3; --ink: #2e1c08; --ink-mid: #5c3d0a; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1008; min-height: 100vh; font-family: 'IM Fell English', serif; padding-bottom: 80px; }
+  .hero { background: linear-gradient(180deg, #0d0804 0%, #1a1008 100%); border-bottom: 2px solid var(--gold); padding: 50px 20px 40px; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.12) 0%, transparent 70%); pointer-events: none; }
+  .hero-crown { font-size: 52px; margin-bottom: 10px; line-height: 1; }
+  .hero-agency { font-family: 'Special Elite', monospace; font-size: 11px; color: rgba(201,168,76,0.6); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 8px; }
+  .hero-title { font-family: 'Cinzel', serif; font-size: clamp(22px, 5vw, 38px); font-weight: 700; color: var(--gold-light); letter-spacing: 3px; text-transform: uppercase; line-height: 1.1; margin-bottom: 8px; }
+  .hero-sub { font-family: 'IM Fell English', serif; font-style: italic; font-size: 15px; color: rgba(201,168,76,0.5); margin-bottom: 20px; }
+  .hero-divider { display: flex; align-items: center; justify-content: center; gap: 12px; color: var(--gold); font-size: 14px; max-width: 400px; margin: 0 auto; }
+  .hero-divider::before { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+  .hero-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); }
+  .status-bar { background: rgba(139,105,20,0.12); border-bottom: 1px solid rgba(139,105,20,0.25); padding: 10px 20px; text-align: center; font-family: 'Special Elite', monospace; font-size: 10px; color: rgba(201,168,76,0.5); letter-spacing: 2px; text-transform: uppercase; }
+  .container { max-width: 900px; margin: 0 auto; padding: 40px 20px 0; }
+  .section-label { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; margin-top: 36px; }
+  .section-label:first-child { margin-top: 0; }
+  .section-label h2 { font-family: 'Cinzel', serif; font-size: 11px; font-weight: 700; color: var(--gold-light); letter-spacing: 4px; text-transform: uppercase; white-space: nowrap; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); opacity: 0.4; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-bottom: 6px; }
+  .card-grid.single { grid-template-columns: 1fr; }
+  .card { background: var(--paper); border: 1.5px solid var(--gold); padding: 18px 20px; text-decoration: none; display: flex; align-items: flex-start; gap: 14px; transition: transform 0.15s, box-shadow 0.15s; position: relative; overflow: hidden; }
+  .card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 20% 0%, rgba(180,140,90,0.1) 0%, transparent 60%); pointer-events: none; }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+  .card-icon { font-size: 28px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+  .card-body { flex: 1; min-width: 0; }
+  .card-title { font-family: 'Cinzel', serif; font-size: 12px; font-weight: 700; color: var(--ink); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; line-height: 1.3; }
+  .card-desc { font-family: 'Special Elite', monospace; font-size: 10px; color: var(--gold); letter-spacing: 0.5px; line-height: 1.5; margin-bottom: 8px; }
+  .card-action { display: inline-flex; align-items: center; gap: 5px; font-family: 'Special Elite', monospace; font-size: 9px; color: var(--ink-mid); letter-spacing: 1.5px; text-transform: uppercase; border: 1px solid rgba(139,105,20,0.4); padding: 3px 9px; background: rgba(139,105,20,0.06); }
+  .card.tracker { border-color: var(--gold-light); background: linear-gradient(135deg, #fdf3e3, #f5e6c8); }
+  .card.tracker .card-title { font-size: 14px; }
+  .card.act { border-left: 4px solid var(--gold); }
+  .card.finale { border-color: var(--gold-light); border-width: 2px; }
+  .site-footer { text-align: center; margin-top: 60px; padding: 20px; font-family: 'Special Elite', monospace; font-size: 9px; color: rgba(201,168,76,0.3); letter-spacing: 2px; text-transform: uppercase; border-top: 1px solid rgba(139,105,20,0.2); }
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-crown">👑</div>
+  <div class="hero-agency">The Royal Detective Agency · Case RDA/CROWN/001</div>
+  <div class="hero-title">Operation Crown Jewels</div>
+  <div class="hero-sub">Mission Hub — Agent Daddy's Command Centre</div>
+  <div class="hero-divider">✦</div>
+</div>
+<div class="status-bar">All files ready · Open each link · Print from browser (Ctrl+P / Cmd+P) · Enable background graphics in print settings</div>
+<div class="container">
+
+  <div class="section-label"><h2>⚙️ Mission Control</h2></div>
+  <div class="card-grid single">
+    <a class="card tracker" href="00_mission_prep_tracker.html">
+      <span class="card-icon">📋</span>
+      <div class="card-body">
+        <div class="card-title">Mission Prep Tracker</div>
+        <div class="card-desc">All tasks — shopping, printing, and setup. Ticks save automatically in your browser.</div>
+        <span class="card-action">▶ Open Tracker</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="section-label"><h2>✉️ Letters, Envelopes & Dossier</h2></div>
+  <div class="card-grid">
+    <a class="card" href="01_opening_letter.html">
+      <span class="card-icon">📜</span>
+      <div class="card-body">
+        <div class="card-title">Opening Letter</div>
+        <div class="card-desc">From Commander Crownsworth — addressed to Agent Nyxie. Leave on the doorstep at 10am.</div>
+        <span class="card-action">🖨 Print · 1 page</span>
+      </div>
+    </a>
+    <a class="card" href="04_envelope_labels.html">
+      <span class="card-icon">🏷️</span>
+      <div class="card-body">
+        <div class="card-title">Envelope Labels</div>
+        <div class="card-desc">9 RDA labels — one per clue envelope. Print on sticker paper and stick to regular envelopes.</div>
+        <span class="card-action">🖨 Print on sticker paper</span>
+      </div>
+    </a>
+    <a class="card" href="03_detective_dossier.html">
+      <span class="card-icon">🗂️</span>
+      <div class="card-body">
+        <div class="card-title">Detective Dossier</div>
+        <div class="card-desc">3 pages: cover with portrait box, rank tracker, and badge log. Insert into an A4 folder.</div>
+        <span class="card-action">🖨 Print · 3 pages</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="section-label"><h2>🍰 Afternoon Tea</h2></div>
+  <div class="card-grid single">
+    <a class="card" href="12_certificate_and_menu.html">
+      <span class="card-icon">🫖</span>
+      <div class="card-body">
+        <div class="card-title">Superintendent's Afternoon Tea Menu</div>
+        <div class="card-desc">Fold in half — one per place setting. Formal menu card from the Superintendent in honour of Agent Nyxie's brilliant work.</div>
+        <span class="card-action">🖨 Print · fold in half · A5</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="section-label"><h2>🔍 Act Puzzles</h2></div>
+  <div class="card-grid">
+    <a class="card act" href="05_act1_playroom.html">
+      <span class="card-icon">🗂️</span>
+      <div class="card-body">
+        <div class="card-title">Act I — The Scrambled Files</div>
+        <div class="card-desc">Playroom · Crime scene notice, drawer labels, scrambled sentence puzzle hidden under the desk mess.</div>
+        <span class="card-action">🖨 Print · 3 pages</span>
+      </div>
+    </a>
+    <a class="card act" href="06_act2_garage.html">
+      <span class="card-icon">🧗</span>
+      <div class="card-body">
+        <div class="card-title">Act II — The Suspect's Hideout</div>
+        <div class="card-desc">Garage · Climb the wall to retrieve the envelope. Witness statement from Geraferty 🦒</div>
+        <span class="card-action">🖨 Print · 1 page</span>
+      </div>
+    </a>
+    <a class="card act" href="07_act3_garden.html">
+      <span class="card-icon">🌿</span>
+      <div class="card-body">
+        <div class="card-title">Act III — The Secret Garden</div>
+        <div class="card-desc">Garden · Find Lamby 🐑 and her note. Collect evidence, solve the riddle, head to the coop.</div>
+        <span class="card-action">🖨 Print · 2 pages</span>
+      </div>
+    </a>
+    <a class="card act" href="08_act4_chickencoop.html">
+      <span class="card-icon">🐔</span>
+      <div class="card-body">
+        <div class="card-title">Act IV — The Chicken Witness</div>
+        <div class="card-desc">Chicken Coop · Daddy Ooo Ooo 🐒 has written a letter with 5 silly mistakes to find and fix.</div>
+        <span class="card-action">🖨 Print · 1 page</span>
+      </div>
+    </a>
+    <a class="card act" href="09_act5_gymnastics.html">
+      <span class="card-icon">🤸</span>
+      <div class="card-body">
+        <div class="card-title">Act V — The Gymnastics Vault</div>
+        <div class="card-desc">Outhouse · Four Star of the Week ⭐ judges 3 challenges, then crack the A=1 number cipher.</div>
+        <span class="card-action">🖨 Print · 1 page</span>
+      </div>
+    </a>
+    <a class="card act" href="10_acts6_7_8.html">
+      <span class="card-icon">🔭</span>
+      <div class="card-body">
+        <div class="card-title">Acts VI, VII & VIII — Lookout, Office & Final Trail</div>
+        <div class="card-desc">Balcony photo clue → Office suspect report → Three trail cards leading to the Laser Vault!</div>
+        <span class="card-action">🖨 Print · 3 pages</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="section-label"><h2>👑 Grand Finale</h2></div>
+  <div class="card-grid">
+    <a class="card finale" href="11_culprit_reveal.html">
+      <span class="card-icon">🔴</span>
+      <div class="card-body">
+        <div class="card-title">Culprit Reveal</div>
+        <div class="card-desc">The confession letter from all four stuffies 🦒🐑🐒⭐ — fold and place inside the treasure chest.</div>
+        <span class="card-action">🖨 Print · 1 page</span>
+      </div>
+    </a>
+    <a class="card finale" href="12_certificate_and_menu.html">
+      <span class="card-icon">🎖️</span>
+      <div class="card-body">
+        <div class="card-title">Final Certificate</div>
+        <div class="card-desc">Agent Nyxie — Royal Detective First Class. Print on your best paper. This is the keepsake!</div>
+        <span class="card-action">🖨 Print on best paper</span>
+      </div>
+    </a>
+  </div>
+
+</div>
+<div class="site-footer">Operation Crown Jewels · Royal Detective Agency · Case RDA/CROWN/001 · For Agent Nyxie</div>
+</body>
+</html>

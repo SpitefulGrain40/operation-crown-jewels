@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission Prep Tracker — Operation Crown Jewels</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Special+Elite&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #8b6914;
+    --gold-light: #c9a84c;
+    --paper: #fdf3e3;
+    --paper-dark: #f0e0c0;
+    --ink: #2e1c08;
+    --ink-mid: #5c3d0a;
+    --red: #c0392b;
+    --green: #2e7d32;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1a1008;
+    min-height: 100vh;
+    padding: 30px 16px 60px;
+    font-family: 'IM Fell English', serif;
+  }
+
+  .page-title {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .page-title .crown { font-size: 36px; margin-bottom: 6px; }
+  .page-title h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .page-title p {
+    font-family: 'Special Elite', monospace;
+    font-size: 11px;
+    color: rgba(201,168,76,0.6);
+    letter-spacing: 2px;
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    max-width: 680px;
+    margin: 0 auto 28px;
+    background: rgba(139,105,20,0.15);
+    border: 1px solid rgba(139,105,20,0.3);
+    border-radius: 4px;
+    padding: 14px 18px;
+  }
+  .progress-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 11px;
+    color: var(--gold-light);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .progress-bar-bg {
+    height: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 4px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* Section */
+  .section {
+    max-width: 680px;
+    margin: 0 auto 22px;
+    background: var(--paper);
+    border: 2px solid var(--gold);
+    position: relative;
+  }
+
+  .section::before {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    border: 1px solid rgba(139,105,20,0.25);
+    pointer-events: none;
+  }
+
+  .section-header {
+    background: var(--gold);
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: space-between;
+  }
+
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--paper);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .section-count {
+    font-family: 'Special Elite', monospace;
+    font-size: 11px;
+    color: rgba(253,243,227,0.7);
+    letter-spacing: 1px;
+  }
+
+  .section-body { padding: 8px 0; }
+
+  /* Task item */
+  .task {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 9px 18px;
+    border-bottom: 1px solid rgba(139,105,20,0.12);
+    cursor: pointer;
+    transition: background 0.15s;
+    position: relative;
+  }
+  .task:last-child { border-bottom: none; }
+  .task:hover { background: rgba(139,105,20,0.05); }
+  .task.done { opacity: 0.55; }
+
+  .task input[type="checkbox"] { display: none; }
+
+  .check-box {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--gold);
+    background: transparent;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .check-box::after {
+    content: '✓';
+    font-size: 13px;
+    color: var(--green);
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .task.done .check-box {
+    border-color: var(--green);
+    background: rgba(46,125,50,0.08);
+  }
+  .task.done .check-box::after { opacity: 1; }
+
+  .task-content { flex: 1; }
+
+  .task-label {
+    font-family: 'IM Fell English', serif;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.4;
+    transition: color 0.2s;
+  }
+  .task.done .task-label {
+    text-decoration: line-through;
+    color: #999;
+  }
+
+  .task-note {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+    opacity: 0.8;
+  }
+
+  .task-tag {
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .tag-buy { background: rgba(192,57,43,0.12); color: var(--red); border: 1px solid rgba(192,57,43,0.3); }
+  .tag-print { background: rgba(25,118,210,0.1); color: #1565c0; border: 1px solid rgba(25,118,210,0.25); }
+  .tag-setup { background: rgba(46,125,50,0.1); color: #2e7d32; border: 1px solid rgba(46,125,50,0.25); }
+
+  /* All done banner */
+  .all-done {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 20px;
+    border: 2px solid var(--gold);
+    background: rgba(139,105,20,0.1);
+    display: none;
+  }
+  .all-done.show { display: block; }
+  .all-done p {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    color: var(--gold-light);
+    letter-spacing: 2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-title">
+  <div class="crown">👑</div>
+  <h1>Operation Crown Jewels</h1>
+  <p>Mission Preparation Tracker · Agent Daddy</p>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span>Mission Readiness</span>
+    <span id="progress-text">0 / 0 complete</span>
+  </div>
+  <div class="progress-bar-bg">
+    <div class="progress-bar-fill" id="progress-fill"></div>
+  </div>
+</div>
+
+<!-- SHOPPING -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-title">🛒 Things to Buy</span>
+    <span class="section-count" id="count-buy"></span>
+  </div>
+  <div class="section-body">
+    <label class="task" data-section="buy">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Coloured tape (red/bright) for the Laser Vault</div>
+        <div class="task-note">2–3 rolls — needs to be bright and sticky enough for doorframes & walls</div>
+      </div>
+      <span class="task-tag tag-buy">Buy</span>
+    </label>
+    <label class="task" data-section="buy">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Small treasure chest or decorative box (the Crown Jewels)</div>
+        <div class="task-note">The finale reward — something that looks magical when opened</div>
+      </div>
+      <span class="task-tag tag-buy">Buy</span>
+    </label>
+    <label class="task" data-section="buy">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Contents for the treasure chest</div>
+        <div class="task-note">Sweets, a small toy, a keepsake, fake gems/coins — whatever Nyxie will love</div>
+      </div>
+      <span class="task-tag tag-buy">Buy</span>
+    </label>
+    <label class="task" data-section="buy">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Detective badge sticker sheet</div>
+        <div class="task-note">Or use printable sticker paper — she earns one per act completed</div>
+      </div>
+      <span class="task-tag tag-buy">Buy</span>
+    </label>
+    <label class="task" data-section="buy">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Afternoon tea supplies</div>
+        <div class="task-note">Finger sandwiches, scones, mini cakes, clotted cream, jam, fancy juice/lemonade</div>
+      </div>
+      <span class="task-tag tag-buy">Buy</span>
+    </label>
+    <label class="task" data-section="buy">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Snack break treats (×2 breaks)</div>
+        <div class="task-note">Mid-morning and mid-afternoon — Nyxie's favourites</div>
+      </div>
+      <span class="task-tag tag-buy">Buy</span>
+    </label>
+    <label class="task" data-section="buy">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">A4 folder / binder for the Detective Dossier</div>
+        <div class="task-note">To hold the dossier cover, badge tracker, and all collected clues throughout the day</div>
+      </div>
+      <span class="task-tag tag-buy">Buy</span>
+    </label>
+    <label class="task" data-section="buy">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Envelopes for each clue</div>
+        <div class="task-note">~10 envelopes — to seal each puzzle/clue before hiding it</div>
+      </div>
+      <span class="task-tag tag-buy">Buy</span>
+    </label>
+    <label class="task" data-section="buy">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Magnifying glass (optional but brilliant prop)</div>
+        <div class="task-note">Give to Nyxie at the briefing — every detective needs one</div>
+      </div>
+      <span class="task-tag tag-buy">Buy</span>
+    </label>
+    <label class="task" data-section="buy">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Printer ink & A4 paper</div>
+        <div class="task-note">You have a lot to print — check ink levels in advance!</div>
+      </div>
+      <span class="task-tag tag-buy">Buy</span>
+    </label>
+    <label class="task" data-section="buy">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Pencil / crayons for Nyxie</div>
+        <div class="task-note">For the writing and drawing puzzle sections</div>
+      </div>
+      <span class="task-tag tag-buy">Buy</span>
+    </label>
+    <label class="task" data-section="buy">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">A4 sticker paper (for envelope labels)</div>
+        <div class="task-note">One sheet is enough — print the label sheet directly onto it</div>
+      </div>
+      <span class="task-tag tag-buy">Buy</span>
+    </label>
+  </div>
+</div>
+
+<!-- PRINTING -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-title">🖨️ Things to Print</span>
+    <span class="section-count" id="count-print"></span>
+  </div>
+  <div class="section-body">
+    <label class="task" data-section="print">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Envelope label sticker sheet ✓</div>
+        <div class="task-note">9 labels — print on sticker paper, one per clue envelope</div>
+      </div>
+      <span class="task-tag tag-print">Print</span>
+    </label>
+    <label class="task" data-section="print">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Opening letter from the Royal Detective Agency ✓</div>
+        <div class="task-note">Already designed — ready to print</div>
+      </div>
+      <span class="task-tag tag-print">Print</span>
+    </label>
+    <label class="task" data-section="print">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Detective Dossier — cover, rank tracker & badge log ✓</div>
+        <div class="task-note">3 pages — ready to print and slot into the A4 folder</div>
+      </div>
+      <span class="task-tag tag-print">Print</span>
+    </label>
+    <label class="task" data-section="print">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Act 1 puzzle — Scrambled sentence (Playroom)</div>
+      </div>
+      <span class="task-tag tag-print">Print</span>
+    </label>
+    <label class="task" data-section="print">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Act 2 puzzle — Witness statement fill-in-the-blanks (Garage)</div>
+      </div>
+      <span class="task-tag tag-print">Print</span>
+    </label>
+    <label class="task" data-section="print">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Act 3 puzzle — Crime scene evidence sheet (Secret Garden)</div>
+      </div>
+      <span class="task-tag tag-print">Print</span>
+    </label>
+    <label class="task" data-section="print">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Act 4 puzzle — The Chicken Witness letter</div>
+      </div>
+      <span class="task-tag tag-print">Print</span>
+    </label>
+    <label class="task" data-section="print">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Superintendent's Afternoon Tea menu card</div>
+        <div class="task-note">Fold in half — one per place setting at the table</div>
+      </div>
+      <span class="task-tag tag-print">Print</span>
+    </label>
+    <label class="task" data-section="print">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Act 5 puzzle — Cipher decoder (Gymnastics Outhouse)</div>
+      </div>
+      <span class="task-tag tag-print">Print</span>
+    </label>
+    <label class="task" data-section="print">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Act 6 clue — Photo of the office (Balcony)</div>
+        <div class="task-note">Take a photo of one of the offices, print it, and stick it into the box on the Act VI sheet before hiding it on the balcony</div>
+      </div>
+      <span class="task-tag tag-print">Print</span>
+    </label>
+    <label class="task" data-section="print">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Act 7 puzzle — Suspect description writing sheet (Office)</div>
+      </div>
+      <span class="task-tag tag-print">Print</span>
+    </label>
+    <label class="task" data-section="print">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Acts 8 mini-clues ×3 (Final Trail)</div>
+        <div class="task-note">Three short clue slips leading to the Laser Vault</div>
+      </div>
+      <span class="task-tag tag-print">Print</span>
+    </label>
+    <label class="task" data-section="print">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Culprit reveal letter (inside the treasure chest)</div>
+        <div class="task-note">The funny confession note from the garden creature</div>
+      </div>
+      <span class="task-tag tag-print">Print</span>
+    </label>
+    <label class="task" data-section="print">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Final certificate — Agent Nyxie, Royal Detective First Class</div>
+        <div class="task-note">Print on the nicest paper you have — this is the keepsake!</div>
+      </div>
+      <span class="task-tag tag-print">Print</span>
+    </label>
+  </div>
+</div>
+
+<!-- SETUP -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-title">⚙️ Setup Tasks (Morning Of)</span>
+    <span class="section-count" id="count-setup"></span>
+  </div>
+  <div class="section-body">
+    <label class="task" data-section="setup">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Seal each puzzle in its own envelope & label with a location code</div>
+        <div class="task-note">e.g. "PLAYROOM", "GARAGE", "COOP" — makes hiding easier</div>
+      </div>
+      <span class="task-tag tag-setup">Setup</span>
+    </label>
+    <label class="task" data-section="setup">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Mess up the playroom drawers (Act 1)</div>
+        <div class="task-note">Mix up the contents so Nyxie has to sort them to find the hidden envelope</div>
+      </div>
+      <span class="task-tag tag-setup">Setup</span>
+    </label>
+    <label class="task" data-section="setup">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Tape Act 2 envelope to the climbing wall (Garage)</div>
+        <div class="task-note">Tape at a climbable but challenging height</div>
+      </div>
+      <span class="task-tag tag-setup">Setup</span>
+    </label>
+    <label class="task" data-section="setup">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Hide Act 3 clue in the Secret Garden</div>
+        <div class="task-note">Under a stone, inside a plant pot, or tucked behind a garden feature</div>
+      </div>
+      <span class="task-tag tag-setup">Setup</span>
+    </label>
+    <label class="task" data-section="setup">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Pin the Chicken Witness letter near the coop</div>
+        <div class="task-note">Somewhere visible but fun — maybe attached to the coop door</div>
+      </div>
+      <span class="task-tag tag-setup">Setup</span>
+    </label>
+    <label class="task" data-section="setup">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Prepare the Gymnastics Vault box (Act 5)</div>
+        <div class="task-note">Put the cipher puzzle inside a small box or tin — lock it if possible for drama</div>
+      </div>
+      <span class="task-tag tag-setup">Setup</span>
+    </label>
+    <label class="task" data-section="setup">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Leave the Act VI sheet on the balcony (Act 6)</div>
+        <div class="task-note">Photo of the office should already be stuck on — weigh the sheet down so it doesn't blow away!</div>
+      </div>
+      <span class="task-tag tag-setup">Setup</span>
+    </label>
+    <label class="task" data-section="setup">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Set up writing station in the office (Act 7)</div>
+        <div class="task-note">Puzzle sheet + pencil on the desk, ready to go</div>
+      </div>
+      <span class="task-tag tag-setup">Setup</span>
+    </label>
+    <label class="task" data-section="setup">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Hide the three Final Trail mini-clues (Act 8)</div>
+        <div class="task-note">Each one leads to the next room — plan the route in advance</div>
+      </div>
+      <span class="task-tag tag-setup">Setup</span>
+    </label>
+    <label class="task" data-section="setup">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Set up the Laser Vault tape corridor</div>
+        <div class="task-note">Zig-zag red tape across the hallway at varied heights — test it yourself first!</div>
+      </div>
+      <span class="task-tag tag-setup">Setup</span>
+    </label>
+    <label class="task" data-section="setup">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Hide the treasure chest at the final location</div>
+        <div class="task-note">Beyond the Laser Vault — make it dramatic to find</div>
+      </div>
+      <span class="task-tag tag-setup">Setup</span>
+    </label>
+    <label class="task" data-section="setup">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Assemble the Detective Dossier folder</div>
+        <div class="task-note">Cover + badge tracker + blank pages for clue collecting, ready to hand to Nyxie</div>
+      </div>
+      <span class="task-tag tag-setup">Setup</span>
+    </label>
+    <label class="task" data-section="setup">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Lay the letter + envelope on the doorstep (or doormat)</div>
+        <div class="task-note">The very first thing Nyxie should see when she arrives at 10am</div>
+      </div>
+      <span class="task-tag tag-setup">Setup</span>
+    </label>
+    <label class="task" data-section="setup">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Prepare the afternoon tea in advance</div>
+        <div class="task-note">Sandwiches, scones etc. — have it ready so you don't break the magic mid-mission</div>
+      </div>
+      <span class="task-tag tag-setup">Setup</span>
+    </label>
+    <label class="task" data-section="setup">
+      <input type="checkbox"><div class="check-box"></div>
+      <div class="task-content">
+        <div class="task-label">Queue up dramatic background music on a speaker</div>
+        <div class="task-note">Mystery/adventure playlist — ramp it up for the Laser Vault finale!</div>
+      </div>
+      <span class="task-tag tag-setup">Setup</span>
+    </label>
+  </div>
+</div>
+
+<div class="all-done" id="all-done">
+  <p>👑 &nbsp; Mission Ready — The Kingdom Thanks You, Agent Daddy &nbsp; 👑</p>
+</div>
+
+<script>
+  const tasks = document.querySelectorAll('.task');
+  const fillBar = document.getElementById('progress-fill');
+  const progressText = document.getElementById('progress-text');
+  const allDone = document.getElementById('all-done');
+
+  function setTask(task, i, isDone) {
+    task.classList.toggle('done', isDone);
+    task.querySelector('input').checked = isDone;
+    try { localStorage.setItem('crown_task_' + i, isDone ? 'done' : ''); } catch(e) {}
+    updateProgress();
+  }
+
+  // Load saved state & attach handlers
+  tasks.forEach((task, i) => {
+    try {
+      if (localStorage.getItem('crown_task_' + i) === 'done') {
+        task.classList.add('done');
+        task.querySelector('input').checked = true;
+      }
+    } catch(e) {}
+
+    // Prevent label's default behaviour (which would double-fire the toggle)
+    task.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isDone = !task.classList.contains('done');
+      setTask(task, i, isDone);
+    });
+  });
+
+  function updateProgress() {
+    const total = tasks.length;
+    const done = document.querySelectorAll('.task.done').length;
+    const pct = total ? Math.round((done / total) * 100) : 0;
+    fillBar.style.width = pct + '%';
+    progressText.textContent = done + ' / ' + total + ' complete';
+    allDone.classList.toggle('show', done === total);
+
+    ['buy','print','setup'].forEach(sec => {
+      const secTasks = document.querySelectorAll(`.task[data-section="${sec}"]`);
+      const secDone = document.querySelectorAll(`.task[data-section="${sec}"].done`).length;
+      const el = document.getElementById('count-' + sec);
+      if (el) el.textContent = secDone + ' / ' + secTasks.length;
+    });
+  }
+
+  updateProgress();
+</script>
+</body>
+</html>
