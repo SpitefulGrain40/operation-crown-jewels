@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P.S. Note</title>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: white;
+    width: 210mm;
+    min-height: 297mm;
+    padding: 0;
+    margin: 0;
+  }
+  .ps {
+    position: absolute;
+    bottom: 100px;
+    left: 60px;
+    max-width: 260px;
+    font-family: 'IM Fell English', serif;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #000;
+  }
+  .ps strong {
+    font-weight: 700;
+  }
+  @media print {
+    @page { size: A4 portrait; margin: 0; }
+    body { background: white; }
+  }
+</style>
+</head>
+<body>
+<div class="ps"><strong>P.S.</strong> Our intelligence agents report that the thief was last seen in <strong>YOUR PLAYROOM</strong> — your desk has been ransacked! Go there immediately and investigate.</div>
+</body>
+</html>
