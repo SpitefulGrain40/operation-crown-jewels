@@ -227,10 +227,12 @@
     gap: 18px;
     position: relative;
   }
-  .rank-card.locked {
-    opacity: 0.45;
-    background: rgba(0,0,0,0.02);
-    border-style: dashed;
+  @media screen {
+    .rank-card.locked {
+      opacity: 0.45;
+      background: rgba(0,0,0,0.02);
+      border-style: dashed;
+    }
   }
   .rank-badge {
     width: 58px;
@@ -383,10 +385,9 @@
     body { background: white; padding: 0; margin: 0; gap: 0; }
     .page { box-shadow: none; page-break-after: always; width: 210mm; min-height: 297mm; padding: 28px 44px; }
     .page-label { display: none; }
-    /* Show all rank levels at full strength for print */
-    .rank-card.locked { opacity: 1 !important; border-style: solid !important; background: rgba(139,105,20,0.04) !important; }
-    .rank-card.locked .rank-badge { background: radial-gradient(circle at 40% 35%, #f0c040, #8b6914) !important; border-color: #5c3d0a !important; box-shadow: 0 2px 8px rgba(139,105,20,0.4) !important; }
-    .rank-card.locked .rank-badge .rank-badge-num { color: #3a1f04 !important; }
+    /* Locked badges get the gold gradient in print (opacity is no longer knocked back) */
+    .rank-card.locked .rank-badge { background: radial-gradient(circle at 40% 35%, #f0c040, #8b6914); border-color: #5c3d0a; box-shadow: 0 2px 8px rgba(139,105,20,0.4); }
+    .rank-card.locked .rank-badge .rank-badge-num { color: #3a1f04; }
   }
 </style>
 </head>
