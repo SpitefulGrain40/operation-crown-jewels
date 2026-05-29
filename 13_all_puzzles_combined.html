@@ -1313,21 +1313,19 @@
   .write-lines { display: flex; flex-direction: column; gap: 8px; }
 
   .clue-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 14px;
     margin-bottom: 18px;
   }
   .clue-card {
     border: 2px solid #8b6914;
     background: white;
-    padding: 14px 12px;
-    text-align: center;
+    padding: 16px 20px;
     position: relative;
-    min-height: 160px;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
   }
   .clue-card::before {
     content: '';
@@ -1342,31 +1340,31 @@
     color: #8b6914;
     letter-spacing: 2px;
     text-transform: uppercase;
-    margin-bottom: 8px;
+    position: absolute;
+    top: -9px;
+    left: 14px;
+    background: white;
+    padding: 0 6px;
   }
-  .clue-card-icon { font-size: 26px; margin-bottom: 8px; }
+  .clue-card-icon { font-size: 30px; flex-shrink: 0; }
   .clue-card-text {
     font-family: 'IM Fell English', serif;
     font-style: italic;
-    font-size: 12px;
+    font-size: 14px;
     color: #000;
     line-height: 1.6;
     flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 4px;
   }
   .clue-card-location {
     font-family: 'Cinzel', serif;
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 700;
     color: #8b6914;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    margin-top: 8px;
-    padding-top: 6px;
-    border-top: 1px solid rgba(139,105,20,0.25);
+    flex-shrink: 0;
+    border-left: 1px solid rgba(139,105,20,0.25);
+    padding-left: 16px;
   }
 
   .cut-guide {
