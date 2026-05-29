@@ -373,13 +373,22 @@
   }
 
   @media print {
-    body { background: white; padding: 0; }
+    @page { size: A4 portrait; margin: 0; }
+    body { background: white; padding: 0; margin: 0; }
     .page {
       box-shadow: none;
-      width: 100%;
-      min-height: auto;
-      padding: 40px 55px;
+      width: 210mm;
+      min-height: 297mm;
+      padding: 20px 44px;
     }
+    .agency-header { margin-bottom: 14px; padding-bottom: 10px; }
+    .body-text { margin-bottom: 8px; line-height: 1.7; }
+    .mission-box { margin: 10px 0 8px; padding: 16px 16px 12px; }
+    .mission-item { margin-bottom: 4px; }
+    .date-line { margin-bottom: 10px; }
+    .signature-area { margin-top: 14px; }
+    .content { padding-top: 4px; }
+    .closing { margin-bottom: 28px; }
   }
 </style>
 </head>

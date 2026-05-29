@@ -127,7 +127,7 @@
   .menu-footer-note { font-family: 'IM Fell English', serif; font-style: italic; font-size: 10px; color: #8b6914; margin-top: 14px; line-height: 1.6; padding-top: 10px; border-top: 1px solid rgba(139,105,20,0.25); }
   .menu-sig { font-family: 'Cinzel', serif; font-size: 8px; color: rgba(92,61,10,0.5); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 8px; }
 
-  @media print { body { background: white; padding: 0; gap: 0; } .cert, .menu { box-shadow: none; page-break-after: always; } .page-label { display: none; } }
+  @media print { @page { size: A4 portrait; margin: 0; } body { background: white; padding: 0; margin: 0; gap: 0; } .cert { box-shadow: none; page-break-after: always; width: 210mm; min-height: 297mm; padding: 36px 48px; } .menu { box-shadow: none; page-break-after: always; } .page-label { display: none; } }
 </style>
 </head>
 <body>
