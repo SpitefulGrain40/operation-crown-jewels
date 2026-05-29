@@ -1,0 +1,2224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Act Puzzles — Print Bundle</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 80px;
+    gap: 60px;
+    font-family: 'IM Fell English', serif;
+  }
+
+  .page-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    color: rgba(201,168,76,0.45);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: -50px;
+  }
+
+  /* Shared page */
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: white;
+    position: relative;
+    padding: 48px 58px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+  /* Remove texture overlays */
+  .page::before, .page.garden::after { display: none; }
+
+  .border-outer { position: absolute; inset: 16px; border: 2.5px solid #8b6914; pointer-events: none; z-index: 1; }
+  .border-inner { position: absolute; inset: 22px; border: 1px solid rgba(139,105,20,0.35); pointer-events: none; z-index: 1; }
+
+  .corner { position: absolute; width: 38px; height: 38px; z-index: 2; }
+  .corner svg { width: 38px; height: 38px; }
+  .corner.tl { top: 9px; left: 9px; }
+  .corner.tr { top: 9px; right: 9px; transform: scaleX(-1); }
+  .corner.bl { bottom: 9px; left: 9px; transform: scaleY(-1); }
+  .corner.br { bottom: 9px; right: 9px; transform: scale(-1,-1); }
+
+  .content { position: relative; z-index: 3; }
+
+
+  /* ═══════════════════════════════
+     ACT I — CRIME SCENE NOTICE
+  ═══════════════════════════════ */
+
+  .cs-tape {
+    background: #f1c40f;
+    color: #1a1008;
+    font-family: 'Special Elite', monospace;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 7px 0;
+    margin: -48px -58px 32px;
+    position: relative;
+    z-index: 10;
+    transform: rotate(-1deg);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  }
+
+  .cs-header { text-align: center; margin-bottom: 26px; }
+  .cs-icon { font-size: 44px; margin-bottom: 6px; line-height: 1; }
+  .cs-title {
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #000;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+  .cs-title span { color: #c0392b; }
+  .cs-subtitle {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .cs-divider {
+    display: flex; align-items: center; gap: 10px;
+    margin: 14px 0; color: #8b6914;
+  }
+  .cs-divider::before, .cs-divider::after {
+    content: ''; flex: 1; height: 1px; background: #8b6914; opacity: 0.4;
+  }
+
+  .cs-body {
+    font-family: 'IM Fell English', serif;
+    font-size: 15px;
+    line-height: 1.85;
+    color: #000;
+    text-align: justify;
+    margin-bottom: 18px;
+  }
+  .cs-body em { font-style: italic; color: #5c3d0a; }
+  .cs-body strong { font-style: normal; color: #000; }
+
+  .cs-instruction-box {
+    border: 1.5px solid #8b6914;
+    background: rgba(139,105,20,0.05);
+    padding: 20px 22px;
+    margin: 22px 0;
+    position: relative;
+  }
+  .cs-instruction-box-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: absolute;
+    top: -9px; left: 16px;
+    background: white;
+    padding: 0 8px;
+  }
+  .cs-step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    font-family: 'IM Fell English', serif;
+    font-size: 14px;
+    color: #000;
+    line-height: 1.5;
+  }
+  .cs-step:last-child { margin-bottom: 0; }
+  .cs-step-num {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8b6914;
+    flex-shrink: 0;
+    width: 20px;
+  }
+
+  .cs-warning {
+    background: rgba(192,57,43,0.06);
+    border: 1px solid rgba(192,57,43,0.3);
+    padding: 10px 16px;
+    margin-top: 20px;
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    color: #922b21;
+    letter-spacing: 1px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .cs-ref {
+    text-align: center;
+    margin-top: 22px;
+    font-family: 'Special Elite', monospace;
+    font-size: 8.5px;
+    color: rgba(92,61,10,0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(139,105,20,0.2);
+    padding-top: 12px;
+  }
+
+  .evidence-stamp {
+    position: absolute;
+    top: 110px;
+    right: 50px;
+    border: 4px solid #c0392b;
+    color: #c0392b;
+    font-family: 'Special Elite', monospace;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    padding: 4px 10px;
+    transform: rotate(10deg);
+    opacity: 0.75;
+    z-index: 10;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+
+  /* ═══════════════════════════════
+     ACT I — DRAWER LABELS
+  ═══════════════════════════════ */
+
+  .labels-sheet {
+    width: 210mm;
+    min-height: 297mm;
+    background: white;
+    padding: 14mm 12mm;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .labels-header {
+    text-align: center;
+    margin-bottom: 10mm;
+    position: relative;
+    z-index: 2;
+  }
+  .labels-header h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  .labels-header p {
+    font-family: 'Special Elite', monospace;
+    font-size: 8px;
+    color: rgba(92,61,10,0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+
+  .drawer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 7mm;
+    position: relative;
+    z-index: 2;
+  }
+
+  .drawer-label {
+    border: 2px solid #8b6914;
+    background: white;
+    padding: 10px 10px 8px;
+    text-align: center;
+    position: relative;
+    min-height: 68px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+  .drawer-label::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 0.75px solid rgba(139,105,20,0.25);
+    pointer-events: none;
+  }
+
+  .drawer-icon { font-size: 22px; line-height: 1; margin-bottom: 2px; }
+
+  .drawer-name {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: #000;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  .drawer-sub {
+    font-family: 'Special Elite', monospace;
+    font-size: 7px;
+    color: rgba(92,61,10,0.45);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .labels-footer {
+    text-align: center;
+    margin-top: 8mm;
+    font-family: 'Special Elite', monospace;
+    font-size: 8px;
+    color: rgba(92,61,10,0.35);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: relative; z-index: 2;
+  }
+
+
+  /* ═══════════════════════════════
+     ACT I — SCRAMBLED PUZZLE
+  ═══════════════════════════════ */
+
+  .puz-header {
+    text-align: center;
+    padding-bottom: 16px;
+    border-bottom: 1.5px solid #8b6914;
+    margin-bottom: 24px;
+  }
+  .puz-header .act-tag, .act-tag {
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .puz-header h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #000;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .puz-header p {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: #8b6914;
+  }
+  .puz-title {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #000;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .puz-sub {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: #8b6914;
+  }
+
+  .puz-intro {
+    font-family: 'IM Fell English', serif;
+    font-size: 14px;
+    line-height: 1.75;
+    color: #000;
+    margin-bottom: 22px;
+    text-align: justify;
+  }
+  .puz-intro em { font-style: italic; color: #5c3d0a; }
+
+  .evidence-tag {
+    display: inline-block;
+    background: rgba(241,196,15,0.15);
+    border: 1.5px solid #f1c40f;
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: #7d6608;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    margin-bottom: 18px;
+  }
+
+  .word-tiles-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 600;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .word-tiles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 30px;
+  }
+
+  .tile {
+    border: 2px solid #8b6914;
+    background: rgba(139,105,20,0.06);
+    padding: 7px 14px;
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+    letter-spacing: 1px;
+    cursor: default;
+    user-select: none;
+  }
+
+  .write-line-wrap { margin: 20px 0 10px; }
+  .write-line-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 600;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .write-line {
+    border-bottom: 1.5px solid #8b6914;
+    height: 36px;
+    margin-bottom: 12px;
+    width: 100%;
+  }
+
+  .puz-well-done {
+    background: rgba(139,105,20,0.06);
+    border: 1px solid rgba(139,105,20,0.3);
+    padding: 12px 18px;
+    margin-top: 24px;
+    text-align: center;
+  }
+  .puz-well-done p {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #5c3d0a;
+    line-height: 1.6;
+  }
+  .puz-well-done strong {
+    font-style: normal;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    color: #000;
+    letter-spacing: 1px;
+  }
+
+  .puz-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-family: 'Special Elite', monospace;
+    font-size: 8.5px;
+    color: rgba(92,61,10,0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(139,105,20,0.2);
+    padding-top: 12px;
+  }
+
+
+  /* ═══════════════════════════════
+     ACT II — WITNESS STATEMENT
+  ═══════════════════════════════ */
+
+  .well-done-box {
+    background: rgba(139,105,20,0.06);
+    border: 1.5px solid #8b6914;
+    padding: 12px 18px;
+    margin-bottom: 20px;
+    font-family: 'IM Fell English', serif;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #000;
+    text-align: center;
+  }
+  .well-done-box em { font-style: italic; color: #5c3d0a; }
+
+  .official-stamp-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+  .doc-ref {
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: #8b6914;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    line-height: 1.7;
+  }
+  .official-stamp {
+    border: 3px solid #1a5276;
+    color: #1a5276;
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 4px 9px;
+    transform: rotate(-6deg);
+    opacity: 0.7;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  .statement-box {
+    border: 1.5px solid #8b6914;
+    padding: 20px 24px;
+    margin-bottom: 22px;
+    position: relative;
+    background: rgba(255,255,255,0.3);
+  }
+  .statement-box-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: absolute;
+    top: -9px; left: 16px;
+    background: white;
+    padding: 0 8px;
+    white-space: nowrap;
+  }
+
+  .witness-name {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 2px;
+  }
+  .witness-title {
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: #8b6914;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(139,105,20,0.2);
+  }
+
+  .statement-text {
+    font-family: 'IM Fell English', serif;
+    font-size: 14.5px;
+    line-height: 2.1;
+    color: #000;
+    text-align: justify;
+  }
+
+  .blank {
+    display: inline-block;
+    border-bottom: 2px solid #000;
+    min-width: 90px;
+    margin: 0 3px;
+    vertical-align: bottom;
+    height: 22px;
+    position: relative;
+  }
+  .blank-num {
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Special Elite', monospace;
+    font-size: 8px;
+    color: #8b6914;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  .gnome-sig {
+    margin-top: 24px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(139,105,20,0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .sig-scrawl {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: #1a3a6b;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .sig-name {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    color: #5c3d0a;
+    letter-spacing: 1px;
+    border-top: 1px solid #8b6914;
+    padding-top: 4px;
+  }
+  .gnome-icon { font-size: 36px; }
+
+  .word-bank {
+    border: 1.5px solid #8b6914;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    position: relative;
+    background: rgba(139,105,20,0.04);
+  }
+  .word-bank-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: absolute;
+    top: -9px; left: 16px;
+    background: white;
+    padding: 0 8px;
+  }
+  .word-bank-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .word-chip {
+    border: 1.5px solid #8b6914;
+    background: rgba(139,105,20,0.07);
+    padding: 5px 14px;
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #000;
+    letter-spacing: 1px;
+  }
+
+  .next-clue-banner {
+    background: rgba(139,105,20,0.08);
+    border: 1.5px solid #8b6914;
+    padding: 14px 20px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .next-clue-banner p {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #5c3d0a;
+    line-height: 1.7;
+  }
+  .next-clue-banner strong {
+    font-family: 'Cinzel', serif;
+    font-style: normal;
+    font-size: 11px;
+    color: #000;
+    letter-spacing: 1px;
+  }
+
+
+  /* ═══════════════════════════════
+     ACT III — SECRET GARDEN
+  ═══════════════════════════════ */
+
+  .found-tag {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    background: rgba(46,125,50,0.07);
+    border: 1px solid rgba(46,125,50,0.25);
+    padding: 8px 14px;
+  }
+  .found-tag-icon { font-size: 18px; }
+  .found-tag-text {
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: #2e7d32;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .lamby-note {
+    border: 1.5px solid #8b6914;
+    background: rgba(255,255,255,0.35);
+    padding: 22px 26px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .lamby-note-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: absolute;
+    top: -9px; left: 16px;
+    background: white;
+    padding: 0 8px;
+    white-space: nowrap;
+  }
+  .lamby-greeting {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 14px;
+  }
+  .lamby-text {
+    font-family: 'IM Fell English', serif;
+    font-size: 14.5px;
+    line-height: 1.9;
+    color: #000;
+    margin-bottom: 14px;
+    text-align: justify;
+  }
+  .lamby-text em { font-style: italic; color: #5c3d0a; }
+  .lamby-sig-area {
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-top: 12px;
+    border-top: 1px solid rgba(139,105,20,0.2);
+  }
+  .lamby-sig {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: #2e7d32;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .lamby-sig-name {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    color: #5c3d0a;
+    letter-spacing: 1px;
+    border-top: 1px solid #8b6914;
+    padding-top: 4px;
+  }
+  .lamby-icon { font-size: 40px; }
+
+  .riddle-box {
+    border: 2px solid #8b6914;
+    background: rgba(139,105,20,0.06);
+    padding: 20px 24px;
+    margin-bottom: 18px;
+    position: relative;
+    text-align: center;
+  }
+  .riddle-box-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: absolute;
+    top: -9px; left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 0 10px;
+    white-space: nowrap;
+  }
+  .riddle-text {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: #000;
+    line-height: 2;
+    margin-bottom: 16px;
+  }
+  .riddle-answer-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+  }
+  .riddle-answer-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    color: #8b6914;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .riddle-answer-blank {
+    border-bottom: 2px solid #000;
+    width: 200px;
+    height: 28px;
+  }
+
+  .p1-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-family: 'Special Elite', monospace;
+    font-size: 8.5px;
+    color: rgba(92,61,10,0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(139,105,20,0.2);
+    padding-top: 12px;
+  }
+
+  /* Evidence sheet */
+  .evidence-intro {
+    font-family: 'IM Fell English', serif;
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: #000;
+    margin-bottom: 20px;
+    text-align: justify;
+  }
+  .evidence-intro em { font-style: italic; color: #5c3d0a; }
+
+  .evidence-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .evidence-slot {
+    border: 1.5px solid #8b6914;
+    background: rgba(139,105,20,0.03);
+    padding: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .evidence-slot-num {
+    position: absolute;
+    top: -9px; left: 10px;
+    background: white;
+    padding: 0 6px;
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .draw-box {
+    border: 1px dashed rgba(139,105,20,0.35);
+    height: 110px;
+    margin: 8px 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.4);
+  }
+  .draw-prompt {
+    font-family: 'Special Elite', monospace;
+    font-size: 8px;
+    color: rgba(139,105,20,0.3);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .write-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 8px;
+    color: #8b6914;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+  .write-line-short {
+    border-bottom: 1px solid rgba(139,105,20,0.5);
+    height: 20px;
+    margin-bottom: 5px;
+    width: 100%;
+  }
+
+  .observations-box {
+    border: 1.5px solid #8b6914;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    position: relative;
+    background: rgba(139,105,20,0.04);
+  }
+  .observations-box-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: absolute;
+    top: -9px; left: 16px;
+    background: white;
+    padding: 0 8px;
+    white-space: nowrap;
+  }
+
+  .obs-question {
+    font-family: 'IM Fell English', serif;
+    font-size: 13px;
+    color: #000;
+    margin-bottom: 5px;
+  }
+  .obs-line {
+    border-bottom: 1px solid rgba(139,105,20,0.4);
+    height: 22px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  .badge-banner {
+    background: rgba(139,105,20,0.07);
+    border: 1.5px solid #8b6914;
+    padding: 12px 18px;
+    text-align: center;
+  }
+  .badge-banner p {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #5c3d0a;
+    line-height: 1.6;
+  }
+  .badge-banner strong {
+    font-family: 'Cinzel', serif;
+    font-style: normal;
+    font-size: 11px;
+    color: #000;
+    letter-spacing: 1px;
+  }
+
+
+  /* ═══════════════════════════════
+     ACT IV — CHICKEN COOP
+  ═══════════════════════════════ */
+
+  .found-tag--coop {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    background: rgba(139,105,20,0.06);
+    border: 1px solid rgba(139,105,20,0.25);
+    padding: 8px 14px;
+  }
+  .found-tag--coop .found-tag-text {
+    color: #8b6914;
+  }
+
+  .task-intro {
+    font-family: 'IM Fell English', serif;
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: #000;
+    margin-bottom: 18px;
+    text-align: justify;
+  }
+  .task-intro em { font-style: italic; color: #5c3d0a; }
+
+  .instruction-box {
+    border: 1.5px solid #8b6914;
+    background: rgba(139,105,20,0.05);
+    padding: 12px 18px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .instruction-box-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: absolute;
+    top: -9px; left: 16px;
+    background: white;
+    padding: 0 8px;
+    white-space: nowrap;
+  }
+  .instruction-text {
+    font-family: 'IM Fell English', serif;
+    font-size: 13px;
+    color: #000;
+    line-height: 1.7;
+  }
+  .instruction-text strong {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    color: #000;
+  }
+
+  .letter-box {
+    border: 2px solid #8b6914;
+    background: rgba(255,255,255,0.3);
+    padding: 22px 26px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .letter-box-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: absolute;
+    top: -9px; left: 16px;
+    background: white;
+    padding: 0 8px;
+    white-space: nowrap;
+  }
+
+  .letter-greeting {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 14px;
+  }
+
+  .letter-text {
+    font-family: 'IM Fell English', serif;
+    font-size: 14.5px;
+    line-height: 2.1;
+    color: #000;
+    text-align: justify;
+  }
+
+  .wrong {
+    display: inline-block;
+    border-bottom: 2.5px solid #c0392b;
+    color: #c0392b;
+    font-style: italic;
+    cursor: default;
+  }
+
+  .correction-line {
+    display: inline-block;
+    border-bottom: 2px solid #2e7d32;
+    min-width: 70px;
+    height: 20px;
+    margin: 0 2px;
+    vertical-align: bottom;
+  }
+
+  .letter-sig-area {
+    margin-top: 18px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(139,105,20,0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .letter-sig {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: #5c3d0a;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .letter-sig-name {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    color: #5c3d0a;
+    letter-spacing: 1px;
+    border-top: 1px solid #8b6914;
+    padding-top: 4px;
+  }
+  .sig-icon { font-size: 38px; }
+
+
+  /* ═══════════════════════════════
+     ACT V — GYMNASTICS VAULT
+  ═══════════════════════════════ */
+
+  .intro-text {
+    font-family: 'IM Fell English', serif;
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: #000;
+    margin-bottom: 18px;
+    text-align: justify;
+  }
+  .intro-text em { font-style: italic; color: #5c3d0a; }
+
+  .challenge-box {
+    border: 2px solid #8b6914;
+    background: rgba(139,105,20,0.05);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .box-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: absolute;
+    top: -9px; left: 16px;
+    background: white;
+    padding: 0 8px;
+    white-space: nowrap;
+  }
+
+  .challenge-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 10px;
+    font-family: 'IM Fell English', serif;
+    font-size: 14px;
+    color: #000;
+    line-height: 1.4;
+  }
+  .challenge-item:last-child { margin-bottom: 0; }
+  .challenge-num {
+    width: 28px;
+    height: 28px;
+    border: 2px solid #8b6914;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8b6914;
+    flex-shrink: 0;
+  }
+  .challenge-tick {
+    width: 28px;
+    height: 28px;
+    border: 2px solid #8b6914;
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  .scorecard {
+    border: 1.5px solid #8b6914;
+    background: rgba(255,255,255,0.3);
+    padding: 14px 20px;
+    margin-bottom: 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .scorecard-icon { font-size: 36px; flex-shrink: 0; }
+  .scorecard-text {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #5c3d0a;
+    line-height: 1.6;
+  }
+  .scorecard-sig {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    color: #8b6914;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  .divider {
+    display: flex; align-items: center; gap: 10px;
+    margin: 16px 0; color: #8b6914;
+  }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #8b6914; opacity: 0.35; }
+
+  .cipher-key {
+    border: 1.5px solid #8b6914;
+    background: rgba(139,105,20,0.04);
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .cipher-grid {
+    display: grid;
+    grid-template-columns: repeat(13, 1fr);
+    gap: 3px;
+    margin-bottom: 6px;
+  }
+  .cipher-cell { text-align: center; padding: 3px 2px; }
+  .cipher-letter {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #000;
+    display: block;
+    border-bottom: 1px solid rgba(139,105,20,0.3);
+    margin-bottom: 2px;
+    padding-bottom: 2px;
+  }
+  .cipher-number {
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: #8b6914;
+    display: block;
+  }
+
+  .encoded-box {
+    border: 1.5px solid #8b6914;
+    background: rgba(139,105,20,0.05);
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    position: relative;
+    text-align: center;
+  }
+
+  .code-numbers {
+    font-family: 'Special Elite', monospace;
+    font-size: 18px;
+    color: #000;
+    letter-spacing: 4px;
+    margin-bottom: 18px;
+    line-height: 1.8;
+  }
+  .code-gap { display: inline-block; width: 20px; }
+
+  .answer-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .answer-char {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .answer-char-box {
+    width: 34px;
+    height: 36px;
+    border-bottom: 2.5px solid #000;
+    border-left: none; border-right: none; border-top: none;
+  }
+  .answer-char-num {
+    font-family: 'Special Elite', monospace;
+    font-size: 8px;
+    color: rgba(139,105,20,0.5);
+  }
+
+
+  /* ═══════════════════════════════
+     ACTS VI, VII, VIII
+  ═══════════════════════════════ */
+
+  .body-text {
+    font-family: 'IM Fell English', serif;
+    font-size: 14px;
+    line-height: 1.8;
+    color: #000;
+    margin-bottom: 16px;
+    text-align: justify;
+  }
+  .body-text em { font-style: italic; color: #5c3d0a; }
+
+  .box {
+    border: 1.5px solid #8b6914;
+    background: rgba(139,105,20,0.05);
+    padding: 16px 20px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+
+  .lookout-icon { text-align: center; font-size: 48px; margin-bottom: 12px; line-height: 1; }
+
+  .photo-placeholder {
+    border: 2px dashed #8b6914;
+    background: rgba(139,105,20,0.04);
+    padding: 30px 20px;
+    text-align: center;
+    margin: 18px 0;
+  }
+  .photo-placeholder-text {
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+    color: rgba(139,105,20,0.5);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    line-height: 1.8;
+  }
+
+  .answer-line-wrap { margin: 14px 0; }
+  .answer-line-label { font-family: 'Special Elite', monospace; font-size: 9px; color: #8b6914; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; display: block; }
+  .answer-line { border-bottom: 1.5px solid #8b6914; height: 32px; width: 100%; }
+
+  .suspect-profile {
+    border: 2px solid #8b6914;
+    background: rgba(255,255,255,0.3);
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .evidence-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .evidence-chip {
+    border: 1px solid rgba(139,105,20,0.4);
+    background: rgba(139,105,20,0.05);
+    padding: 8px 12px;
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: #5c3d0a;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    line-height: 1.5;
+  }
+  .evidence-chip .chip-label { color: #8b6914; display: block; font-size: 8px; margin-bottom: 2px; }
+
+  .write-section { margin-bottom: 14px; }
+  .write-question { font-family: 'IM Fell English', serif; font-size: 14px; color: #000; margin-bottom: 8px; line-height: 1.5; }
+  .write-lines { display: flex; flex-direction: column; gap: 8px; }
+
+  .clue-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .clue-card {
+    border: 2px solid #8b6914;
+    background: white;
+    padding: 14px 12px;
+    text-align: center;
+    position: relative;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .clue-card::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 0.75px solid rgba(139,105,20,0.25);
+    pointer-events: none;
+  }
+  .clue-card-num {
+    font-family: 'Special Elite', monospace;
+    font-size: 8px;
+    color: #8b6914;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .clue-card-icon { font-size: 26px; margin-bottom: 8px; }
+  .clue-card-text {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: #000;
+    line-height: 1.6;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+  }
+  .clue-card-location {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #8b6914;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(139,105,20,0.25);
+  }
+
+  .cut-guide {
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: rgba(139,105,20,0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+
+  .final-banner {
+    background: rgba(139,105,20,0.07);
+    border: 2px solid #8b6914;
+    padding: 16px 20px;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+  .final-banner p {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: #000;
+    line-height: 1.7;
+  }
+  .final-banner strong {
+    font-family: 'Cinzel', serif;
+    font-style: normal;
+    font-size: 12px;
+    color: #000;
+    letter-spacing: 1px;
+  }
+
+
+  /* ═══════════════════════════════
+     PRINT
+  ═══════════════════════════════ */
+  @media print {
+    @page { size: A4 portrait; margin: 0; }
+    body { background: white; padding: 0; margin: 0; gap: 0; }
+    .page, .labels-sheet { box-shadow: none; page-break-after: always; width: 210mm; min-height: 297mm; padding: 28px 44px; background: white !important; }
+    .page::before, .page.garden::after { display: none; }
+    .page-label { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     ACT I PAGE 1 — CRIME SCENE NOTICE
+═══════════════════════════════════════ -->
+<div class="page-label">— Page 1: Crime Scene Notice · Place on top of the desk mess —</div>
+<div class="page">
+  <div class="border-outer"></div>
+  <div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+
+  <div class="cs-tape">⚠ &nbsp; Crime Scene — Do Not Touch &nbsp; ⚠</div>
+  <div class="evidence-stamp">Evidence</div>
+
+  <div class="content">
+    <div class="cs-header">
+      <div class="cs-icon">🔎</div>
+      <div class="cs-title">This Desk Has Been<br><span>Ransacked!</span></div>
+      <div class="cs-subtitle">Royal Detective Agency · Scene of the Crime · Act I</div>
+    </div>
+
+    <div class="cs-divider">✦</div>
+
+    <p class="cs-body">
+      Agent Nyxie — the thief has been <em>here</em>. They broke into your playroom in the middle of the night and turned your desk completely upside down, searching for clues about the Crown Jewels. The <em>scoundrel</em> has mixed everything up and left it in a terrible mess.
+    </p>
+
+    <p class="cs-body">
+      But here is the good news — our agents believe the thief accidentally dropped a <strong>secret document</strong> somewhere in the chaos before they fled. It is hidden underneath all of this mess.
+    </p>
+
+    <div class="cs-instruction-box">
+      <span class="cs-instruction-box-title">⚑ Agent Nyxie — Your Orders</span>
+      <div class="cs-step">
+        <span class="cs-step-num">I.</span>
+        <span>Look carefully at each drawer label on this desk. Every item belongs somewhere — use the labels to work out where each thing goes.</span>
+      </div>
+      <div class="cs-step">
+        <span class="cs-step-num">II.</span>
+        <span>Sort <em>everything</em> on this desk back into its correct drawer. Not one item must be left on the surface.</span>
+      </div>
+      <div class="cs-step">
+        <span class="cs-step-num">III.</span>
+        <span>Once the desk is completely clear, search for the hidden document underneath. The next clue to the Crown Jewels is waiting for you inside.</span>
+      </div>
+    </div>
+
+    <div class="cs-warning">
+      ⚠ &nbsp; The secret document cannot be found until every single item has been put away correctly &nbsp; ⚠
+    </div>
+
+    <div class="cs-ref">
+      Royal Detective Agency · Case RDA/CROWN/001 · Act I: The Scrambled Files · Playroom
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     ACT I PAGE 2 — DRAWER LABELS
+═══════════════════════════════════════ -->
+<div class="page-label">— Page 2: Drawer Labels · Cut out and stick on each drawer —</div>
+<div class="labels-sheet">
+  <div class="labels-header">
+    <h2>👑 &nbsp; Drawer Labels — Agent Nyxie's Desk &nbsp; 👑</h2>
+    <p>Cut out and stick one label on each drawer · Case RDA/CROWN/001</p>
+  </div>
+
+  <div class="drawer-grid">
+    <div class="drawer-label">
+      <div class="drawer-icon">✏️</div>
+      <div class="drawer-name">Pens &<br>Stationery</div>
+      <div class="drawer-sub">Pens · Pencils · Rulers</div>
+    </div>
+    <div class="drawer-label">
+      <div class="drawer-icon">🎨</div>
+      <div class="drawer-name">Craft Box</div>
+      <div class="drawer-sub">Craft Supplies & Materials</div>
+    </div>
+    <div class="drawer-label">
+      <div class="drawer-icon">🖍️</div>
+      <div class="drawer-name">Colouring</div>
+      <div class="drawer-sub">Colouring Books & Sheets</div>
+    </div>
+    <div class="drawer-label">
+      <div class="drawer-icon">📄</div>
+      <div class="drawer-name">Blank Paper</div>
+      <div class="drawer-sub">Plain Sheets & Notepads</div>
+    </div>
+    <div class="drawer-label">
+      <div class="drawer-icon">🛠️</div>
+      <div class="drawer-name">Making Kits</div>
+      <div class="drawer-sub">Kits & Project Sets</div>
+    </div>
+    <div class="drawer-label">
+      <div class="drawer-icon">⭐</div>
+      <div class="drawer-name">Keep Drawings<br>& Crafts</div>
+      <div class="drawer-sub">Special Work to Save</div>
+    </div>
+    <div class="drawer-label">
+      <div class="drawer-icon">🗑️</div>
+      <div class="drawer-name">Trash</div>
+      <div class="drawer-sub">Things to Throw Away</div>
+    </div>
+    <div class="drawer-label">
+      <div class="drawer-icon">🧸</div>
+      <div class="drawer-name">Little Toys</div>
+      <div class="drawer-sub">Small Figures & Toys</div>
+    </div>
+    <div class="drawer-label">
+      <div class="drawer-icon">👱‍♀️</div>
+      <div class="drawer-name">Barbies</div>
+      <div class="drawer-sub">Barbie Dolls & Accessories</div>
+    </div>
+  </div>
+
+  <div class="labels-footer">
+    Cut along the edges · Stick one label per drawer · Royal Detective Agency · Case RDA/CROWN/001
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     ACT I PAGE 3 — SCRAMBLED SENTENCE PUZZLE
+═══════════════════════════════════════ -->
+<div class="page-label">— Page 3: Puzzle Card · Hide face-down under the desk mess —</div>
+<div class="page">
+  <div class="border-outer"></div>
+  <div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+
+  <div class="content">
+    <div class="puz-header">
+      <div class="act-tag">⚑ &nbsp; Act I · The Scrambled Files &nbsp; ⚑</div>
+      <h2>The Secret Document</h2>
+      <p>Found at the scene — the thief dropped this while escaping</p>
+    </div>
+
+    <div class="evidence-tag">🏷 Evidence Item · RDA/CROWN/001/A · Handle With Care</div>
+
+    <p class="puz-intro">
+      Well done, Agent Nyxie — you found it! The thief was in such a hurry to escape that they dropped this document on your desk. But the <em>crafty villain</em> has scrambled the words so that nobody else could read it. Only the cleverest detective can put them back in the right order.
+    </p>
+    <p class="puz-intro">
+      Can you unscramble the sentence below to find out where the next clue is hidden?
+    </p>
+
+    <div class="word-tiles-label">🔀 &nbsp; Unscramble these words to make a sentence:</div>
+
+    <div class="word-tiles">
+      <div class="tile">high</div>
+      <div class="tile">the</div>
+      <div class="tile">climbing</div>
+      <div class="tile">is</div>
+      <div class="tile">The</div>
+      <div class="tile">wall</div>
+      <div class="tile">stuck</div>
+      <div class="tile">on</div>
+      <div class="tile">up</div>
+      <div class="tile">clue</div>
+    </div>
+
+    <div class="write-line-wrap">
+      <div class="write-line-label">✏️ &nbsp; Write the sentence in the correct order here:</div>
+      <div class="write-line"></div>
+      <div class="write-line"></div>
+    </div>
+
+    <div class="puz-well-done">
+      <p>
+        When you have worked it out, tell Agents Daddy and Gemmy Pants your answer.<br><br>
+        <strong>The answer will tell you exactly where to go next. 🔍</strong>
+      </p>
+    </div>
+
+    <div class="puz-footer">
+      Royal Detective Agency · Case RDA/CROWN/001 · Act I Complete · Collect your badge!
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     ACT II — WITNESS STATEMENT
+═══════════════════════════════════════ -->
+<div class="page-label">— Act II · Witness Statement · Tape inside envelope, stick to climbing wall —</div>
+<div class="page">
+  <div class="border-outer"></div>
+  <div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+
+  <div class="content">
+    <div class="puz-header">
+      <div class="act-tag">⚑ &nbsp; Act II · The Suspect's Hideout &nbsp; ⚑</div>
+      <div class="puz-title">Witness Statement</div>
+      <div class="puz-sub">Found at the top of the climbing wall — handle with care</div>
+    </div>
+
+    <div class="well-done-box">
+      Brilliant climbing, Agent Nyxie! 🧗 This document was left behind by our <em>key witness</em> — a very important garden resident who saw the whole thing. Fill in the missing words to complete the statement and find your next clue.
+    </div>
+
+    <div class="official-stamp-area">
+      <div class="doc-ref">
+        Document Ref: RDA/CROWN/001/W1<br>
+        Witness: Geraferty<br>
+        Recorded: The Night of the Crime
+      </div>
+      <div class="official-stamp">Official<br>Statement</div>
+    </div>
+
+    <div class="word-bank">
+      <span class="word-bank-title">📖 &nbsp; Word Bank — Use these words to fill the gaps</span>
+      <div class="word-bank-grid">
+        <div class="word-chip">shiny</div>
+        <div class="word-chip">sneaky</div>
+        <div class="word-chip">fast</div>
+        <div class="word-chip">night</div>
+        <div class="word-chip">garden</div>
+        <div class="word-chip">stone</div>
+        <div class="word-chip">secret</div>
+        <div class="word-chip">scared</div>
+      </div>
+    </div>
+
+    <div class="statement-box">
+      <span class="statement-box-title">📜 &nbsp; Official Witness Statement</span>
+      <div class="witness-name">Geraferty</div>
+      <div class="witness-title">Tallest Resident of the House · Official Stuffy Witness · Kingdom of the Crown Jewels</div>
+      <div class="statement-text">
+        I, Geraferty, do solemnly declare that on the
+        <span class="blank"><span class="blank-num">1. night / garden / fast</span></span>
+        of the crime, I was standing very still in my usual spot — as I always do, being made of
+        <span class="blank"><span class="blank-num">2. stone / shiny / scared</span></span>
+        — when I spotted something most unusual.
+        <br><br>
+        A very
+        <span class="blank"><span class="blank-num">3. sneaky / fast / secret</span></span>
+        creature came creeping through the darkness, moving ever so
+        <span class="blank"><span class="blank-num">4. fast / stone / night</span></span>
+        and trying not to make a sound. It was carrying something
+        <span class="blank"><span class="blank-num">5. shiny / sneaky / garden</span></span>
+        that glittered in the moonlight — I am quite sure it was the Crown Jewels!
+        <br><br>
+        I was very
+        <span class="blank"><span class="blank-num">6. scared / shiny / fast</span></span>
+        but I could not run away, on account of being a stuffy with no legs that work. The creature ran straight past me, directly towards the
+        <span class="blank"><span class="blank-num">7. secret / scared / stone</span></span>
+        garden, where it disappeared into the shadows.
+        <br><br>
+        I believe that is where you will find your next clue, Agent Nyxie. Please hurry — and watch out for that creature. It is still out there somewhere, in the
+        <span class="blank"><span class="blank-num">8. garden / night / sneaky</span></span>.
+      </div>
+
+      <div class="gnome-sig">
+        <div class="sig-left">
+          <div class="sig-scrawl">Geraferty</div>
+          <div class="sig-name">Geraferty · Tallest Resident &amp; Official Witness</div>
+        </div>
+        <div class="gnome-icon">🦒</div>
+      </div>
+    </div>
+
+    <div class="next-clue-banner">
+      <p>The witness has spoken! The creature ran towards the <strong>SECRET GARDEN</strong>.<br>
+      That is where your next clue is waiting, Agent Nyxie. 🌿</p>
+    </div>
+
+    <div class="puz-footer">
+      Royal Detective Agency · Case RDA/CROWN/001 · Act II Complete · Collect your badge!
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     ACT III PAGE 1 — LAMBY'S NOTE + RIDDLE
+═══════════════════════════════════════ -->
+<div class="page-label">— Page 1: Lamby's Note · Fold inside envelope, hide in the Secret Garden —</div>
+<div class="page garden">
+  <div class="border-outer"></div>
+  <div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+
+  <div class="content">
+    <div class="puz-header">
+      <div class="act-tag">⚑ &nbsp; Act III · The Secret Garden &nbsp; ⚑</div>
+      <div class="puz-title">🌿 A Note from Lamby 🌿</div>
+      <div class="puz-sub">Found in the Secret Garden — tucked beside a very worried stuffy</div>
+    </div>
+
+    <div class="found-tag">
+      <span class="found-tag-icon">🐑</span>
+      <span class="found-tag-text">Evidence Item · RDA/CROWN/001/B · Found in the Secret Garden</span>
+    </div>
+
+    <div class="lamby-note">
+      <span class="lamby-note-title">📋 &nbsp; Note from Lamby — As dictated to Agent Daddy</span>
+      <div class="lamby-greeting">Dearest Agent Nyxie,</div>
+      <p class="lamby-text">
+        Oh, I am ever so pleased you have found me! I have been out here all by myself and it has been <em>very</em> frightening indeed. I was enjoying a peaceful evening in the Secret Garden — just doing some quiet grazing, as one does — when I heard the most tremendous rustling in the bushes.
+      </p>
+      <p class="lamby-text">
+        I hid behind a plant pot immediately (I am very brave like that) and watched as a sneaky creature crept through the garden, clutching something that glittered and sparkled. It moved so quickly I could not see its face — but I did notice that it left behind a very important clue somewhere nearby. I have been guarding this garden ever since, waiting for a proper detective to come and investigate.
+      </p>
+      <p class="lamby-text">
+        Your job, Agent Nyxie, is to look very carefully all around this garden and record your observations on the <em>Crime Scene Evidence Sheet</em> — that is what detectives do! You must draw and describe <strong>three things</strong> you can see, hear, or find out here. The garden holds its secrets for those who look closely enough.
+      </p>
+      <p class="lamby-text">
+        And once you have done that — I have a riddle for you. Solve it, and you will know exactly where to go next. 🌿
+      </p>
+
+      <div class="lamby-sig-area">
+        <div>
+          <div class="lamby-sig">Lamby</div>
+          <div class="lamby-sig-name">Lamby · Bravest Garden Resident · Official Stuffy Witness</div>
+        </div>
+        <div class="lamby-icon">🐑</div>
+      </div>
+    </div>
+
+    <div class="riddle-box">
+      <span class="riddle-box-title">🔍 &nbsp; Lamby's Riddle — Solve this to find your next location &nbsp; 🔍</span>
+      <div class="riddle-text">
+        I live outside and wake at dawn,<br>
+        I cluck and peck upon the lawn.<br>
+        Each morning I leave you a gift — round and white,<br>
+        Then sleep in my little house each night.<br>
+        <br>
+        <em>Where do I sleep? Where should you go?</em>
+      </div>
+      <div class="riddle-answer-line">
+        <span class="riddle-answer-label">My answer:</span>
+        <div class="riddle-answer-blank"></div>
+      </div>
+    </div>
+
+    <div class="p1-footer">
+      Royal Detective Agency · Case RDA/CROWN/001 · Act III · Secret Garden
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     ACT III PAGE 2 — EVIDENCE SHEET
+═══════════════════════════════════════ -->
+<div class="page-label">— Page 2: Evidence Sheet · Give to Nyxie to fill in while in the garden —</div>
+<div class="page garden">
+  <div class="border-outer"></div>
+  <div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+
+  <div class="content">
+    <div class="puz-header">
+      <div class="act-tag">⚑ &nbsp; Act III · Crime Scene Evidence Sheet &nbsp; ⚑</div>
+      <div class="puz-title">Garden Observations</div>
+      <div class="puz-sub">Every great detective records what they see — this is your official evidence log</div>
+    </div>
+
+    <p class="evidence-intro">
+      Look carefully all around the Secret Garden, Agent Nyxie. A good detective notices <em>everything</em> — big things and tiny things, things that grow and things that move. Draw and describe <strong>three things</strong> you find in the garden below. These are your official pieces of evidence for the Royal Detective Agency.
+    </p>
+
+    <div class="evidence-grid">
+      <div class="evidence-slot">
+        <span class="evidence-slot-num">Evidence 1</span>
+        <div class="draw-box"><div class="draw-prompt">Draw it<br>here</div></div>
+        <div class="write-label">What is it?</div>
+        <div class="write-line-short"></div>
+        <div class="write-label">What colour?</div>
+        <div class="write-line-short"></div>
+        <div class="write-label">Where did you find it?</div>
+        <div class="write-line-short"></div>
+      </div>
+      <div class="evidence-slot">
+        <span class="evidence-slot-num">Evidence 2</span>
+        <div class="draw-box"><div class="draw-prompt">Draw it<br>here</div></div>
+        <div class="write-label">What is it?</div>
+        <div class="write-line-short"></div>
+        <div class="write-label">What colour?</div>
+        <div class="write-line-short"></div>
+        <div class="write-label">Where did you find it?</div>
+        <div class="write-line-short"></div>
+      </div>
+      <div class="evidence-slot">
+        <span class="evidence-slot-num">Evidence 3</span>
+        <div class="draw-box"><div class="draw-prompt">Draw it<br>here</div></div>
+        <div class="write-label">What is it?</div>
+        <div class="write-line-short"></div>
+        <div class="write-label">What colour?</div>
+        <div class="write-line-short"></div>
+        <div class="write-label">Where did you find it?</div>
+        <div class="write-line-short"></div>
+      </div>
+    </div>
+
+    <div class="observations-box">
+      <span class="observations-box-title">🔎 &nbsp; Detective's Full Report</span>
+      <p class="obs-question">What did the garden smell like today?</p>
+      <div class="obs-line"></div>
+      <p class="obs-question">Did you hear anything while you were outside?</p>
+      <div class="obs-line"></div>
+      <p class="obs-question">If the thief came through this garden, which way do you think they went?</p>
+      <div class="obs-line"></div>
+    </div>
+
+    <div class="badge-banner">
+      <p>Brilliant detective work, Agent Nyxie! 🌿 Keep this evidence sheet safely in your Dossier.<br>
+      Now — did you solve Lamby's riddle? <strong>Head to the Chicken Coop for Act IV!</strong> 🐔</p>
+    </div>
+
+    <div class="puz-footer">
+      Royal Detective Agency · Case RDA/CROWN/001 · Act III Complete · Collect your badge!
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     ACT IV — THE CHICKEN WITNESS
+═══════════════════════════════════════ -->
+<div class="page-label">— Act IV · The Chicken Witness · Seal in envelope, pin to coop door —</div>
+<div class="page">
+  <div class="border-outer"></div>
+  <div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+
+  <div class="content">
+    <div class="puz-header">
+      <div class="act-tag">⚑ &nbsp; Act IV · The Chicken Witness &nbsp; ⚑</div>
+      <div class="puz-title">A Letter from Daddy Ooo Ooo 🐒</div>
+      <div class="puz-sub">Found at the Chicken Coop — this letter has some words that are the wrong way round!</div>
+    </div>
+
+    <div class="found-tag--coop">
+      <span style="font-size:18px">🐒</span>
+      <span class="found-tag-text">Evidence Item · RDA/CROWN/001/C · Chicken Coop · Handle With Care</span>
+    </div>
+
+    <p class="task-intro">
+      Daddy Ooo Ooo was guarding the chicken coop when the thief came past — but he was <em>so excited</em> that he wrote some words that mean the <strong>opposite</strong> of what he meant! Your job is to read it carefully, <strong>cross out each wrong word in red</strong> and write the opposite word on the line next to it.
+    </p>
+
+    <div class="instruction-box">
+      <span class="instruction-box-title">📋 &nbsp; Your Instructions</span>
+      <p class="instruction-text">
+        There are <strong>5 opposite words</strong> hidden in the letter below. Each one is underlined in red. Cross it out and write the <strong>opposite</strong> on the blank line beside it. When you have fixed all five, read the letter again — it will tell you something very important!
+      </p>
+    </div>
+
+    <div class="letter-box">
+      <span class="letter-box-title">📜 &nbsp; Letter from Daddy Ooo Ooo — Official Witness Account</span>
+      <div class="letter-greeting">Dear Agent Nyxie,</div>
+      <div class="letter-text">
+        Hello! It is me, Daddy Ooo Ooo! I have been sitting by the
+        chicken coop all
+        <span class="wrong">day</span> <span class="correction-line"></span>
+        because I saw something very exciting happen!
+        <br><br>
+        Last night, a very sneaky
+        <span class="wrong">big</span> <span class="correction-line"></span>
+        creature crept past me in the
+        <span class="wrong">light</span> <span class="correction-line"></span>.
+        It was carrying a bag that was full of something
+        <span class="wrong">dull</span> <span class="correction-line"></span>
+        and sparkly — I think it was the Crown Jewels! The creature ran very
+        <span class="wrong">slow</span> <span class="correction-line"></span>
+        and ran straight through the garden and disappeared!
+        <br><br>
+        I tried to shout "OOO OOO OOO!" but nobody came. So I wrote you this letter instead because you are the best detective I know.
+        <br><br>
+        The Superintendent has heard about all your brilliant work today, Agent Nyxie, and she is waiting for you in the <strong>dining room</strong> with a very special surprise. You had better go there right away!
+        <br><br>
+        Good luck! Ooo ooo ooo!
+      </div>
+
+      <div class="letter-sig-area">
+        <div>
+          <div class="letter-sig">Daddy Ooo Ooo</div>
+          <div class="letter-sig-name">Daddy Ooo Ooo · Bravest Stuffy at the Coop</div>
+        </div>
+        <div class="sig-icon">🐒</div>
+      </div>
+    </div>
+
+    <div class="next-clue-banner">
+      <p>
+        Five mistakes found and fixed? Well done, Agent Nyxie! 🐔<br>
+        The Superintendent is waiting — head to the <strong>DINING ROOM</strong> right now!
+      </p>
+    </div>
+
+    <div class="puz-footer">
+      Royal Detective Agency · Case RDA/CROWN/001 · Act IV Complete · Collect your badge!
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     ACT V — THE GYMNASTICS VAULT
+═══════════════════════════════════════ -->
+<div class="page-label">— Act V · The Gymnastics Vault · Hide in a box in the outhouse —</div>
+<div class="page">
+  <div class="border-outer"></div>
+  <div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+
+  <div class="content">
+    <div class="puz-header">
+      <div class="act-tag">⚑ &nbsp; Act V · The Gymnastics Vault &nbsp; ⚑</div>
+      <div class="puz-title">The Secret Code</div>
+      <div class="puz-sub">Complete the gymnastics challenge to unlock the vault — then crack the code</div>
+    </div>
+
+    <p class="intro-text">
+      The thief hid a coded message in the Gymnastics Vault! But the vault is <em>locked</em> — and the only way to open it is to complete three gymnastics challenges first. Four Star of the Week is watching very carefully and will award the vault to any agent brave enough to complete the challenge.
+    </p>
+
+    <div class="challenge-box">
+      <span class="box-title">🤸 &nbsp; Gymnastics Challenge — Complete all three to unlock the vault</span>
+      <div class="challenge-item">
+        <div class="challenge-num">1</div>
+        <span>Do your very best <strong>cartwheel</strong> (or attempt!) across the floor</span>
+        <div class="challenge-tick"></div>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-num">2</div>
+        <span>Hold a <strong>balance</strong> on one leg for five whole seconds — Agents Daddy and Gemmy Pants must count out loud</span>
+        <div class="challenge-tick"></div>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-num">3</div>
+        <span>Do <strong>five star jumps</strong> as big as you possibly can</span>
+        <div class="challenge-tick"></div>
+      </div>
+    </div>
+
+    <div class="scorecard">
+      <div class="scorecard-icon">⭐</div>
+      <div>
+        <div class="scorecard-text">"I, Four Star of the Week, have watched very closely and I declare this performance absolutely <strong>magnificent</strong>. The vault is hereby unlocked. Well done, Agent Nyxie — you are a true star!"</div>
+        <div class="scorecard-sig">— Four Star of the Week · Official Gymnastics Judge</div>
+      </div>
+    </div>
+
+    <div class="divider">✦</div>
+
+    <div class="cipher-key">
+      <span class="box-title">🔑 &nbsp; The Secret Code Key — A = 1, B = 2, C = 3 ...</span>
+      <div class="cipher-grid">
+        <div class="cipher-cell"><span class="cipher-letter">A</span><span class="cipher-number">1</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">B</span><span class="cipher-number">2</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">C</span><span class="cipher-number">3</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">D</span><span class="cipher-number">4</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">E</span><span class="cipher-number">5</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">F</span><span class="cipher-number">6</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">G</span><span class="cipher-number">7</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">H</span><span class="cipher-number">8</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">I</span><span class="cipher-number">9</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">J</span><span class="cipher-number">10</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">K</span><span class="cipher-number">11</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">L</span><span class="cipher-number">12</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">M</span><span class="cipher-number">13</span></div>
+      </div>
+      <div class="cipher-grid">
+        <div class="cipher-cell"><span class="cipher-letter">N</span><span class="cipher-number">14</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">O</span><span class="cipher-number">15</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">P</span><span class="cipher-number">16</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">Q</span><span class="cipher-number">17</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">R</span><span class="cipher-number">18</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">S</span><span class="cipher-number">19</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">T</span><span class="cipher-number">20</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">U</span><span class="cipher-number">21</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">V</span><span class="cipher-number">22</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">W</span><span class="cipher-number">23</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">X</span><span class="cipher-number">24</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">Y</span><span class="cipher-number">25</span></div>
+        <div class="cipher-cell"><span class="cipher-letter">Z</span><span class="cipher-number">26</span></div>
+      </div>
+    </div>
+
+    <div class="encoded-box">
+      <span class="box-title">📨 &nbsp; Decode this message to find your next location</span>
+      <div class="code-numbers">2 · 1 · 12 · 3 · 15 · 14 · 25</div>
+      <div class="answer-row">
+        <div class="answer-char"><div class="answer-char-box"></div><div class="answer-char-num">2</div></div>
+        <div class="answer-char"><div class="answer-char-box"></div><div class="answer-char-num">1</div></div>
+        <div class="answer-char"><div class="answer-char-box"></div><div class="answer-char-num">12</div></div>
+        <div class="answer-char"><div class="answer-char-box"></div><div class="answer-char-num">3</div></div>
+        <div class="answer-char"><div class="answer-char-box"></div><div class="answer-char-num">15</div></div>
+        <div class="answer-char"><div class="answer-char-box"></div><div class="answer-char-num">14</div></div>
+        <div class="answer-char"><div class="answer-char-box"></div><div class="answer-char-num">25</div></div>
+      </div>
+    </div>
+
+    <div class="next-clue-banner">
+      <p>Decoded it? The answer is <strong>BALCONY</strong>! 🔭<br>Head upstairs and outside — your next clue is waiting up high!</p>
+    </div>
+
+    <div class="puz-footer">
+      Royal Detective Agency · Case RDA/CROWN/001 · Act V Complete · Collect your badge!
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     ACT VI — THE LOOKOUT
+═══════════════════════════════════════ -->
+<div class="page-label">— Act VI · The Lookout · Leave on the balcony (weigh down!) —</div>
+<div class="page">
+  <div class="border-outer"></div><div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="content">
+    <div class="puz-header">
+      <div class="act-tag">⚑ &nbsp; Act VI · The Lookout &nbsp; ⚑</div>
+      <div class="puz-title">🔭 The Lookout Point</div>
+      <div class="puz-sub">Found on the balcony — the highest outdoor point in the Kingdom</div>
+    </div>
+
+    <div class="lookout-icon">🔭</div>
+
+    <p class="body-text">
+      Outstanding work reaching the Lookout, Agent Nyxie! From up here you can see across the whole Kingdom. Our intelligence suggests the thief was spotted heading towards a room deep inside the house — and we have managed to photograph the exact location. Study the photograph carefully.
+    </p>
+
+    <div class="box">
+      <span class="box-title">📸 &nbsp; Intelligence Photograph — Taken the night of the crime</span>
+      <div class="photo-placeholder">
+        <div class="photo-placeholder-text">
+          🖨 &nbsp; DADDY: Print a photo of one of the offices here<br>
+          and attach it to this sheet before hiding it on the balcony<br><br>
+          (Any photo of the office will do — even a screenshot on your phone<br>
+          printed and stuck in this box with a glue stick)
+        </div>
+      </div>
+    </div>
+
+    <p class="body-text">
+      Look very carefully at the photograph, Agent Nyxie. <em>Which room is this?</em> Can you recognise it? That is where your next clue is hidden — go there now and search carefully!
+    </p>
+
+    <div class="answer-line-wrap">
+      <span class="answer-line-label">✏️ &nbsp; I think this room is:</span>
+      <div class="answer-line"></div>
+    </div>
+
+    <div class="next-clue-banner">
+      <p>Head to the room in the photograph — your next clue is hidden there, waiting for you. <strong>The Office!</strong> 🏠</p>
+    </div>
+
+    <div class="puz-footer">Royal Detective Agency · Case RDA/CROWN/001 · Act VI Complete · Collect your badge!</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     ACT VII — THE HIDDEN OFFICE
+═══════════════════════════════════════ -->
+<div class="page-label">— Act VII · The Hidden Office · Leave on the desk in the office —</div>
+<div class="page">
+  <div class="border-outer"></div><div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="content">
+    <div class="puz-header">
+      <div class="act-tag">⚑ &nbsp; Act VII · The Hidden Office &nbsp; ⚑</div>
+      <div class="puz-title">🖊 The Suspect Report</div>
+      <div class="puz-sub">Use every clue you have collected today to build your suspect profile</div>
+    </div>
+
+    <p class="body-text">
+      You are getting very close now, Agent Nyxie. The Royal Detective Agency needs one final piece of evidence before we can name the culprit — a <em>Suspect Report</em>, written by you. Use everything you have discovered today to describe the thief as best you can.
+    </p>
+
+    <div class="box">
+      <span class="box-title">🗂 &nbsp; Evidence Collected So Far</span>
+      <div class="evidence-summary">
+        <div class="evidence-chip"><span class="chip-label">From Geraferty (Garage)</span>Sneaky creature · Moving very fast · Carrying something shiny</div>
+        <div class="evidence-chip"><span class="chip-label">From Lamby (Garden)</span>Ran through the secret garden · Disappeared into the shadows</div>
+        <div class="evidence-chip"><span class="chip-label">From Daddy Ooo Ooo (Coop)</span>Ran past the chicken coop · Carrying a bag · Very sneaky</div>
+        <div class="evidence-chip"><span class="chip-label">Your garden observations</span>What did YOU notice outside? Check your evidence sheet!</div>
+      </div>
+    </div>
+
+    <div class="suspect-profile">
+      <span class="box-title">📋 &nbsp; Suspect Report — Written by Agent Nyxie</span>
+      <div class="write-section">
+        <div class="write-question">1. What do you think the suspect looks like? Describe them:</div>
+        <div class="write-lines">
+          <div class="write-line"></div>
+          <div class="write-line"></div>
+          <div class="write-line"></div>
+        </div>
+      </div>
+      <div class="write-section">
+        <div class="write-question">2. How did the suspect behave? What were they doing?</div>
+        <div class="write-lines">
+          <div class="write-line"></div>
+          <div class="write-line"></div>
+        </div>
+      </div>
+      <div class="write-section">
+        <div class="write-question">3. Do you have any idea who or what the suspect might be?</div>
+        <div class="write-lines">
+          <div class="write-line"></div>
+          <div class="write-line"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-clue-banner">
+      <p>Brilliant detective work! Your suspect report is now part of the official case file. 🕵️<br>
+      Now the chase is on — follow <strong>THE FINAL TRAIL</strong> to catch them!</p>
+    </div>
+
+    <div class="puz-footer">Royal Detective Agency · Case RDA/CROWN/001 · Act VII Complete · Collect your badge!</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     ACT VIII — FINAL TRAIL CARDS
+═══════════════════════════════════════ -->
+<div class="page-label">— Act VIII · Final Trail Cards · Cut out and hide one per room in sequence —</div>
+<div class="page">
+  <div class="border-outer"></div><div class="border-inner"></div>
+  <div class="corner tl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 38 38" fill="none"><path d="M2 36 L2 2 L36 2" stroke="#8b6914" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="2" fill="#8b6914"/></svg></div>
+  <div class="content">
+    <div class="puz-header">
+      <div class="act-tag">⚑ &nbsp; Act VIII · The Final Trail &nbsp; ⚑</div>
+      <div class="puz-title">🏃 The Chase is On!</div>
+      <div class="puz-sub">Three clues — three rooms — the Crown Jewels are close!</div>
+    </div>
+
+    <p class="body-text">
+      The thief is almost caught! Our agents have tracked them through the house — follow these three clues as fast as you can. Each one leads to the next. <em>Go, go, go!</em>
+    </p>
+
+    <div class="cut-guide">✂ — Cut out each card and hide them in the rooms listed below — ✂</div>
+
+    <div class="clue-cards">
+      <div class="clue-card">
+        <div class="clue-card-num">🔍 Clue 1 of 3</div>
+        <div class="clue-card-icon">🛁</div>
+        <div class="clue-card-text">"The thief washed their hands of the crime — look where the bubbles go!"</div>
+        <div class="clue-card-location">→ Family Bathroom</div>
+      </div>
+      <div class="clue-card">
+        <div class="clue-card-num">🔍 Clue 2 of 3</div>
+        <div class="clue-card-icon">🛋️</div>
+        <div class="clue-card-text">"They rested here a moment — somewhere soft and cosy, perfect for hiding."</div>
+        <div class="clue-card-location">→ The Snug</div>
+      </div>
+      <div class="clue-card">
+        <div class="clue-card-num">🔍 Clue 3 of 3</div>
+        <div class="clue-card-icon">🚨</div>
+        <div class="clue-card-text">"ALERT! The jewels are protected by a high-security laser vault. Only the bravest agent can pass!"</div>
+        <div class="clue-card-location">→ The Laser Vault!</div>
+      </div>
+    </div>
+
+    <div class="final-banner">
+      <p>
+        🚨 &nbsp; <strong>DADDY — SETUP NOTE</strong> &nbsp; 🚨<br><br>
+        Hide Clue 1 in the family bathroom · Hide Clue 2 in the snug<br>
+        Clue 3 is found in the snug and sends Nyxie to the Laser Vault<br>
+        <strong>Set up the tape laser beams BEFORE she reaches the hallway!</strong>
+      </p>
+    </div>
+
+    <div class="puz-footer">Royal Detective Agency · Case RDA/CROWN/001 · Act VIII — The Final Chase Begins!</div>
+  </div>
+</div>
+
+</body>
+</html>
