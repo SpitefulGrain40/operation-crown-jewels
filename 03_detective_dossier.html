@@ -323,7 +323,7 @@
     padding: 14px 12px 12px;
     text-align: center;
     position: relative;
-    min-height: 68mm;
+    min-height: 130px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -345,8 +345,8 @@
   }
 
   .badge-circle {
-    width: 45mm;
-    height: 45mm;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     border: 2px dashed rgba(139,105,20,0.35);
     background: rgba(139,105,20,0.03);
@@ -389,6 +389,9 @@
     /* Locked badges get the gold gradient in print (opacity is no longer knocked back) */
     .rank-card.locked .rank-badge { background: radial-gradient(circle at 40% 35%, #f0c040, #8b6914); border-color: #5c3d0a; box-shadow: 0 2px 8px rgba(139,105,20,0.4); }
     .rank-card.locked .rank-badge .rank-badge-num { color: #3a1f04; }
+    /* Badge circles sized to 45mm for sticker accuracy */
+    .badge-circle { width: 45mm; height: 45mm; }
+    .badge-slot { min-height: 60mm; }
   }
 </style>
 </head>
