@@ -305,8 +305,10 @@
   @media print {
     @page { size: A4 portrait; margin: 0; }
     body { background: white; padding: 0; margin: 0; }
-    .page { box-shadow: none; width: 210mm; min-height: 297mm; padding: 28px 44px; }
+    .page { box-shadow: none; width: 210mm; min-height: 297mm; padding: 28px 44px; background: white !important; }
+    .page::before { display: none; }
     .page-label { display: none; }
+    .statement-text, .well-done-box { color: #000 !important; }
   }
 </style>
 </head>

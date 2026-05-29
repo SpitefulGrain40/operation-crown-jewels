@@ -515,8 +515,11 @@
   @media print {
     @page { size: A4 portrait; margin: 0; }
     body { background: white; padding: 0; margin: 0; gap: 0; }
-    .page, .labels-sheet { box-shadow: none; page-break-after: always; width: 210mm; padding: 28px 44px; }
+    .page, .labels-sheet { box-shadow: none; page-break-after: always; width: 210mm; padding: 28px 44px; background: white !important; }
+    .page::before { display: none; }
     .page-label { display: none; }
+    .body-text, .task-intro, .instruction-text, .letter-text,
+    .intro-text, .scramble-text { color: #000 !important; }
   }
 </style>
 </head>

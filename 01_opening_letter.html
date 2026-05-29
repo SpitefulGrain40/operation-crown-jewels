@@ -375,20 +375,18 @@
   @media print {
     @page { size: A4 portrait; margin: 0; }
     body { background: white; padding: 0; margin: 0; }
-    .page {
-      box-shadow: none;
-      width: 210mm;
-      min-height: 297mm;
-      padding: 20px 44px;
-    }
+    .page { box-shadow: none; width: 210mm; min-height: 297mm; padding: 20px 44px; background: white !important; }
+    .page::before { display: none; }
     .agency-header { margin-bottom: 14px; padding-bottom: 10px; }
-    .body-text { margin-bottom: 8px; line-height: 1.7; }
+    .body-text { margin-bottom: 8px; line-height: 1.7; color: #000 !important; }
     .mission-box { margin: 10px 0 8px; padding: 16px 16px 12px; }
     .mission-item { margin-bottom: 4px; }
+    .mission-item span { color: #000 !important; }
     .date-line { margin-bottom: 10px; }
     .signature-area { margin-top: 14px; }
     .content { padding-top: 4px; }
-    .closing { margin-bottom: 28px; }
+    .closing { margin-bottom: 28px; color: #000 !important; }
+    .salutation { color: #000 !important; }
   }
 </style>
 </head>

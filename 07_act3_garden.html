@@ -388,8 +388,10 @@
   @media print {
     @page { size: A4 portrait; margin: 0; }
     body { background: white; padding: 0; margin: 0; gap: 0; }
-    .page { box-shadow: none; page-break-after: always; width: 210mm; min-height: 297mm; padding: 28px 44px; }
+    .page { box-shadow: none; page-break-after: always; width: 210mm; min-height: 297mm; padding: 28px 44px; background: white !important; }
+    .page::before, .page.garden::after { display: none; }
     .page-label { display: none; }
+    .lamby-text, .riddle-text, .evidence-intro, .obs-question { color: #000 !important; }
   }
 </style>
 </head>
