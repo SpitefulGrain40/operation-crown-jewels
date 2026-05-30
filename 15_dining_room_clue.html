@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dining Room Clue</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: white;
+    width: 210mm;
+    height: 297mm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .clue-card {
+    max-width: 340px;
+    text-align: center;
+    border: 2px solid #8b6914;
+    padding: 28px 32px;
+    position: relative;
+  }
+  .clue-card::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 0.75px solid rgba(139,105,20,0.25);
+    pointer-events: none;
+  }
+  .clue-tag {
+    font-family: 'Special Elite', monospace;
+    font-size: 8px;
+    color: #8b6914;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 0 8px;
+    white-space: nowrap;
+  }
+  .clue-icon {
+    font-size: 36px;
+    margin-bottom: 14px;
+  }
+  .clue-title {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #000;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .clue-riddle {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: #000;
+    line-height: 2;
+    margin-bottom: 18px;
+  }
+  .clue-answer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .clue-answer-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 9px;
+    color: #8b6914;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .clue-answer-blank {
+    border-bottom: 2px solid #000;
+    width: 140px;
+    height: 24px;
+  }
+  .clue-footer {
+    font-family: 'Special Elite', monospace;
+    font-size: 7px;
+    color: rgba(139,105,20,0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(139,105,20,0.2);
+  }
+  @media print {
+    @page { size: A4 portrait; margin: 0; }
+    body { background: white; }
+  }
+</style>
+</head>
+<body>
+
+<div class="clue-card">
+  <span class="clue-tag">⚑ &nbsp; Secret Clue — From the Superintendent &nbsp; ⚑</span>
+  <div class="clue-icon">🕵️</div>
+  <div class="clue-title">One More Challenge Awaits</div>
+  <div class="clue-riddle">
+    I'm not inside the house, but I'm close by,<br>
+    I have a roof and walls, but I'm small — don't walk past!<br>
+    A star is waiting there to put you to the test,<br>
+    Go find me now and prove you are the best!
+  </div>
+  <div class="clue-answer">
+    <span class="clue-answer-label">Where next?</span>
+    <div class="clue-answer-blank"></div>
+  </div>
+  <div class="clue-footer">Royal Detective Agency · Case RDA/CROWN/001</div>
+</div>
+
+</body>
+</html>
